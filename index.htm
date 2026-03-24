@@ -22,8 +22,6 @@
             --border-subtle: rgba(0,0,0,0.08);
             --bg-subtle: #fafafa;
             
-            --apple-ease: cubic-bezier(0.16, 1, 0.3, 1);
-            
             --font-title: 'Anek Latin', sans-serif;
             --font-sans: 'Anek Latin', sans-serif;
             --font-body: 'Roboto', sans-serif;
@@ -62,7 +60,6 @@
             display: flex;
             align-items: center;
             box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            transition: all 0.3s ease;
         }
 
         .navbar-container {
@@ -118,7 +115,7 @@
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            transition: color 0.3s ease, transform 0.2s ease;
+            transition: color 0.15s ease;
             position: relative;
             display: inline-block;
             padding: 24px 0;
@@ -132,11 +129,23 @@
             bottom: 18px;
             left: 0;
             background-color: var(--primary-gold);
-            transition: width 0.3s ease;
+            transition: width 0.2s ease;
         }
 
         .nav-link:hover, .nav-link.active { color: #ffffff; }
         .nav-link.active::after { width: 100%; }
+
+        /* Mobile Toggle Button */
+        .mobile-dropdown-toggle {
+            display: none;
+            background: transparent;
+            border: none;
+            color: #a1a1aa;
+            font-size: 20px;
+            padding: 12px;
+            cursor: pointer;
+            transition: transform 0.2s ease, color 0.2s ease;
+        }
 
         .dropdown-menu {
             position: absolute;
@@ -153,7 +162,7 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
             opacity: 0;
             visibility: hidden;
-            transition: all 0.3s var(--apple-ease);
+            transition: all 0.2s ease;
         }
 
         .dropdown-menu::before {
@@ -184,7 +193,7 @@
             text-transform: none;
             text-decoration: none;
             border-bottom: 1px solid rgba(255,255,255,0.05);
-            transition: all 0.2s ease;
+            transition: all 0.15s ease;
         }
 
         .dropdown-menu li:last-child a { border-bottom: none; }
@@ -211,12 +220,12 @@
             width: 100%;
             height: 2px;
             background-color: var(--primary-gold);
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
             transform-origin: left;
         }
 
         /* =========================================
-           LAYOUT DE SECÇÃO E ANIMAÇÕES
+           LAYOUT DE SECÇÃO E ÁGIL
            ========================================= */
         .fold {
             width: 100%;
@@ -228,13 +237,6 @@
         .container { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 20px; }
         .fold-white { background-color: #FFFFFF; }
         .fold-gray { background-color: #F6F6F6; }
-
-        .animate-item {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.6s var(--apple-ease), transform 0.6s var(--apple-ease);
-        }
-        .animate-item.is-visible { opacity: 1; transform: translateY(0); }
 
         /* Placeholders Visuais */
         .placeholder-img {
@@ -252,7 +254,6 @@
            ESTILOS CONSISTENTES (COMPONENTES GERAIS)
            ========================================= */
         
-        /* 1. Títulos e Textos Base */
         .step-pill {
             display: inline-block;
             background-color: var(--primary-gold-light);
@@ -296,7 +297,7 @@
         }
         .dobra-desc strong { color: var(--text-dark); font-weight: 600; }
 
-        /* 2. Barras de Informação Rápida (Badges) */
+        /* Barras de Informação Rápida (Badges) */
         .quick-info-bar {
             display: flex;
             flex-wrap: wrap;
@@ -319,10 +320,10 @@
             word-break: break-word;
         }
         .quick-info-badge i { color: var(--primary-gold-dark); font-size: 18px; flex-shrink: 0; }
-        .quick-info-badge a { color: var(--text-dark); text-decoration: none; transition: color 0.2s; }
+        .quick-info-badge a { color: var(--text-dark); text-decoration: none; transition: color 0.15s; }
         .quick-info-badge a:hover { color: var(--primary-gold-dark); }
 
-        /* 3. Blocos de Destaque (Público-Alvo, Observações, Formatos) */
+        /* Blocos de Destaque */
         .highlight-block {
             background-color: #fff;
             border-left: 4px solid var(--primary-gold);
@@ -338,7 +339,7 @@
         .highlight-block .dobra-title { font-size: 24px; margin-bottom: 16px; }
         .highlight-block p:last-child { margin-bottom: 0; }
 
-        /* 4. Listas de Funcionalidades (O que é? Benefícios) */
+        /* Listas de Funcionalidades */
         .feature-list {
             list-style: none;
             padding: 0;
@@ -360,7 +361,7 @@
             border: 1px solid var(--border-subtle);
             border-radius: 8px;
             padding: 24px 24px 24px 64px;
-            transition: box-shadow 0.2s ease, transform 0.2s ease;
+            transition: box-shadow 0.15s ease, transform 0.15s ease;
         }
         .feature-list li:hover { 
             box-shadow: 0 6px 16px rgba(0,0,0,0.04); 
@@ -374,23 +375,17 @@
             font-size: 24px;
         }
 
-        /* 5. Grelhas de Cartões (Públicos específicos, Ferramentas) */
+        /* Grelhas de Cartões */
         .card-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
             gap: 24px;
             margin-top: 24px;
         }
-
-        /* Modificador forçado para 4 itens (nunca 3 colunas) */
-        .card-grid.grid-4 {
-            grid-template-columns: repeat(4, 1fr);
-        }
+        .card-grid.grid-4 { grid-template-columns: repeat(4, 1fr); }
 
         @media (max-width: 1099px) {
-            .card-grid.grid-4 {
-                grid-template-columns: repeat(2, 1fr);
-            }
+            .card-grid.grid-4 { grid-template-columns: repeat(2, 1fr); }
         }
 
         .info-card {
@@ -398,7 +393,7 @@
             border: 1px solid var(--border-subtle);
             border-radius: 12px;
             padding: 32px 24px;
-            transition: transform 0.3s var(--apple-ease), box-shadow 0.3s ease;
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
             display: flex;
             flex-direction: column;
         }
@@ -435,7 +430,7 @@
             margin: 0;
         }
 
-        /* 6. Listas de Módulos (Cronogramas) */
+        /* Listas de Módulos (Cronogramas) */
         .modulo-list {
             display: flex;
             flex-direction: column;
@@ -450,7 +445,7 @@
             border: 1px solid var(--border-subtle);
             border-radius: 12px;
             padding: 24px;
-            transition: box-shadow 0.3s ease;
+            transition: box-shadow 0.15s ease;
             align-items: center;
         }
         .modulo-item:hover {
@@ -470,7 +465,6 @@
             border: 1px solid var(--border-subtle);
         }
 
-        /* Alternativas à Imagem (Números e Ícones) */
         .modulo-number {
             flex-shrink: 0;
             width: 72px;
@@ -541,20 +535,20 @@
             margin: 0;
         }
 
-        /* 7. Acordeões (Cartão AUVP) */
+        /* Acordeões (Cartão AUVP) */
         .accordion-container { width: 100%; margin-top: 24px; border: 1px solid var(--border-subtle); border-radius: 12px; background: #fff; overflow: hidden; }
         .accordion-item { border-bottom: 1px solid var(--border-subtle); }
         .accordion-item:last-child { border-bottom: none; }
-        .accordion-header { width: 100%; padding: 24px; display: flex; justify-content: space-between; align-items: center; background: #fff; border: none; cursor: pointer; font-family: var(--font-title); font-size: 18px; font-weight: 600; color: var(--text-dark); text-align: left; transition: background-color 0.2s ease; }
+        .accordion-header { width: 100%; padding: 24px; display: flex; justify-content: space-between; align-items: center; background: #fff; border: none; cursor: pointer; font-family: var(--font-title); font-size: 18px; font-weight: 600; color: var(--text-dark); text-align: left; transition: background-color 0.15s ease; }
         .accordion-header:hover { background-color: var(--bg-subtle); }
-        .accordion-icon { font-size: 20px; color: var(--primary-gold-dark); transition: transform 0.3s var(--apple-ease); opacity: 0.7; flex-shrink: 0;}
+        .accordion-icon { font-size: 20px; color: var(--primary-gold-dark); transition: transform 0.2s ease; opacity: 0.7; flex-shrink: 0;}
         .accordion-header.active .accordion-icon { transform: rotate(45deg); }
-        .accordion-content { max-height: 0; overflow: hidden; transition: max-height 0.4s var(--apple-ease); background: var(--bg-subtle); }
+        .accordion-content { max-height: 0; overflow: hidden; transition: max-height 0.2s ease-out; background: var(--bg-subtle); }
         .accordion-content-inner { padding: 24px; font-family: var(--font-body); color: var(--text-muted); font-size: 15px; line-height: 1.6; border-top: 1px solid var(--border-subtle); }
 
-        /* 8. Pricing Cards (AUVP PRO) */
+        /* Pricing Cards (AUVP PRO) */
         .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); gap: 24px; margin-top: 32px; }
-        .pricing-card { background: #fff; border: 1px solid var(--border-subtle); border-radius: 16px; padding: 40px 32px; display: flex; flex-direction: column; transition: transform 0.3s var(--apple-ease), box-shadow 0.3s ease; }
+        .pricing-card { background: #fff; border: 1px solid var(--border-subtle); border-radius: 16px; padding: 40px 32px; display: flex; flex-direction: column; transition: transform 0.15s ease, box-shadow 0.15s ease; }
         .pricing-card:hover { transform: translateY(-4px); box-shadow: 0 15px 35px rgba(0,0,0,0.06); border-color: rgba(239, 191, 78, 0.4); }
         .pricing-card.highlight { background: var(--text-dark); color: #fff; border-color: var(--text-dark); }
         .pricing-tag { font-family: var(--font-title); font-size: 14px; text-transform: uppercase; font-weight: 700; letter-spacing: 1px; margin-bottom: 24px; color: var(--primary-gold-dark); }
@@ -600,12 +594,13 @@
         .scroll-anchor { scroll-margin-top: 100px; }
 
         /* =========================================
-           RESPONSIVIDADE E MOBILE MENU
+           RESPONSIVIDADE E MOBILE MENU (ACORDEÃO DINÂMICO)
            ========================================= */
         @media (max-width: 991px) {
             .split-layout { grid-template-columns: 1fr; gap: 40px; }
             .feature-list.grid-2 { grid-template-columns: 1fr; }
             .menu-toggle { display: flex; }
+            
             .navbar-menu {
                 position: fixed;
                 top: var(--navbar-height);
@@ -616,14 +611,32 @@
                 flex-direction: column;
                 align-items: flex-start;
                 padding: 30px;
-                transition: left 0.4s var(--apple-ease);
+                transition: left 0.2s ease-out;
                 overflow-y: auto;
             }
             .navbar-menu.active { left: 0; }
-            .nav-link { padding: 12px 0; font-size: 20px; }
+            
+            .dropdown {
+                display: flex;
+                flex-wrap: wrap;
+                align-items: center;
+                justify-content: space-between;
+                width: 100%;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            }
+            
+            .nav-link { 
+                padding: 16px 0; 
+                font-size: 18px; 
+                flex-grow: 1;
+                width: auto;
+            }
             .nav-link::after { display: none; }
             
+            .mobile-dropdown-toggle { display: flex; }
+            
             .dropdown-menu {
+                display: none; /* Escondido nativamente para menu em acordeão */
                 position: relative;
                 top: 0;
                 left: 0;
@@ -633,11 +646,26 @@
                 box-shadow: none;
                 opacity: 1;
                 visibility: visible;
-                padding: 0 0 0 16px;
+                padding: 0 0 16px 16px;
                 min-width: 100%;
             }
             .dropdown-menu::before { display: none; }
-            .dropdown-menu a { font-size: 16px; border-bottom: none; padding: 8px 0; }
+            .dropdown-menu a { font-size: 15px; border-bottom: none; padding: 10px 0; color: #71717a;}
+            
+            /* Classe dinâmica para o dropdown ativo no mobile */
+            .dropdown.mobile-open .dropdown-menu {
+                display: block;
+                animation: fadeIn 0.2s ease;
+            }
+            .dropdown.mobile-open .mobile-dropdown-toggle {
+                transform: rotate(180deg);
+                color: var(--primary-gold);
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-5px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         @media (max-width: 767px) {
@@ -645,9 +673,7 @@
             .container { padding: 0 24px; }
             .dobra-title { font-size: 26px; }
             
-            .card-grid.grid-4 {
-                grid-template-columns: 1fr;
-            }
+            .card-grid.grid-4 { grid-template-columns: 1fr; }
             
             .modulo-item {
                 flex-direction: column;
@@ -695,6 +721,7 @@
             <ul class="navbar-menu">
                 <li class="dropdown">
                     <a href="#auvp-escola" class="nav-link active">Escola</a>
+                    <button class="mobile-dropdown-toggle"><i class="ph-bold ph-caret-down"></i></button>
                     <ul class="dropdown-menu">
                         <li><a href="#escola-publico">Informações</a></li>
                         <li><a href="#escola-o-que-e">O que é AUVP?</a></li>
@@ -705,6 +732,7 @@
                 </li>
                 <li class="dropdown">
                     <a href="#auvp-sempre" class="nav-link">Sempre</a>
+                    <button class="mobile-dropdown-toggle"><i class="ph-bold ph-caret-down"></i></button>
                     <ul class="dropdown-menu">
                         <li><a href="#sempre-publico">Informações</a></li>
                         <li><a href="#sempre-o-que-e">O que é?</a></li>
@@ -714,6 +742,7 @@
                 </li>
                 <li class="dropdown">
                     <a href="#auvp-internacional" class="nav-link">Internacional</a>
+                    <button class="mobile-dropdown-toggle"><i class="ph-bold ph-caret-down"></i></button>
                     <ul class="dropdown-menu">
                         <li><a href="#internacional-publico">Informações</a></li>
                         <li><a href="#internacional-o-que-e">O que é?</a></li>
@@ -722,6 +751,7 @@
                 </li>
                 <li class="dropdown">
                     <a href="#auvp-pro" class="nav-link">PRO</a>
+                    <button class="mobile-dropdown-toggle"><i class="ph-bold ph-caret-down"></i></button>
                     <ul class="dropdown-menu">
                         <li><a href="#pro-publico">Informações</a></li>
                         <li><a href="#pro-investimento">Investimento</a></li>
@@ -740,7 +770,7 @@
         <div class="container">
             
             <!-- Introdução -->
-            <div class="split-layout animate-item">
+            <div class="split-layout">
                 <div class="split-content">
                     <span class="step-pill">Produto Principal</span>
                     <h2 class="dobra-title">AUVP Escola</h2>
@@ -760,7 +790,7 @@
             </div>
 
             <!-- Público Alvo -->
-            <div class="animate-item scroll-anchor mt-80" id="escola-publico">
+            <div class="scroll-anchor mt-80" id="escola-publico">
                 <h3 class="dobra-title"><i class="ph-light ph-target"></i> É para quem busca:</h3>
                 <div class="card-grid">
                     <div class="info-card">
@@ -782,7 +812,7 @@
             </div>
 
             <!-- O que é AUVP? -->
-            <div class="animate-item scroll-anchor mt-80" id="escola-o-que-e">
+            <div class="scroll-anchor mt-80" id="escola-o-que-e">
                 <h3 class="dobra-title"><i class="ph-light ph-question"></i> O que é AUVP?</h3>
                 <p class="dobra-desc">O treinamento da AUVP Escola é um guia completo para dominar o mundo dos investimentos.</p>
                 
@@ -798,7 +828,7 @@
             </div>
 
             <!-- Cronograma de Conteúdo -->
-            <div class="animate-item scroll-anchor mt-80" id="escola-cronograma">
+            <div class="scroll-anchor mt-80" id="escola-cronograma">
                 <h3 class="dobra-title"><i class="ph-light ph-list-checks"></i> Cronograma de conteúdo:</h3>
                 
                 <div class="modulo-list">
@@ -922,7 +952,7 @@
             </div>
 
             <!-- Ferramentas e Produtos -->
-            <div class="animate-item scroll-anchor mt-80" id="escola-ferramentas">
+            <div class="scroll-anchor mt-80" id="escola-ferramentas">
                 <h3 class="dobra-title"><i class="ph-light ph-toolbox"></i> Ferramentas AUVP</h3>
                 <p class="dobra-desc">A AUVP possui uma área com todas as ferramentas necessárias para apoio às aulas, isso inclui um sistema de orçamento doméstico, de metas, de primeiro milhão e de ativos e passivos.</p>
                 
@@ -965,7 +995,7 @@
             </div>
 
             <!-- Cartão AUVP -->
-            <div class="animate-item scroll-anchor mt-80" id="escola-cartao">
+            <div class="scroll-anchor mt-80" id="escola-cartao">
                 <h3 class="dobra-title"><i class="ph-light ph-credit-card"></i> Benefícios Cartão AUVP</h3>
                 <p class="dobra-desc"><strong>Módulos de Benefícios:</strong><br>Personalize seu cartão com até 5 módulos exclusivos, ajustando os benefícios conforme suas preferências e necessidades. Veja quais são eles:</p>
                 
@@ -1077,7 +1107,7 @@
     <section class="fold fold-gray" id="auvp-sempre">
         <div class="container">
             <!-- Introdução -->
-            <div class="split-layout animate-item">
+            <div class="split-layout">
                 <div class="split-visual">
                     <img class="placeholder-img placeholder-visual" src="https://via.placeholder.com/800x600/333333/ffffff?text=[Image+of+Dashboard+da+AUVP+Sempre]" alt="">
                 </div>
@@ -1097,13 +1127,13 @@
             </div>
 
             <!-- O que é -->
-            <div class="animate-item scroll-anchor mt-80" id="sempre-o-que-e">
+            <div class="scroll-anchor mt-80" id="sempre-o-que-e">
                 <h3 class="dobra-title"><i class="ph-light ph-arrows-clockwise"></i> O que é AUVP Sempre?</h3>
                 <p class="dobra-desc">A AUVP Sempre é uma assinatura contínua projetada para alunos que concluíram a AUVP Escola. Ela oferece acesso a módulos de conteúdo avançado, ferramentas exclusivas, suporte especializado e uma comunidade para investidores que desejam evoluir constantemente e se manter protegidos no mercado financeiro.</p>
             </div>
 
             <!-- Cronograma -->
-            <div class="animate-item scroll-anchor mt-80" id="sempre-cronograma">
+            <div class="scroll-anchor mt-80" id="sempre-cronograma">
                 <h3 class="dobra-title"><i class="ph-light ph-list-checks"></i> O que encontro na AUVP Sempre?</h3>
                 
                 <div class="modulo-list">
@@ -1185,7 +1215,7 @@
             </div>
 
             <!-- Ferramentas e Benefícios -->
-            <div class="animate-item scroll-anchor mt-80" id="sempre-ferramentas">
+            <div class="scroll-anchor mt-80" id="sempre-ferramentas">
                 <h3 class="dobra-title"><i class="ph-light ph-gift"></i> Benefícios</h3>
                 
                 <ul class="feature-list grid-2">
@@ -1231,7 +1261,7 @@
     <section class="fold fold-white" id="auvp-internacional">
         <div class="container">
             <!-- Introdução -->
-            <div class="split-layout animate-item">
+            <div class="split-layout">
                 <div class="split-content">
                     <span class="step-pill">Especialização</span>
                     <h2 class="dobra-title">AUVP Internacional</h2>
@@ -1252,7 +1282,7 @@
             </div>
 
             <!-- O que é -->
-            <div class="animate-item scroll-anchor mt-80" id="internacional-o-que-e">
+            <div class="scroll-anchor mt-80" id="internacional-o-que-e">
                 <h3 class="dobra-title"><i class="ph-light ph-globe-hemisphere-west"></i> O que é AUVP Internacional?</h3>
                 <p class="dobra-desc">É nosso treinamento completo, composto por 05 módulos exclusivos que vão desde os fundamentos práticos do investimento em dólar até as estratégias mais avançadas de alocação de ativos, leitura macroeconômica e blindagem sucessória no exterior.</p>
                 <p class="dobra-desc">Com nossos especialistas, o aluno aprenderá tudo o que precisa para:</p>
@@ -1277,7 +1307,7 @@
             </div>
 
             <!-- Cronograma -->
-            <div class="animate-item scroll-anchor mt-80" id="internacional-cronograma">
+            <div class="scroll-anchor mt-80" id="internacional-cronograma">
                 <h3 class="dobra-title"><i class="ph-light ph-list-checks"></i> Cronograma de conteúdo:</h3>
 
                 <div class="modulo-list">
@@ -1346,7 +1376,7 @@
     <section class="fold fold-gray" id="auvp-pro">
         <div class="container">
             <!-- Introdução -->
-            <div class="split-layout animate-item">
+            <div class="split-layout">
                 <div class="split-visual">
                     <img class="placeholder-img placeholder-visual" src="https://via.placeholder.com/800x600/efbf4e/18181b?text=[Image+of+Dashboard+da+AUVP+PRO]" alt="">
                 </div>
@@ -1367,7 +1397,7 @@
             </div>
 
             <!-- Preços -->
-            <div class="animate-item scroll-anchor mt-80" id="pro-investimento">
+            <div class="scroll-anchor mt-80" id="pro-investimento">
                 <h3 class="dobra-title"><i class="ph-light ph-currency-dollar"></i> Investimento</h3>
                 <div class="pricing-grid">
                     <div class="pricing-card">
@@ -1423,7 +1453,7 @@
             </div>
 
             <!-- O que é -->
-            <div class="animate-item scroll-anchor mt-80" id="pro-o-que-e">
+            <div class="scroll-anchor mt-80" id="pro-o-que-e">
                 <h3 class="dobra-title"><i class="ph-light ph-graduation-cap"></i> O que é AUVP PRO?</h3>
                 <p class="dobra-desc">A AUVP Pro é nossa plataforma de ensino profissionalizante, com foco exclusivo em treinamentos que ajudem o aluno a conquistar qualquer uma das certificações oferecidas pela ANBIMA.</p>
                 <p class="dobra-desc">Cada certificação contará com um curso exclusivo dentro da nossa plataforma. Com esse treinamento o aluno encontrará:</p>
@@ -1442,7 +1472,7 @@
             </div>
 
             <!-- Cronograma -->
-            <div class="animate-item scroll-anchor mt-80" id="pro-cronograma">
+            <div class="scroll-anchor mt-80" id="pro-cronograma">
                 <h3 class="dobra-title"><i class="ph-light ph-list-checks"></i> Cronograma de conteúdo:</h3>
                 
                 <p class="dobra-desc">Todos os cursos serão estruturados em 4 módulos, com a seguinte previsão de aulas e temas abordados:</p>
@@ -1498,23 +1528,11 @@
         </div>
     </section>
 
-    <!-- SCRIPT DE INTERAÇÕES E ANIMAÇÕES -->
+    <!-- SCRIPT DE INTERAÇÕES E LÓGICA DO MENU MOBILE -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            
-            // 1. Animação de Entrada ao fazer Scroll
-            const items = document.querySelectorAll('.animate-item');
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('is-visible');
-                        observer.unobserve(entry.target); 
-                    }
-                });
-            }, { rootMargin: '0px 0px -10% 0px' });
-            items.forEach(item => observer.observe(item));
 
-            // 2. Acordeão de Benefícios
+            // 1. Acordeão de Benefícios (Cartão AUVP)
             const accordions = document.querySelectorAll('.accordion-header');
             accordions.forEach(acc => {
                 acc.addEventListener('click', function() {
@@ -1532,7 +1550,7 @@
                 });
             });
 
-            // 3. ScrollSpy (Atualizar link ativo principal no Menu)
+            // 2. ScrollSpy (Atualizar link ativo principal no Menu)
             const sections = document.querySelectorAll('section[id]');
             const navLinks = document.querySelectorAll('.navbar-menu > li > .nav-link');
             const navbarHeight = document.querySelector('.navbar').offsetHeight;
@@ -1554,21 +1572,38 @@
                 });
             });
 
-            // 4. Lógica do Menu Hamburger (Mobile)
+            // 3. Lógica do Menu Hamburger (Mobile)
             const menuToggle = document.querySelector('.menu-toggle');
             const navbarMenu = document.querySelector('.navbar-menu');
             const allNavLinks = document.querySelectorAll('.navbar-menu a');
+            const dropdownToggles = document.querySelectorAll('.mobile-dropdown-toggle');
 
+            // Abrir / Fechar menu principal
             menuToggle.addEventListener('click', () => {
                 navbarMenu.classList.toggle('active');
                 menuToggle.classList.toggle('active');
             });
 
+            // Abrir / Fechar subcategorias (acordeão no mobile)
+            dropdownToggles.forEach(toggle => {
+                toggle.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const parentLi = toggle.closest('.dropdown');
+                    parentLi.classList.toggle('mobile-open');
+                });
+            });
+
+            // Fechar menu ao clicar em qualquer link (incluindo links principais e subcategorias)
             allNavLinks.forEach(link => {
                 link.addEventListener('click', () => {
                     if(window.innerWidth <= 991) {
                         navbarMenu.classList.remove('active');
                         menuToggle.classList.remove('active');
+                        
+                        // Opcional: fechar os acordeões internos ao navegar
+                        document.querySelectorAll('.dropdown.mobile-open').forEach(d => {
+                            d.classList.remove('mobile-open');
+                        });
                     }
                 });
             });
