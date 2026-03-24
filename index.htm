@@ -731,7 +731,7 @@
         }
         .obs-banner i { color: var(--primary-gold-dark); font-size: 24px; flex-shrink: 0; margin-top: 2px;}
 
-        /* Botão Flutuante de Exportação PDF */
+        /* Botões de Exportação PDF (Global e Por Seção) */
         .fab-pdf {
             position: fixed;
             bottom: 30px;
@@ -757,6 +757,36 @@
         .fab-pdf:hover {
             transform: translateY(-4px);
             background-color: var(--primary-gold-dark);
+        }
+
+        .btn-export-section {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            background-color: transparent;
+            border: 2px solid var(--primary-gold);
+            color: var(--primary-gold-dark);
+            font-family: var(--font-sans);
+            font-weight: 700;
+            font-size: 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .btn-export-section:hover {
+            background-color: var(--primary-gold-light);
+            transform: translateY(-2px);
+        }
+        
+        .section-export-container {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 60px;
+            padding-top: 30px;
+            border-top: 1px dashed var(--border-subtle);
         }
 
         /* Utilitários e Layout Dividido (Scroll Infinito) */
@@ -904,6 +934,8 @@
             .navbar-brand { font-size: 18px; gap: 12px; }
             .navbar-logo { height: 32px; }
             .navbar-divider { height: 32px; }
+            
+            .section-export-container { justify-content: center; }
         }
 
         @media (max-width: 767px) {
@@ -947,7 +979,12 @@
            ========================================= */
         @media print {
             /* 1. Esconder UI e Multimédia */
-            .navbar, .fab-pdf, .split-visual, .modulo-img-wrapper, video, .info-card-image {
+            .navbar, .fab-pdf, .btn-export-section, .split-visual, .modulo-img-wrapper, video, .info-card-image {
+                display: none !important;
+            }
+
+            /* Lógica para impressão de Seção Única */
+            body.print-section-only .fold:not(.print-target) {
                 display: none !important;
             }
 
@@ -1535,6 +1572,14 @@
                     </div>
                 </div>
             </div>
+            
+            <!-- Botão de Exportar Específico desta Secção -->
+            <div class="section-export-container">
+                <button class="btn-export-section" onclick="printSection('auvp-escola')">
+                    <i class="ph-bold ph-download-simple"></i> Exportar AUVP Escola (PDF)
+                </button>
+            </div>
+            
         </div>
     </section>
 
@@ -1697,6 +1742,14 @@
                     </div>
                 </div>
             </div>
+            
+            <!-- Botão de Exportar Específico desta Secção -->
+            <div class="section-export-container">
+                <button class="btn-export-section" onclick="printSection('auvp-sempre')">
+                    <i class="ph-bold ph-download-simple"></i> Exportar AUVP Sempre (PDF)
+                </button>
+            </div>
+            
         </div>
     </section>
 
@@ -1812,6 +1865,14 @@
                     </div>
                 </div>
             </div>
+            
+            <!-- Botão de Exportar Específico desta Secção -->
+            <div class="section-export-container">
+                <button class="btn-export-section" onclick="printSection('auvp-internacional')">
+                    <i class="ph-bold ph-download-simple"></i> Exportar AUVP Internacional (PDF)
+                </button>
+            </div>
+            
         </div>
     </section>
 
@@ -1974,6 +2035,14 @@
                     </div>
                 </div>
             </div>
+            
+            <!-- Botão de Exportar Específico desta Secção -->
+            <div class="section-export-container">
+                <button class="btn-export-section" onclick="printSection('auvp-pro')">
+                    <i class="ph-bold ph-download-simple"></i> Exportar AUVP PRO (PDF)
+                </button>
+            </div>
+            
         </div>
     </section>
 
@@ -2041,6 +2110,22 @@
 
     <!-- SCRIPT DE INTERAÇÕES E LÓGICA DO MENU MOBILE -->
     <script>
+        // Função Global de Impressão por Seção
+        window.printSection = function(sectionId) {
+            // 1. Adiciona a classe global ao body para esconder tudo
+            document.body.classList.add('print-section-only');
+            // 2. Adiciona a tag à secção que não deve ser escondida
+            document.getElementById(sectionId).classList.add('print-target');
+            // 3. Abre a janela de impressão nativa
+            window.print();
+        };
+
+        // Limpa as tags depois de fechar ou cancelar o PDF, restaurando o visual
+        window.addEventListener('afterprint', () => {
+            document.body.classList.remove('print-section-only');
+            document.querySelectorAll('.print-target').forEach(el => el.classList.remove('print-target'));
+        });
+
         document.addEventListener('DOMContentLoaded', () => {
 
             // 1. Iniciar o Scroll das Imagens ao entrar no ecrã
