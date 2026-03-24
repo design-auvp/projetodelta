@@ -303,7 +303,6 @@
             border: 2px dashed #a1a1aa;
             border-radius: 12px;
         }
-        .placeholder-visual { aspect-ratio: 4/3; }
         .placeholder-video { aspect-ratio: 9/16; max-width: 320px; }
 
         /* =========================================
@@ -322,6 +321,8 @@
             padding: 8px 16px;
             margin-bottom: 20px;
             border-radius: 6px;
+            align-self: flex-start;
+            width: max-content;
         }
 
         .dobra-title {
@@ -392,6 +393,7 @@
             border-bottom: 1px solid var(--border-subtle);
         }
         .highlight-block.bg-subtle { background-color: var(--bg-subtle); }
+        .highlight-block.full-radius { border-radius: 12px; }
         .highlight-block .dobra-title { font-size: 24px; margin-bottom: 16px; }
         .highlight-block p:last-child { margin-bottom: 0; }
 
@@ -439,6 +441,8 @@
             margin-top: 24px;
         }
         .card-grid.grid-4 { grid-template-columns: repeat(4, 1fr); }
+        .card-grid.grid-2 { grid-template-columns: repeat(2, 1fr); }
+        .card-grid.grid-fee-video { grid-template-columns: 1.6fr 1fr; }
 
         @media (max-width: 1099px) {
             .card-grid.grid-4 { grid-template-columns: repeat(2, 1fr); }
@@ -617,19 +621,6 @@
         .pricing-desc { font-size: 13px; color: var(--text-muted); margin-top: 6px; font-style: italic; }
         .pricing-card.highlight .pricing-desc { color: #a1a1aa; }
 
-        /* Blocos de Vídeo Responsivos */
-        .video-demo-block {
-            display: flex;
-            gap: 32px;
-            align-items: center;
-            margin-top: 40px;
-            flex-wrap: wrap;
-        }
-        .video-demo-text {
-            flex: 1;
-            min-width: min(100%, 250px);
-        }
-
         /* Banners de Observação */
         .obs-banner {
             background-color: var(--primary-gold-light);
@@ -643,8 +634,48 @@
         }
         .obs-banner i { color: var(--primary-gold-dark); font-size: 24px; flex-shrink: 0; margin-top: 2px;}
 
-        /* Utilitários de Layout */
-        .split-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+        /* Utilitários e Layout Dividido (Scroll Infinito) */
+        .split-layout { 
+            display: grid; 
+            grid-template-columns: 1fr 1fr; 
+            gap: 60px; 
+            align-items: stretch; /* Garante alturas iguais */
+        }
+        .split-content {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .split-visual { 
+            width: 100%; 
+            position: relative; 
+            border-radius: 12px; 
+            overflow: hidden;
+            border: 1px solid var(--border-subtle);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            background-color: var(--bg-subtle);
+            min-height: 450px; /* Garante altura mínima para mobile */
+        }
+
+        .scrolling-page {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-size: 100% auto;
+            background-repeat: no-repeat;
+            background-position: top center;
+        }
+
+        .split-visual.is-visible .scrolling-page {
+            animation: scrollPage 20s ease-in-out infinite alternate;
+            animation-delay: 0.5s;
+        }
+
+        @keyframes scrollPage {
+            0%, 5% { background-position: top center; }
+            95%, 100% { background-position: bottom center; }
+        }
+
         .mt-40 { margin-top: 40px; }
         .mt-80 { margin-top: 80px; }
         .scroll-anchor { scroll-margin-top: 100px; }
@@ -748,7 +779,7 @@
             .container { padding: 0 24px; }
             .dobra-title { font-size: 26px; }
             
-            .card-grid.grid-4 { grid-template-columns: 1fr; }
+            .card-grid.grid-4, .card-grid.grid-2, .card-grid.grid-fee-video { grid-template-columns: 1fr; }
             
             .modulo-item {
                 flex-direction: column;
@@ -859,6 +890,9 @@
             
             <!-- Introdução -->
             <div class="split-layout">
+                <div class="split-visual">
+                    <div class="scrolling-page" style="background-image: url('https://github.com/design-auvp/projetodelta/blob/main/AUVP-A-maior-escola-de-investimentos-do-Brasil-AUVP.png?raw=true');"></div>
+                </div>
                 <div class="split-content">
                     <span class="step-pill">Produto Principal</span>
                     <h2 class="dobra-title">AUVP Escola</h2>
@@ -871,9 +905,6 @@
                     <div class="highlight-block" style="margin: 20px 0 0 0; padding: 20px;">
                         <p class="dobra-desc" style="margin:0;"><strong>Público-Alvo:</strong> A <strong>AUVP Escola</strong> é essencial para quem quer se aprofundar no mundo dos investimentos e entende que o caminho para a liberdade financeira está na disciplina e no conhecimento sólido, e não em atalhos.</p>
                     </div>
-                </div>
-                <div class="split-visual">
-                    <img class="placeholder-img placeholder-visual" src="https://via.placeholder.com/800x600/efbf4e/000000?text=[Image+of+Dashboard+da+AUVP+Escola]" alt="">
                 </div>
             </div>
 
@@ -922,7 +953,7 @@
                 <div class="modulo-list">
                     <div class="modulo-item">
                         <div class="modulo-img-wrapper">
-                            <img class="placeholder-img" src="https://www.auvp.com.br/wp-content/uploads/2024/09/MODULO-1-768x481.png" alt="">
+                            <img class="placeholder-img" src="https://www.auvp.com.br/wp-content/uploads/2024/09/MODULO-1-768x481.png" alt="Módulo 1">
                         </div>
                         <div class="modulo-content">
                             <h4 class="modulo-title">Preparando o seu cérebro (não obrigatório)</h4>
@@ -936,7 +967,7 @@
                     
                     <div class="modulo-item">
                         <div class="modulo-img-wrapper">
-                            <img class="placeholder-img" src="https://www.auvp.com.br/wp-content/uploads/2024/09/MODULO-2-768x481.png" alt="">
+                            <img class="placeholder-img" src="https://www.auvp.com.br/wp-content/uploads/2024/09/MODULO-2-768x481.png" alt="Módulo 2">
                         </div>
                         <div class="modulo-content">
                             <h4 class="modulo-title">Organizando sua vida financeira</h4>
@@ -950,7 +981,7 @@
 
                     <div class="modulo-item">
                         <div class="modulo-img-wrapper">
-                            <img class="placeholder-img" src="https://www.auvp.com.br/wp-content/uploads/2024/09/MODULO-3-768x481.png" alt="">
+                            <img class="placeholder-img" src="https://www.auvp.com.br/wp-content/uploads/2024/09/MODULO-3-768x481.png" alt="Módulo 3">
                         </div>
                         <div class="modulo-content">
                             <h4 class="modulo-title">Renda fixa</h4>
@@ -964,7 +995,7 @@
 
                     <div class="modulo-item">
                         <div class="modulo-img-wrapper">
-                            <img class="placeholder-img" src="https://www.auvp.com.br/wp-content/uploads/2024/09/MODULO-4-768x481.png" alt="">
+                            <img class="placeholder-img" src="https://www.auvp.com.br/wp-content/uploads/2024/09/MODULO-4-768x481.png" alt="Módulo 4">
                         </div>
                         <div class="modulo-content">
                             <h4 class="modulo-title">Renda variável</h4>
@@ -978,7 +1009,7 @@
 
                     <div class="modulo-item">
                         <div class="modulo-img-wrapper">
-                            <img class="placeholder-img" src="https://www.auvp.com.br/wp-content/uploads/2024/09/MODULO-5-768x481.png" alt="">
+                            <img class="placeholder-img" src="https://www.auvp.com.br/wp-content/uploads/2024/09/MODULO-5-768x481.png" alt="Módulo 5">
                         </div>
                         <div class="modulo-content">
                             <h4 class="modulo-title">Reserva de valor</h4>
@@ -992,7 +1023,7 @@
 
                     <div class="modulo-item">
                         <div class="modulo-img-wrapper">
-                            <img class="placeholder-img" src="https://www.auvp.com.br/wp-content/uploads/2024/09/MODULO-6-768x481.png" alt="">
+                            <img class="placeholder-img" src="https://www.auvp.com.br/wp-content/uploads/2024/09/MODULO-6-768x481.png" alt="Módulo 6">
                         </div>
                         <div class="modulo-content">
                             <h4 class="modulo-title">Investindo no exterior</h4>
@@ -1006,7 +1037,7 @@
 
                     <div class="modulo-item">
                         <div class="modulo-img-wrapper">
-                            <img class="placeholder-img" src="https://www.auvp.com.br/wp-content/uploads/2025/05/MODULO-7-768x481.jpg" alt="">
+                            <img class="placeholder-img" src="https://www.auvp.com.br/wp-content/uploads/2025/05/MODULO-7-768x481.jpg" alt="Módulo 7">
                         </div>
                         <div class="modulo-content">
                             <h4 class="modulo-title">O começo</h4>
@@ -1020,7 +1051,7 @@
 
                     <div class="modulo-item">
                         <div class="modulo-img-wrapper">
-                            <img class="placeholder-img" src="https://www.auvp.com.br/wp-content/uploads/2025/05/MODULO-BONUS-768x481.jpg" alt="">
+                            <img class="placeholder-img" src="https://www.auvp.com.br/wp-content/uploads/2025/05/MODULO-BONUS-768x481.jpg" alt="Módulo Bônus">
                         </div>
                         <div class="modulo-content">
                             <h4 class="modulo-title">Bônus: imposto de renda</h4>
@@ -1069,7 +1100,7 @@
 
                 <div class="highlight-block bg-subtle mt-40">
                     <h3 class="dobra-title" style="font-size: 24px;"><i class="ph-light ph-t-shirt"></i> Produtos físicos</h3>
-                    <p class="dobra-desc" style="margin:0;">Também temos a nossa loja Investidor Sardinha, onde o aluno encontra itens clássicos da nossa comunidade. Para acessar, clique aqui.</p>
+                    <p class="dobra-desc" style="margin:0;">Também temos a nossa loja Investidor Sardinha, onde o aluno encontra itens clássicos da nossa comunidade. Para acessar, <a href="https://loja.investidorsardinha.com.br/" target="_blank" style="color: var(--primary-gold-dark); font-weight: 700; text-decoration: underline;">clique aqui</a>.</p>
                 </div>
 
                 <h3 class="dobra-title mt-80"><i class="ph-light ph-bank"></i> Benefícios da AUVP Capital</h3>
@@ -1160,7 +1191,7 @@
                     </div>
                 </div>
 
-                <div class="card-grid">
+                <div class="card-grid grid-2">
                     <div class="info-card">
                         <div class="info-card-icon"><i class="ph-light ph-coins"></i></div>
                         <h4 class="info-card-title">✔ Programa de Pontos</h4>
@@ -1171,19 +1202,24 @@
                         <h4 class="info-card-title">Cashback na Fatura</h4>
                         <p class="info-card-desc">Receba 1% do valor das suas compras de volta como cashback, diretamente na sua fatura, para usar como preferir.</p>
                     </div>
+                </div>
+
+                <div class="card-grid grid-fee-video">
                     <div class="info-card">
                         <div class="info-card-icon"><i class="ph-light ph-handshake"></i></div>
                         <h4 class="info-card-title">✔ FEE Based</h4>
-                        <p class="info-card-desc">Nosso modelo de cobrança atual é o Fee Based, escolhido por ser transparente e eliminando possíveis conflitos de interesses, que outros modelos de cobranças podem ter.<br>A taxa Fee Based corresponde a 0,9% ao ano sobre o seu patrimônio total, mas fique tranquilo, pois é diluída em 12 meses, resultando em apenas 0,075% ao mês.</p>
+                        <p class="info-card-desc">Nosso modelo de cobrança atual é o Fee Based, escolhido por ser transparente e eliminando possíveis conflitos de interesses, que outros modelos de cobranças podem ter.<br><br>A taxa Fee Based corresponde a 0,9% ao ano sobre o seu patrimônio total, mas fique tranquilo, pois é diluída em 12 meses, resultando em apenas 0,075% ao mês.</p>
                     </div>
-                </div>
-                
-                <div class="highlight-block bg-subtle video-demo-block">
-                    <div class="video-demo-text">
-                        <h3 class="dobra-title" style="font-size: 20px;"><i class="ph-light ph-video"></i> Demonstração no App BTG</h3>
-                        <p class="dobra-desc" style="margin: 0;">Inserir vídeo que mostra no app BTG os benefícios do cartão (vídeo será enviado no cliq) ficaria legal colocar o vídeo no formato de</p>
+                    <div class="info-card" style="align-items: center; text-align: center;">
+                        <div class="info-card-icon"><i class="ph-light ph-video"></i></div>
+                        <h4 class="info-card-title">Demonstração no App BTG</h4>
+                        <div style="margin-top: 16px; display: flex; justify-content: center; width: 100%; flex-grow: 1; align-items: center;">
+                            <video style="border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); width: 100%; max-width: 240px; aspect-ratio: 9/16; display: block; border: 4px solid var(--bg-subtle); background-color: #000; object-fit: cover;" autoplay muted loop playsinline controls>
+                                <source src="https://github.com/design-auvp/projetodelta/blob/main/0324.mp4?raw=true" type="video/mp4">
+                                O seu navegador não suporta a tag de vídeo.
+                            </video>
+                        </div>
                     </div>
-                    <img class="placeholder-img placeholder-video" src="https://via.placeholder.com/320x568/e0e0e0/52525b?text=[Image+of+Vídeo+App+BTG]" alt="">
                 </div>
             </div>
         </div>
@@ -1197,7 +1233,7 @@
             <!-- Introdução -->
             <div class="split-layout">
                 <div class="split-visual">
-                    <img class="placeholder-img placeholder-visual" src="https://via.placeholder.com/800x600/333333/ffffff?text=[Image+of+Dashboard+da+AUVP+Sempre]" alt="">
+                    <div class="scrolling-page" style="background-image: url('https://github.com/design-auvp/projetodelta/blob/main/AUVP-Sempre-AUVP.png?raw=true');"></div>
                 </div>
                 <div class="split-content">
                     <span class="step-pill">Continuidade (Upsell)</span>
@@ -1350,6 +1386,9 @@
         <div class="container">
             <!-- Introdução -->
             <div class="split-layout">
+                <div class="split-visual">
+                    <div class="scrolling-page" style="background-image: url('https://github.com/design-auvp/projetodelta/blob/main/AUVP-Internacional.png?raw=true');"></div>
+                </div>
                 <div class="split-content">
                     <span class="step-pill">Especialização</span>
                     <h2 class="dobra-title">AUVP Internacional</h2>
@@ -1363,9 +1402,6 @@
                     <div class="highlight-block scroll-anchor" id="internacional-publico" style="margin: 20px 0 0 0; padding: 20px;">
                         <p class="dobra-desc" style="margin:0;"><strong>Público-Alvo:</strong> no geral, investidores que buscam segurança e querem deixar de ser reféns da economia local para se tornarem Estrategistas Globais.</p>
                     </div>
-                </div>
-                <div class="split-visual">
-                    <img class="placeholder-img placeholder-visual" src="https://via.placeholder.com/800x600/18181b/efbf4e?text=[Image+of+Dashboard+da+AUVP+Internacional]" alt="">
                 </div>
             </div>
 
@@ -1466,22 +1502,26 @@
             <!-- Introdução -->
             <div class="split-layout">
                 <div class="split-visual">
-                    <img class="placeholder-img placeholder-visual" src="https://via.placeholder.com/800x600/efbf4e/18181b?text=[Image+of+Dashboard+da+AUVP+PRO]" alt="">
+                    <div class="scrolling-page" style="background-image: url('https://github.com/design-auvp/projetodelta/blob/main/AUVP-Pro.png?raw=true');"></div>
                 </div>
                 <div class="split-content">
                     <span class="step-pill">B2B / Certificações</span>
                     <h2 class="dobra-title">AUVP PRO</h2>
                     
                     <div class="quick-info-bar">
-                        <div class="quick-info-badge"><i class="ph-light ph-tag"></i> Ticket: Varia de acordo com a contratação.</div>
-                        <div class="quick-info-badge"><i class="ph-light ph-globe"></i> Site: <a href="https://www.auvp.pro" target="_blank">https://www.auvp.pro</a></div>
+                        <div class="quick-info-badge"><i class="ph-light ph-tag"></i> Ticket: &nbsp;<a href="#pro-investimento">Varia de acordo com a contratação.</a></div>
+                        <div class="quick-info-badge"><i class="ph-light ph-globe"></i> Site: <a href="https://www.auvp.pro" target="_blank">www.auvp.pro</a></div>
                     </div>
 
                     <div class="highlight-block scroll-anchor" id="pro-publico" style="margin: 20px 0 0 0; padding: 20px;">
-                        <p class="dobra-desc"><strong>Público-Alvo:</strong> pessoas que desejam conquistar as certificações CPA, C-Pro-R ou C-Pro-I para ampliar suas oportunidades de atuação como especialistas em investimentos, além de profissionais já certificados que buscam se destacar por meio de uma gestão de carteiras mais eficiente, segura e estratégica.</p>
-                        <p class="dobra-desc" style="margin-bottom: 0;"><strong>Formato de liberação:</strong> A liberação será feita de forma instantânea. Logo após o pagamento aprovado o aluno recebe acesso na plataforma de ensino, onde poderá realizar os treinamentos e conferir os conteúdos durante 1 ano.</p>
+                        <p class="dobra-desc" style="margin: 0;"><strong>Público-Alvo:</strong> pessoas que desejam conquistar as certificações CPA, C-Pro-R ou C-Pro-I para ampliar suas oportunidades de atuação como especialistas em investimentos, além de profissionais já certificados que buscam se destacar por meio de uma gestão de carteiras mais eficiente, segura e estratégica.</p>
                     </div>
                 </div>
+            </div>
+
+            <!-- Formato de Liberação -->
+            <div class="highlight-block bg-subtle full-radius" style="margin-top: 40px;">
+                <p class="dobra-desc" style="margin: 0;"><strong>Formato de liberação:</strong> A liberação será feita de forma instantânea. Logo após o pagamento aprovado o aluno recebe acesso na plataforma de ensino, onde poderá realizar os treinamentos e conferir os conteúdos durante 1 ano.</p>
             </div>
 
             <!-- Preços -->
@@ -1620,7 +1660,19 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
 
-            // 1. Acordeão de Benefícios (Cartão AUVP)
+            // 1. Iniciar o Scroll das Imagens ao entrar no ecrã
+            const visuais = document.querySelectorAll('.split-visual');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target); 
+                    }
+                });
+            }, { rootMargin: '0px 0px -10% 0px' });
+            visuais.forEach(v => observer.observe(v));
+
+            // 2. Acordeão de Benefícios (Cartão AUVP)
             const accordions = document.querySelectorAll('.accordion-header');
             accordions.forEach(acc => {
                 acc.addEventListener('click', function() {
