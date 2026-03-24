@@ -685,6 +685,11 @@
            ========================================= */
         @media (max-width: 991px) {
             .split-layout { grid-template-columns: 1fr; gap: 40px; }
+            
+            /* Inverte a ordem no mobile: Texto/Resumo primeiro, Imagem com Scroll depois */
+            .split-content { order: 1; }
+            .split-visual { order: 2; }
+            
             .feature-list.grid-2 { grid-template-columns: 1fr; }
             
             /* Ativa a barra ágil inferior apenas no mobile */
