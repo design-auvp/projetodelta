@@ -634,6 +634,34 @@
         }
         .obs-banner i { color: var(--primary-gold-dark); font-size: 24px; flex-shrink: 0; margin-top: 2px;}
 
+        /* Botão Flutuante de Exportação PDF */
+        .fab-pdf {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background-color: var(--primary-gold);
+            color: var(--text-dark);
+            border: none;
+            border-radius: 50px;
+            padding: 14px 24px;
+            font-family: var(--font-sans);
+            font-weight: 700;
+            font-size: 15px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            z-index: 1000;
+            transition: transform 0.2s ease, background-color 0.2s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .fab-pdf:hover {
+            transform: translateY(-4px);
+            background-color: var(--primary-gold-dark);
+        }
+
         /* Utilitários e Layout Dividido (Scroll Infinito) */
         .split-layout { 
             display: grid; 
@@ -809,6 +837,90 @@
         .menu-toggle.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
         .menu-toggle.active span:nth-child(2) { opacity: 0; }
         .menu-toggle.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+        /* =========================================
+           ESTILOS DE IMPRESSÃO / EXPORTAÇÃO PDF
+           ========================================= */
+        @media print {
+            /* 1. Esconder UI e Multimédia */
+            .navbar, .fab-pdf, .split-visual, .modulo-img-wrapper, video {
+                display: none !important;
+            }
+
+            /* Esconder o card específico que contém o vídeo na seção Escola */
+            .card-grid.grid-fee-video .info-card:last-child {
+                display: none !important;
+            }
+
+            /* 2. Resets Globais de Página */
+            body {
+                padding-top: 0 !important;
+                background-color: #fff !important;
+                color: #000 !important;
+                font-size: 11pt !important;
+            }
+            
+            .fold {
+                padding: 30px 0 !important;
+                border-bottom: none !important;
+                page-break-after: always;
+            }
+            .fold:last-child { page-break-after: auto; }
+
+            .container {
+                max-width: 100% !important;
+                padding: 0 !important;
+            }
+
+            /* 3. Correção de Layouts (Sem Imagens) */
+            .split-layout { display: block !important; }
+            .split-content { width: 100% !important; }
+            
+            .card-grid, .feature-list.grid-2, .card-grid.grid-4, .card-grid.grid-2, .card-grid.grid-fee-video {
+                display: grid !important;
+                grid-template-columns: 1fr 1fr !important;
+                gap: 16px !important;
+            }
+
+            /* 4. Estética de Impressão (Remover Fundos e Sombras) */
+            .info-card, .modulo-item, .pricing-card, .highlight-block, .accordion-header {
+                box-shadow: none !important;
+                border: 1px solid #ccc !important;
+                background-color: #fff !important;
+                page-break-inside: avoid;
+            }
+            
+            .highlight-block {
+                border-left: 4px solid #000 !important;
+                padding: 16px !important;
+                margin: 16px 0 !important;
+            }
+
+            .step-pill, .quick-info-badge, .obs-banner {
+                border: 1px solid #ccc !important;
+                background-color: transparent !important;
+                color: #000 !important;
+            }
+            .step-pill { border: 1px solid #000 !important; }
+
+            /* 5. Forçar Acordeões a Imprimir Abertos */
+            .accordion-content {
+                max-height: none !important;
+                display: block !important;
+            }
+            .accordion-header { border-bottom: 1px solid #ccc !important; pointer-events: none; }
+            .accordion-icon { display: none !important; }
+
+            /* 6. Tipografia e Espaçamentos */
+            h2, h3, h4, p, span, li, a { color: #000 !important; }
+            h2.dobra-title { font-size: 22pt !important; margin-top: 20px !important; page-break-after: avoid; }
+            a { text-decoration: none !important; }
+            
+            .mt-80 { margin-top: 30px !important; }
+            .mt-40 { margin-top: 20px !important; }
+            
+            .pricing-card.highlight { border: 2px solid #000 !important; }
+        }
 
     </style>
 </head>
@@ -1660,6 +1772,11 @@
             </div>
         </div>
     </section>
+
+    <!-- BOTÃO DE EXPORTAÇÃO PDF -->
+    <button class="fab-pdf" onclick="window.print()">
+        <i class="ph-bold ph-download-simple"></i> Exportar PDF
+    </button>
 
     <!-- SCRIPT DE INTERAÇÕES E LÓGICA DO MENU MOBILE -->
     <script>
