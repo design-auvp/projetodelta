@@ -22,11 +22,21 @@
             --border-subtle: rgba(0,0,0,0.08);
             --bg-subtle: #fafafa;
             
+            --apple-ease: cubic-bezier(0.16, 1, 0.3, 1);
+            
             --font-title: 'Anek Latin', sans-serif;
             --font-sans: 'Anek Latin', sans-serif;
             --font-body: 'Roboto', sans-serif;
             
+            /* Altura base do menu para desktop */
             --navbar-height: 70px;
+        }
+
+        /* Ajuste de altura do menu para mobile (2 linhas) */
+        @media (max-width: 991px) {
+            :root {
+                --navbar-height: 115px;
+            }
         }
 
         html {
@@ -54,12 +64,18 @@
             top: 0;
             left: 0;
             width: 100%;
-            height: var(--navbar-height);
             background-color: var(--text-dark);
             z-index: 1000;
             display: flex;
-            align-items: center;
+            flex-direction: column;
             box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .navbar-main {
+            width: 100%;
+            height: 70px;
+            display: flex;
+            align-items: center;
         }
 
         .navbar-container {
@@ -97,6 +113,7 @@
             background-color: rgba(255, 255, 255, 0.15);
         }
 
+        /* --- MENU DESKTOP --- */
         .navbar-menu {
             list-style: none;
             display: flex;
@@ -134,18 +151,6 @@
 
         .nav-link:hover, .nav-link.active { color: #ffffff; }
         .nav-link.active::after { width: 100%; }
-
-        /* Mobile Toggle Button */
-        .mobile-dropdown-toggle {
-            display: none;
-            background: transparent;
-            border: none;
-            color: #a1a1aa;
-            font-size: 20px;
-            padding: 12px;
-            cursor: pointer;
-            transition: transform 0.2s ease, color 0.2s ease;
-        }
 
         .dropdown-menu {
             position: absolute;
@@ -203,6 +208,11 @@
             padding-left: 24px;
         }
 
+        /* --- MOBILE TOGGLES & BARS --- */
+        .mobile-dropdown-toggle {
+            display: none;
+        }
+
         .menu-toggle {
             display: none;
             flex-direction: column;
@@ -222,6 +232,52 @@
             background-color: var(--primary-gold);
             transition: all 0.2s ease;
             transform-origin: left;
+        }
+
+        /* Barra Inferior Mobile (Ágil) */
+        .mobile-quick-nav {
+            display: none;
+            width: 100%;
+            height: 45px;
+            background-color: #1f1f22;
+            align-items: center;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none; /* Firefox */
+        }
+        
+        .mobile-quick-nav::-webkit-scrollbar { display: none; /* Safari/Chrome */ }
+
+        .mobile-quick-container {
+            display: flex;
+            gap: 24px;
+            padding: 0 20px;
+            white-space: nowrap;
+        }
+
+        .quick-link {
+            color: #a1a1aa;
+            text-decoration: none;
+            font-family: var(--font-sans);
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 12px 0;
+            position: relative;
+            transition: color 0.15s;
+        }
+
+        .quick-link.active { color: var(--primary-gold); }
+        .quick-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--primary-gold);
+            border-radius: 2px 2px 0 0;
         }
 
         /* =========================================
@@ -594,13 +650,19 @@
         .scroll-anchor { scroll-margin-top: 100px; }
 
         /* =========================================
-           RESPONSIVIDADE E MOBILE MENU (ACORDEÃO DINÂMICO)
+           RESPONSIVIDADE E MOBILE MENU REFINADO
            ========================================= */
         @media (max-width: 991px) {
             .split-layout { grid-template-columns: 1fr; gap: 40px; }
             .feature-list.grid-2 { grid-template-columns: 1fr; }
+            
+            /* Ativa a barra ágil inferior apenas no mobile */
+            .mobile-quick-nav { display: flex; }
+            .navbar-main { border-bottom: 1px solid rgba(255,255,255,0.05); }
+
             .menu-toggle { display: flex; }
             
+            /* Painel de Navegação Hambúrguer */
             .navbar-menu {
                 position: fixed;
                 top: var(--navbar-height);
@@ -610,62 +672,75 @@
                 background-color: var(--text-dark);
                 flex-direction: column;
                 align-items: flex-start;
-                padding: 30px;
+                padding: 24px 20px;
                 transition: left 0.2s ease-out;
                 overflow-y: auto;
             }
             .navbar-menu.active { left: 0; }
             
+            /* Estrutura em bloco para corrigir bugs de margens/overflow */
             .dropdown {
-                display: flex;
-                flex-wrap: wrap;
-                align-items: center;
-                justify-content: space-between;
+                display: block;
                 width: 100%;
                 border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+                position: relative;
             }
             
             .nav-link { 
+                display: inline-block;
                 padding: 16px 0; 
                 font-size: 18px; 
-                flex-grow: 1;
-                width: auto;
+                width: calc(100% - 60px); /* Espaço para o botão seta */
             }
             .nav-link::after { display: none; }
             
-            .mobile-dropdown-toggle { display: flex; }
+            /* Botão Seta (Toggle Independente) */
+            .mobile-dropdown-toggle { 
+                display: flex; 
+                align-items: center;
+                justify-content: center;
+                position: absolute;
+                top: 4px;
+                right: 0;
+                width: 48px;
+                height: 48px;
+                padding: 0;
+                background: transparent;
+                border: none;
+                color: #a1a1aa;
+                font-size: 20px;
+                cursor: pointer;
+            }
             
+            /* Reset do Dropdown para Mobile (Fica abaixo do link) */
             .dropdown-menu {
-                display: none; /* Escondido nativamente para menu em acordeão */
+                display: none;
                 position: relative;
-                top: 0;
-                left: 0;
-                transform: none;
+                top: auto;
+                left: auto;
+                transform: none !important;
                 background-color: transparent;
                 border: none;
                 box-shadow: none;
                 opacity: 1;
                 visibility: visible;
                 padding: 0 0 16px 16px;
-                min-width: 100%;
+                width: 100%;
             }
             .dropdown-menu::before { display: none; }
             .dropdown-menu a { font-size: 15px; border-bottom: none; padding: 10px 0; color: #71717a;}
             
             /* Classe dinâmica para o dropdown ativo no mobile */
-            .dropdown.mobile-open .dropdown-menu {
-                display: block;
-                animation: fadeIn 0.2s ease;
-            }
+            .dropdown.mobile-open .dropdown-menu { display: block; }
             .dropdown.mobile-open .mobile-dropdown-toggle {
                 transform: rotate(180deg);
                 color: var(--primary-gold);
             }
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-5px); }
-            to { opacity: 1; transform: translateY(0); }
+            
+            /* Ajustes Logo Mobile */
+            .navbar-brand { font-size: 18px; gap: 12px; }
+            .navbar-logo { height: 32px; }
+            .navbar-divider { height: 32px; }
         }
 
         @media (max-width: 767px) {
@@ -705,61 +780,74 @@
 
     <!-- MENU DE NAVEGAÇÃO -->
     <nav class="navbar">
-        <div class="container navbar-container">
-            <a href="#" class="navbar-brand">
-                <img src="https://www.auvp.com.br/wp-content/uploads/2025/09/AUVP-HORIZONTAL-P-FUNDO-ESCURO.png" alt="AUVP" class="navbar-logo">
-                <div class="navbar-divider"></div>
-                <span>Guia de Vendas</span>
-            </a>
-            
-            <button class="menu-toggle" aria-label="Abrir menu">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
+        <!-- 1. Linha Superior (Logo e Hambúrguer) -->
+        <div class="navbar-main">
+            <div class="container navbar-container">
+                <a href="#" class="navbar-brand">
+                    <img src="https://www.auvp.com.br/wp-content/uploads/2025/09/AUVP-HORIZONTAL-P-FUNDO-ESCURO.png" alt="AUVP" class="navbar-logo">
+                    <div class="navbar-divider"></div>
+                    <span>Guia de Vendas</span>
+                </a>
+                
+                <button class="menu-toggle" aria-label="Abrir menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
 
-            <ul class="navbar-menu">
-                <li class="dropdown">
-                    <a href="#auvp-escola" class="nav-link active">Escola</a>
-                    <button class="mobile-dropdown-toggle"><i class="ph-bold ph-caret-down"></i></button>
-                    <ul class="dropdown-menu">
-                        <li><a href="#escola-publico">Informações</a></li>
-                        <li><a href="#escola-o-que-e">O que é AUVP?</a></li>
-                        <li><a href="#escola-cronograma">Cronograma</a></li>
-                        <li><a href="#escola-ferramentas">Ferramentas e Capital</a></li>
-                        <li><a href="#escola-cartao">Cartão AUVP</a></li>
-                    </ul>
-                </li>
-                <li class="dropdown">
-                    <a href="#auvp-sempre" class="nav-link">Sempre</a>
-                    <button class="mobile-dropdown-toggle"><i class="ph-bold ph-caret-down"></i></button>
-                    <ul class="dropdown-menu">
-                        <li><a href="#sempre-publico">Informações</a></li>
-                        <li><a href="#sempre-o-que-e">O que é?</a></li>
-                        <li><a href="#sempre-cronograma">Cronograma</a></li>
-                        <li><a href="#sempre-ferramentas">Benefícios</a></li>
-                    </ul>
-                </li>
-                <li class="dropdown">
-                    <a href="#auvp-internacional" class="nav-link">Internacional</a>
-                    <button class="mobile-dropdown-toggle"><i class="ph-bold ph-caret-down"></i></button>
-                    <ul class="dropdown-menu">
-                        <li><a href="#internacional-publico">Informações</a></li>
-                        <li><a href="#internacional-o-que-e">O que é?</a></li>
-                        <li><a href="#internacional-cronograma">Cronograma</a></li>
-                    </ul>
-                </li>
-                <li class="dropdown">
-                    <a href="#auvp-pro" class="nav-link">PRO</a>
-                    <button class="mobile-dropdown-toggle"><i class="ph-bold ph-caret-down"></i></button>
-                    <ul class="dropdown-menu">
-                        <li><a href="#pro-publico">Informações</a></li>
-                        <li><a href="#pro-investimento">Investimento</a></li>
-                        <li><a href="#pro-o-que-e">O que é?</a></li>
-                        <li><a href="#pro-cronograma">Cronograma</a></li>
-                    </ul>
-                </li>
-            </ul>
+                <ul class="navbar-menu">
+                    <li class="dropdown">
+                        <a href="#auvp-escola" class="nav-link active">Escola</a>
+                        <button class="mobile-dropdown-toggle"><i class="ph-bold ph-caret-down"></i></button>
+                        <ul class="dropdown-menu">
+                            <li><a href="#escola-publico">Informações</a></li>
+                            <li><a href="#escola-o-que-e">O que é AUVP?</a></li>
+                            <li><a href="#escola-cronograma">Cronograma</a></li>
+                            <li><a href="#escola-ferramentas">Ferramentas e Capital</a></li>
+                            <li><a href="#escola-cartao">Cartão AUVP</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#auvp-sempre" class="nav-link">Sempre</a>
+                        <button class="mobile-dropdown-toggle"><i class="ph-bold ph-caret-down"></i></button>
+                        <ul class="dropdown-menu">
+                            <li><a href="#sempre-publico">Informações</a></li>
+                            <li><a href="#sempre-o-que-e">O que é?</a></li>
+                            <li><a href="#sempre-cronograma">Cronograma</a></li>
+                            <li><a href="#sempre-ferramentas">Benefícios</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#auvp-internacional" class="nav-link">Internacional</a>
+                        <button class="mobile-dropdown-toggle"><i class="ph-bold ph-caret-down"></i></button>
+                        <ul class="dropdown-menu">
+                            <li><a href="#internacional-publico">Informações</a></li>
+                            <li><a href="#internacional-o-que-e">O que é?</a></li>
+                            <li><a href="#internacional-cronograma">Cronograma</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#auvp-pro" class="nav-link">PRO</a>
+                        <button class="mobile-dropdown-toggle"><i class="ph-bold ph-caret-down"></i></button>
+                        <ul class="dropdown-menu">
+                            <li><a href="#pro-publico">Informações</a></li>
+                            <li><a href="#pro-investimento">Investimento</a></li>
+                            <li><a href="#pro-o-que-e">O que é?</a></li>
+                            <li><a href="#pro-cronograma">Cronograma</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 2. Barra Ágil Secundária (Exclusiva Mobile) -->
+        <div class="mobile-quick-nav">
+            <div class="mobile-quick-container">
+                <a href="#auvp-escola" class="quick-link active">Escola</a>
+                <a href="#auvp-sempre" class="quick-link">Sempre</a>
+                <a href="#auvp-internacional" class="quick-link">Internacional</a>
+                <a href="#auvp-pro" class="quick-link">PRO</a>
+            </div>
         </div>
     </nav>
 
@@ -1550,9 +1638,10 @@
                 });
             });
 
-            // 2. ScrollSpy (Atualizar link ativo principal no Menu)
+            // 2. ScrollSpy (Atualizar links ativos nas duas barras de navegação)
             const sections = document.querySelectorAll('section[id]');
             const navLinks = document.querySelectorAll('.navbar-menu > li > .nav-link');
+            const quickLinks = document.querySelectorAll('.quick-link');
             const navbarHeight = document.querySelector('.navbar').offsetHeight;
 
             window.addEventListener('scroll', () => {
@@ -1570,12 +1659,19 @@
                         link.classList.add('active');
                     }
                 });
+
+                quickLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === `#${current}`) {
+                        link.classList.add('active');
+                    }
+                });
             });
 
             // 3. Lógica do Menu Hamburger (Mobile)
             const menuToggle = document.querySelector('.menu-toggle');
             const navbarMenu = document.querySelector('.navbar-menu');
-            const allNavLinks = document.querySelectorAll('.navbar-menu a');
+            const allNavLinks = document.querySelectorAll('.navbar-menu a, .quick-link');
             const dropdownToggles = document.querySelectorAll('.mobile-dropdown-toggle');
 
             // Abrir / Fechar menu principal
@@ -1593,14 +1689,13 @@
                 });
             });
 
-            // Fechar menu ao clicar em qualquer link (incluindo links principais e subcategorias)
+            // Fechar menu ao clicar em qualquer link
             allNavLinks.forEach(link => {
                 link.addEventListener('click', () => {
                     if(window.innerWidth <= 991) {
                         navbarMenu.classList.remove('active');
                         menuToggle.classList.remove('active');
                         
-                        // Opcional: fechar os acordeões internos ao navegar
                         document.querySelectorAll('.dropdown.mobile-open').forEach(d => {
                             d.classList.remove('mobile-open');
                         });
