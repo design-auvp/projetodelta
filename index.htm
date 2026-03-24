@@ -490,6 +490,57 @@
             margin: 0;
         }
 
+        /* Variação de Cartão com Imagem de Topo (Ferramentas) */
+        .info-card.has-image {
+            padding: 0;
+            overflow: hidden;
+        }
+        .info-card-image {
+            width: 100%;
+            aspect-ratio: 16/9;
+            object-fit: cover;
+            border-bottom: 1px solid var(--border-subtle);
+            display: block;
+        }
+        .info-card-body {
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        /* Dashboard de Benefícios (Cartão) */
+        .benefits-dashboard {
+            display: grid;
+            grid-template-columns: 1fr minmax(280px, 340px);
+            gap: 24px;
+            margin-top: 24px;
+        }
+        .benefits-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            height: 100%;
+            justify-content: space-between;
+        }
+        .info-card.horizontal {
+            flex-direction: row;
+            align-items: center;
+            gap: 24px;
+            padding: 24px 32px;
+            height: 100%;
+        }
+        .info-card.horizontal .info-card-icon {
+            margin-bottom: 0;
+            flex-shrink: 0;
+        }
+        .info-card.horizontal .info-card-content {
+            flex-grow: 1;
+        }
+        .info-card.horizontal .info-card-title {
+            margin-bottom: 8px;
+        }
+
         /* Listas de Módulos (Cronogramas) */
         .modulo-list {
             display: flex;
@@ -621,6 +672,52 @@
         .pricing-desc { font-size: 13px; color: var(--text-muted); margin-top: 6px; font-style: italic; }
         .pricing-card.highlight .pricing-desc { color: #a1a1aa; }
 
+        /* Tabela Resumo */
+        .table-responsive {
+            width: 100%;
+            overflow-x: auto;
+            margin-top: 32px;
+            border-radius: 12px;
+            border: 1px solid var(--border-subtle);
+            background: #fff;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+        }
+        .summary-table {
+            width: 100%;
+            min-width: 800px;
+            border-collapse: collapse;
+            text-align: left;
+        }
+        .summary-table th {
+            background-color: var(--bg-subtle);
+            color: var(--text-dark);
+            font-family: var(--font-title);
+            font-size: 16px;
+            padding: 16px 24px;
+            border-bottom: 2px solid var(--border-subtle);
+            white-space: nowrap;
+        }
+        .summary-table td {
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--border-subtle);
+            font-family: var(--font-body);
+            font-size: 15px;
+            color: var(--text-muted);
+            vertical-align: top;
+            line-height: 1.5;
+        }
+        .summary-table tr:last-child td { border-bottom: none; }
+        .summary-table tr:hover td { background-color: #fafafa; }
+        .summary-table .prod-name {
+            font-weight: 700;
+            color: var(--primary-gold-dark);
+            font-family: var(--font-title);
+            font-size: 18px;
+            white-space: nowrap;
+        }
+        .summary-table a { color: var(--primary-gold-dark); text-decoration: underline; font-weight: 600; transition: color 0.15s; }
+        .summary-table a:hover { color: var(--primary-gold); }
+
         /* Banners de Observação */
         .obs-banner {
             background-color: var(--primary-gold-light);
@@ -720,6 +817,8 @@
             
             .feature-list.grid-2 { grid-template-columns: 1fr; }
             
+            .benefits-dashboard { grid-template-columns: 1fr; }
+            
             /* Ativa a barra ágil inferior apenas no mobile */
             .mobile-quick-nav { display: flex; }
             .navbar-main { border-bottom: 1px solid rgba(255,255,255,0.05); }
@@ -814,6 +913,9 @@
             
             .card-grid.grid-4, .card-grid.grid-2, .card-grid.grid-fee-video { grid-template-columns: 1fr; }
             
+            .info-card.horizontal { flex-direction: column; align-items: flex-start; padding: 24px; gap: 16px; }
+            .info-card.horizontal .info-card-icon { margin-bottom: 0; }
+            
             .modulo-item {
                 flex-direction: column;
                 gap: 16px;
@@ -831,6 +933,8 @@
             
             .pricing-card { padding: 32px 24px; }
             .info-card { padding: 24px; }
+            .info-card.has-image { padding: 0; }
+            .info-card-body { padding: 20px; }
             .obs-banner { padding: 16px; }
         }
         
@@ -843,14 +947,21 @@
            ========================================= */
         @media print {
             /* 1. Esconder UI e Multimédia */
-            .navbar, .fab-pdf, .split-visual, .modulo-img-wrapper, video {
+            .navbar, .fab-pdf, .split-visual, .modulo-img-wrapper, video, .info-card-image {
                 display: none !important;
             }
 
             /* Esconder o card específico que contém o vídeo na seção Escola */
-            .card-grid.grid-fee-video .info-card:last-child {
+            .card-grid.grid-fee-video .info-card:last-child,
+            .benefits-dashboard > .info-card {
                 display: none !important;
             }
+
+            /* Permite impressão correta da tabela */
+            .table-responsive { overflow-x: visible !important; border: none !important; box-shadow: none !important; }
+            .summary-table { min-width: 100% !important; border: 1px solid #ccc !important; }
+            .summary-table th { background-color: #f0f0f0 !important; color: #000 !important; border-bottom: 2px solid #ccc !important; -webkit-print-color-adjust: exact; }
+            .summary-table td { color: #000 !important; border-bottom: 1px solid #ccc !important; }
 
             /* 2. Resets Globais de Página */
             body {
@@ -876,10 +987,20 @@
             .split-layout { display: block !important; }
             .split-content { width: 100% !important; }
             
-            .card-grid, .feature-list.grid-2, .card-grid.grid-4, .card-grid.grid-2, .card-grid.grid-fee-video {
+            .card-grid, .feature-list.grid-2, .card-grid.grid-4, .card-grid.grid-2, .card-grid.grid-fee-video, .benefits-dashboard {
                 display: grid !important;
                 grid-template-columns: 1fr 1fr !important;
                 gap: 16px !important;
+            }
+            
+            /* Permite que o stack se misture na grelha do painel principal para impressão */
+            .benefits-stack { display: contents !important; }
+            
+            .info-card.horizontal {
+                flex-direction: column !important;
+                align-items: flex-start !important;
+                padding: 16px !important;
+                gap: 12px !important;
             }
 
             /* 4. Estética de Impressão (Remover Fundos e Sombras) */
@@ -1007,6 +1128,9 @@
                             <li><a href="#pro-cronograma">Cronograma</a></li>
                         </ul>
                     </li>
+                    <li class="dropdown">
+                        <a href="#resumo-produtos" class="nav-link">Resumo</a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -1018,6 +1142,7 @@
                 <a href="#auvp-sempre" class="quick-link">Sempre</a>
                 <a href="#auvp-internacional" class="quick-link">Internacional</a>
                 <a href="#auvp-pro" class="quick-link">PRO</a>
+                <a href="#resumo-produtos" class="quick-link">Resumo</a>
             </div>
         </div>
     </nav>
@@ -1055,17 +1180,17 @@
                     <div class="info-card">
                         <div class="info-card-icon"><i class="ph-light ph-plant"></i></div>
                         <h4 class="info-card-title">Conhecimento do zero</h4>
-                        <p class="info-card-desc">nunca investiu e precisa de uma base que vá do fundamental ao avançado.</p>
+                        <p class="info-card-desc">Nunca investiu e precisa de uma base que vá do fundamental ao avançado.</p>
                     </div>
                     <div class="info-card">
                         <div class="info-card-icon"><i class="ph-light ph-trend-up"></i></div>
                         <h4 class="info-card-title">Aperfeiçoamento</h4>
-                        <p class="info-card-desc">já investe, mas quer estruturar melhor sua carteira, otimizar a rentabilidade e expandir para o mercado internacional.</p>
+                        <p class="info-card-desc">Já investe, mas quer estruturar melhor sua carteira, otimizar a rentabilidade e expandir para o mercado internacional.</p>
                     </div>
                     <div class="info-card">
                         <div class="info-card-icon"><i class="ph-light ph-umbrella"></i></div>
                         <h4 class="info-card-title">Viver de renda</h4>
-                        <p class="info-card-desc">você tem o objetivo claro de viver dos seus investimentos e busca o planejamento e a estratégia necessários para construir esse futuro.</p>
+                        <p class="info-card-desc">Tem o objetivo claro de viver dos seus investimentos e busca o planejamento e a estratégia necessários para construir esse futuro.</p>
                     </div>
                 </div>
             </div>
@@ -1093,7 +1218,9 @@
                 <div class="modulo-list">
                     <div class="modulo-item">
                         <div class="modulo-img-wrapper">
-                            <img class="placeholder-img" src="https://www.auvp.com.br/wp-content/uploads/2024/09/MODULO-1-768x481.png" alt="Módulo 1">
+                            <a href="https://www.aulasauvp.com.br/path-player?courseid=auvp&unit=665dd5ac62d0ad7e11013a9fUnit" target="_blank" style="display: block;">
+                                <img class="placeholder-img" src="https://www.auvp.com.br/wp-content/uploads/2024/09/MODULO-1-768x481.png" alt="Módulo 1">
+                            </a>
                         </div>
                         <div class="modulo-content">
                             <h4 class="modulo-title">Preparando o seu cérebro (não obrigatório)</h4>
@@ -1107,7 +1234,9 @@
                     
                     <div class="modulo-item">
                         <div class="modulo-img-wrapper">
-                            <img class="placeholder-img" src="https://www.auvp.com.br/wp-content/uploads/2024/09/MODULO-2-768x481.png" alt="Módulo 2">
+                            <a href="https://www.aulasauvp.com.br/path-player?courseid=auvp&unit=6679e802eb0264584a00a21aUnit" target="_blank" style="display: block;">
+                                <img class="placeholder-img" src="https://www.auvp.com.br/wp-content/uploads/2024/09/MODULO-2-768x481.png" alt="Módulo 2">
+                            </a>
                         </div>
                         <div class="modulo-content">
                             <h4 class="modulo-title">Organizando sua vida financeira</h4>
@@ -1115,13 +1244,31 @@
                                 <span>6 Aulas padrão</span>
                                 <span>N/A</span>
                             </div>
-                            <p class="modulo-desc">Aprenda a montar um orçamento, identificar gargalos e entender a verdade sobre financiamentos, consórcios e previdência privada.</p>
+                            <p class="modulo-desc">Muda a perspectiva sobre dinheiro ao abordar sobre crenças, liberdade financeira e a disciplina necessária para metas.</p>
                         </div>
                     </div>
 
                     <div class="modulo-item">
                         <div class="modulo-img-wrapper">
-                            <img class="placeholder-img" src="https://www.auvp.com.br/wp-content/uploads/2024/09/MODULO-3-768x481.png" alt="Módulo 3">
+                            <a href="https://www.aulasauvp.com.br/path-player?courseid=auvp&unit=66aa4ff66ded5ca09b0b77ddUnit" target="_blank" style="display: block;">
+                                <img class="placeholder-img" src="https://www.auvp.com.br/wp-content/uploads/2024/09/MODULO-3-768x481.png" alt="Módulo 3">
+                            </a>
+                        </div>
+                        <div class="modulo-content">
+                            <h4 class="modulo-title">Renda fixa</h4>
+                            <div class="modulo-meta">
+                                <span>17 Aulas padrão</span>
+                                <span>2 Aulas bônus</span>
+                            </div>
+                            <p class="modulo-desc">Ensina a montar um orçamento, identificar gargalos e entender a verdade sobre financiamentos, consórcios e previdência privada.</p>
+                        </div>
+                    </div>
+
+                    <div class="modulo-item">
+                        <div class="modulo-img-wrapper">
+                            <a href="https://www.aulasauvp.com.br/path-player?courseid=auvp&unit=66aa4ff66ded5ca09b0b77ddUnit" target="_blank" style="display: block;">
+                                <img class="placeholder-img" src="https://www.auvp.com.br/wp-content/uploads/2024/09/MODULO-3-768x481.png" alt="Módulo 3">
+                            </a>
                         </div>
                         <div class="modulo-content">
                             <h4 class="modulo-title">Renda fixa</h4>
@@ -1135,7 +1282,9 @@
 
                     <div class="modulo-item">
                         <div class="modulo-img-wrapper">
-                            <img class="placeholder-img" src="https://www.auvp.com.br/wp-content/uploads/2024/09/MODULO-4-768x481.png" alt="Módulo 4">
+                            <a href="https://www.aulasauvp.com.br/path-player?courseid=auvp&unit=66b24a64fff2a647fe00df98Unit" target="_blank" style="display: block;">
+                                <img class="placeholder-img" src="https://www.auvp.com.br/wp-content/uploads/2024/09/MODULO-4-768x481.png" alt="Módulo 4">
+                            </a>
                         </div>
                         <div class="modulo-content">
                             <h4 class="modulo-title">Renda variável</h4>
@@ -1149,7 +1298,9 @@
 
                     <div class="modulo-item">
                         <div class="modulo-img-wrapper">
-                            <img class="placeholder-img" src="https://www.auvp.com.br/wp-content/uploads/2024/09/MODULO-5-768x481.png" alt="Módulo 5">
+                            <a href="https://www.aulasauvp.com.br/path-player?courseid=auvp&unit=66c3500e6b65af229a02848fUnit" target="_blank" style="display: block;">
+                                <img class="placeholder-img" src="https://www.auvp.com.br/wp-content/uploads/2024/09/MODULO-5-768x481.png" alt="Módulo 5">
+                            </a>
                         </div>
                         <div class="modulo-content">
                             <h4 class="modulo-title">Reserva de valor</h4>
@@ -1163,7 +1314,9 @@
 
                     <div class="modulo-item">
                         <div class="modulo-img-wrapper">
-                            <img class="placeholder-img" src="https://www.auvp.com.br/wp-content/uploads/2024/09/MODULO-6-768x481.png" alt="Módulo 6">
+                            <a href="https://www.aulasauvp.com.br/path-player?courseid=auvp&unit=66c4d5df27bf7b1dcb0b54a3Unit" target="_blank" style="display: block;">
+                                <img class="placeholder-img" src="https://www.auvp.com.br/wp-content/uploads/2024/09/MODULO-6-768x481.png" alt="Módulo 6">
+                            </a>
                         </div>
                         <div class="modulo-content">
                             <h4 class="modulo-title">Investindo no exterior</h4>
@@ -1177,7 +1330,9 @@
 
                     <div class="modulo-item">
                         <div class="modulo-img-wrapper">
-                            <img class="placeholder-img" src="https://www.auvp.com.br/wp-content/uploads/2025/05/MODULO-7-768x481.jpg" alt="Módulo 7">
+                            <a href="https://www.aulasauvp.com.br/path-player?courseid=auvp&unit=66c78b95da837def870fab97Unit" target="_blank" style="display: block;">
+                                <img class="placeholder-img" src="https://www.auvp.com.br/wp-content/uploads/2025/05/MODULO-7-768x481.jpg" alt="Módulo 7">
+                            </a>
                         </div>
                         <div class="modulo-content">
                             <h4 class="modulo-title">O começo</h4>
@@ -1191,7 +1346,9 @@
 
                     <div class="modulo-item">
                         <div class="modulo-img-wrapper">
-                            <img class="placeholder-img" src="https://www.auvp.com.br/wp-content/uploads/2025/05/MODULO-BONUS-768x481.jpg" alt="Módulo Bônus">
+                            <a href="https://www.aulasauvp.com.br/path-player?courseid=ir&unit=6802e2c31e6d771686052811Unit" target="_blank" style="display: block;">
+                                <img class="placeholder-img" src="https://www.auvp.com.br/wp-content/uploads/2025/05/MODULO-BONUS-768x481.jpg" alt="Módulo Bônus">
+                            </a>
                         </div>
                         <div class="modulo-content">
                             <h4 class="modulo-title">Bônus: imposto de renda</h4>
@@ -1206,7 +1363,7 @@
 
                 <div class="obs-banner">
                     <i class="ph-light ph-info"></i>
-                    <p class="dobra-desc" style="margin: 0;"><strong>Observação:</strong> a quantidade de aulas e módulos sofrerá com ajustes regulares, pois estamos sempre produzindo e disponibilizando novos treinamentos aos membros, como forma de preservar qualidade e manter a evolução constante de nossos.</p>
+                    <p class="dobra-desc" style="margin: 0;"><strong>Observação:</strong> a quantidade de aulas e módulos sofrerá com ajustes regulares, pois estamos sempre produzindo e disponibilizando novos treinamentos aos membros, como forma de preservar qualidade e manter a evolução constante de nossos produtos.</p>
                 </div>
             </div>
 
@@ -1216,25 +1373,33 @@
                 <p class="dobra-desc">A AUVP possui uma área com todas as ferramentas necessárias para apoio às aulas, isso inclui um sistema de orçamento doméstico, de metas, de primeiro milhão e de ativos e passivos.</p>
                 
                 <div class="card-grid grid-4" style="margin-top: 32px;">
-                    <div class="info-card">
-                        <div class="info-card-icon"><i class="ph-light ph-chats"></i></div>
-                        <h4 class="info-card-title">Comunidade</h4>
-                        <p class="info-card-desc">uma comunidade exclusiva para você interagir com outros alunos e tirar suas dúvidas com nossos especialistas.</p>
+                    <div class="info-card has-image">
+                        <img src="https://github.com/design-auvp/projetodelta/blob/main/COMUNIDADE.png?raw=true" alt="Comunidade" class="info-card-image">
+                        <div class="info-card-body">
+                            <h4 class="info-card-title">Comunidade</h4>
+                            <p class="info-card-desc">uma comunidade exclusiva para você interagir com outros alunos e tirar suas dúvidas com nossos especialistas.</p>
+                        </div>
                     </div>
-                    <div class="info-card">
-                        <div class="info-card-icon"><i class="ph-light ph-scales"></i></div>
-                        <h4 class="info-card-title">PIAR</h4>
-                        <p class="info-card-desc">nosso sistema te ajuda a montar e balancear sua carteira de acordo com seu perfil de investidor.</p>
+                    <div class="info-card has-image">
+                        <img src="https://github.com/design-auvp/projetodelta/blob/main/PIAR.png?raw=true" alt="PIAR" class="info-card-image">
+                        <div class="info-card-body">
+                            <h4 class="info-card-title">PIAR</h4>
+                            <p class="info-card-desc">nosso sistema te ajuda a montar e balancear sua carteira de acordo com seu perfil de investidor.</p>
+                        </div>
                     </div>
-                    <div class="info-card">
-                        <div class="info-card-icon"><i class="ph-light ph-tree"></i></div>
-                        <h4 class="info-card-title">Diagrama do cerrado</h4>
-                        <p class="info-card-desc">ferramenta de rebalanceamento de carteira pra você manter seus investimentos protegidos e otimizados conforme as mudanças do mercado e sua</p>
+                    <div class="info-card has-image">
+                        <img src="https://github.com/design-auvp/projetodelta/blob/main/DIAGRAMA%20DO%20CERRADO.png?raw=true" alt="Diagrama do Cerrado" class="info-card-image">
+                        <div class="info-card-body">
+                            <h4 class="info-card-title">Diagrama do cerrado</h4>
+                            <p class="info-card-desc">ferramenta de rebalanceamento de carteira pra você manter seus investimentos protegidos e otimizados conforme as mudanças do mercado e sua</p>
+                        </div>
                     </div>
-                    <div class="info-card">
-                        <div class="info-card-icon"><i class="ph-light ph-wallet"></i></div>
-                        <h4 class="info-card-title">Orçamento doméstico</h4>
-                        <p class="info-card-desc">um planejamento financeiro que organiza o fluxo de dinheiro da sua casa com base em suas próprias metas e rendimentos.</p>
+                    <div class="info-card has-image">
+                        <img src="https://github.com/design-auvp/projetodelta/blob/main/OR%C3%87AMENTO%20DOM%C3%89STICO.png?raw=true" alt="Orçamento Doméstico" class="info-card-image">
+                        <div class="info-card-body">
+                            <h4 class="info-card-title">Orçamento doméstico</h4>
+                            <p class="info-card-desc">um planejamento financeiro que organiza o fluxo de dinheiro da sua casa com base em suas próprias metas e rendimentos.</p>
+                        </div>
                     </div>
                 </div>
 
@@ -1266,12 +1431,12 @@
                         </button>
                         <div class="accordion-content">
                             <div class="accordion-content-inner">
-                                Arena BTG: 10% de desconto nas locações e aulas.<br>
+                                * Arena BTG: 10% de desconto nas locações e aulas.<br>
                                 * Empiricus: 10% de desconto e cursos "Palavras do estrategistas" e "Super Renda Fixa" grátis.<br>
+                                * Benefício Mastercard Black: seguro viagem, concierge, sala VIP em aeroportos e mais.<br>
                                 * Mastercard Surpreenda: 1 ponto a cada compra feita com seu cartão BTG.<br>
                                 * Isenção de rolha: isenção da taxa da rolha na primeira garrafa em restaurantes selecionados.<br>
-                                Iplace: acesso ao Iplace facilita a melhor opção para garantir seu novo produto Apple.<br>
-                                * Terminal BTG Pactual: 10% de desconto no primeiro terminal exclusivo da América Latina.
+                                * Iplace: acesso ao Iplace facilita a melhor opção para garantir seu novo produto Apple.
                             </div>
                         </div>
                     </div>
@@ -1282,9 +1447,9 @@
                         </button>
                         <div class="accordion-content">
                             <div class="accordion-content-inner">
-                                * Benefício Mastercard Black: seguro viagem, concierge, sala VIP em aeroportos e mais.<br>
                                 * IOF Zero: sem cobrança de IOF em compras internacionais (crédito ou débito).<br>
                                 * 4 acessos gratuitos a Salas VIP LoungeKey.<br>
+                                * Terminal BTG Pactual: 10% de desconto no primeiro terminal exclusivo da América Latina.<br>
                                 * Rhino: descontos para viajar em transportes blindados.
                             </div>
                         </div>
@@ -1296,7 +1461,7 @@
                         </button>
                         <div class="accordion-content">
                             <div class="accordion-content-inner">
-                                Acesso exclusivo a um novo Fundo com liquidez diária, sem taxa de administração e com teto de R$ 1 milhão.<br>
+                                * Acesso exclusivo a um novo Fundo com liquidez diária, sem taxa de administração e com teto de R$ 1 milhão.<br>
                                 * Acesso aos conteúdos da revista Exame Digital.
                             </div>
                         </div>
@@ -1308,7 +1473,7 @@
                         </button>
                         <div class="accordion-content">
                             <div class="accordion-content-inner">
-                                Seguro Conta e Cartão.<br>
+                                * Seguro Conta e Cartão.<br>
                                 * Monitoramento do CPF pelo Serasa.<br>
                                 * Avisos e alertas de segurança via WhatsApp.
                             </div>
@@ -1321,35 +1486,43 @@
                         </button>
                         <div class="accordion-content">
                             <div class="accordion-content-inner">
-                                10 dias sem juros no Limite da Conta (cheque especial do BTG).<br>
-                                10% de cashback nas Tags de Transporte (Sem Parar, ConectCar, Veloe) limitado a R$ 30.<br>
-                                Saques ilimitados.<br>
+                                * 10 dias sem juros no Limite da Conta (cheque especial do BTG).<br>
+                                * 10% de cashback nas Tags de Transporte (Sem Parar, ConectCar, Veloe) limitado a R$ 30.<br>
+                                * Saques ilimitados.<br>
                                 * 2 cartões adicionais isentos da taxa de adesão.<br>
-                                Sujeito a análise de crédito.
+                                * Sujeito a análise de crédito.
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="card-grid grid-2">
-                    <div class="info-card">
-                        <div class="info-card-icon"><i class="ph-light ph-coins"></i></div>
-                        <h4 class="info-card-title">✔ Programa de Pontos</h4>
-                        <p class="info-card-desc">Acumule 2.2 pontos por dólar gasto, podendo escolher entre Esfera ou Livelo. Troque seus pontos por milhas, serviços ou outros benefícios que mais lhe agradam.</p>
+                <div class="benefits-dashboard">
+                    <!-- Coluna Esquerda: Texto Empilhado -->
+                    <div class="benefits-stack">
+                        <div class="info-card horizontal">
+                            <div class="info-card-icon"><i class="ph-light ph-coins"></i></div>
+                            <div class="info-card-content">
+                                <h4 class="info-card-title">✔ Programa de Pontos</h4>
+                                <p class="info-card-desc">Acumule 2.2 pontos por dólar gasto, podendo escolher entre Esfera ou Livelo. Troque seus pontos por milhas, serviços ou outros benefícios que mais lhe agradam.</p>
+                            </div>
+                        </div>
+                        <div class="info-card horizontal">
+                            <div class="info-card-icon"><i class="ph-light ph-money"></i></div>
+                            <div class="info-card-content">
+                                <h4 class="info-card-title">Cashback na Fatura</h4>
+                                <p class="info-card-desc">Receba 1% do valor das suas compras de volta como cashback, diretamente na sua fatura, para usar como preferir.</p>
+                            </div>
+                        </div>
+                        <div class="info-card horizontal">
+                            <div class="info-card-icon"><i class="ph-light ph-handshake"></i></div>
+                            <div class="info-card-content">
+                                <h4 class="info-card-title">✔ FEE Based</h4>
+                                <p class="info-card-desc">Nosso modelo de cobrança atual é o Fee Based, escolhido por ser transparente e eliminando possíveis conflitos de interesses, que outros modelos de cobranças podem ter.<br><br>A taxa Fee Based corresponde a 0,9% ao ano sobre o seu patrimônio total, mas fique tranquilo, pois é diluída em 12 meses, resultando em apenas 0,075% ao mês.</p>
+                            </div>
+                        </div>
                     </div>
-                    <div class="info-card">
-                        <div class="info-card-icon"><i class="ph-light ph-money"></i></div>
-                        <h4 class="info-card-title">Cashback na Fatura</h4>
-                        <p class="info-card-desc">Receba 1% do valor das suas compras de volta como cashback, diretamente na sua fatura, para usar como preferir.</p>
-                    </div>
-                </div>
 
-                <div class="card-grid grid-fee-video">
-                    <div class="info-card">
-                        <div class="info-card-icon"><i class="ph-light ph-handshake"></i></div>
-                        <h4 class="info-card-title">✔ FEE Based</h4>
-                        <p class="info-card-desc">Nosso modelo de cobrança atual é o Fee Based, escolhido por ser transparente e eliminando possíveis conflitos de interesses, que outros modelos de cobranças podem ter.<br><br>A taxa Fee Based corresponde a 0,9% ao ano sobre o seu patrimônio total, mas fique tranquilo, pois é diluída em 12 meses, resultando em apenas 0,075% ao mês.</p>
-                    </div>
+                    <!-- Coluna Direita: Vídeo -->
                     <div class="info-card" style="align-items: center; text-align: center;">
                         <div class="info-card-icon"><i class="ph-light ph-video"></i></div>
                         <h4 class="info-card-title">Demonstração no App BTG</h4>
@@ -1439,7 +1612,7 @@
                                 <span>China: 03 | EUA: 10 | Índia: 3</span>
                                 <span>Duração: 456 min - 7,6 h</span>
                             </div>
-                            <p class="modulo-desc">Este conteúdo mostra como decisões políticas, guerras, políticas econômicas e relações internacionais afetam diretamente seus investimentos. Você vai desenvolver uma visão estratégica para antecipar movimentos do mercado e proteger sua carteira.</p>
+                            <p class="modulo-desc">Este conteúdo mostra como decisões políticas, guerras, políticas econômicas e relações internacionais afetam diretamente seus investimentos. Também ajuda a desenvolver uma visão estratégica para antecipar movimentos do mercado e proteger sua carteira.</p>
                         </div>
                     </div>
 
@@ -1467,14 +1640,14 @@
                                 <span>Mód 1: 16 | Mód 2: 11</span>
                                 <span>Duração: 524min - 8,73 h</span>
                             </div>
-                            <p class="modulo-desc">Em dois módulos, mergulhe na Renda Fixa Internacional, aprenda sobre stocks, REITs e Private Equity, e entenda como o ciclo econômico impacta os seus investimentos. Expanda suas oportunidades no mercado global.</p>
+                            <p class="modulo-desc">Em dois módulos, mergulha na Renda Fixa Internacional, ensina sobre stocks, REITs e Private Equity, e explica como o ciclo econômico impacta os seus investimentos. Assim, ajuda a expandir oportunidades no mercado global.</p>
                         </div>
                     </div>
                 </div>
                 
                 <div class="obs-banner">
                     <i class="ph-light ph-info"></i>
-                    <p class="dobra-desc" style="margin: 0;"><strong>Observação:</strong> a quantidade de aulas e módulos sofrerá com ajustes regulares, pois estamos sempre produzindo e disponibilizando novos treinamentos aos membros, como forma de preservar qualidade e manter a evolução constante de nossos.</p>
+                    <p class="dobra-desc" style="margin: 0;"><strong>Observação:</strong> a quantidade de aulas e módulos sofrerá com ajustes regulares, pois estamos sempre produzindo e disponibilizando novos treinamentos aos membros, como forma de preservar qualidade e manter a evolução constante de nossos produtos.</p>
                 </div>
             </div>
 
@@ -1487,32 +1660,40 @@
                     <li><i class="ph-light ph-check"></i><strong>2.</strong> Acesso a comunidade completa incluindo a área de dúvidas;</li>
                     <li><i class="ph-light ph-check"></i><strong>3.</strong> Acesso ao Diagrama do Cerrado;</li>
                     <li><i class="ph-light ph-check"></i><strong>4.</strong> Acesso a Ferramentas;</li>
-                    <li><i class="ph-light ph-check"></i><strong>5.</strong> Acesso ao treinamento e aulas atualizadas;</li>
+                    <li><i class="ph-light ph-check"></i><strong>5.</strong> Acesso ao treinamento AUVP Escola e aulas constantemente atualizadas;</li>
                     <li><i class="ph-light ph-check"></i><strong>6.</strong> Acesso a live semanal com Raul e o plantão de dúvidas, toda semana enquanto você quiser.</li>
                 </ul>
 
                 <h3 class="dobra-title mt-80"><i class="ph-light ph-toolbox"></i> Ferramentas AUVP</h3>
                 
                 <div class="card-grid grid-4">
-                    <div class="info-card">
-                        <div class="info-card-icon"><i class="ph-light ph-chats"></i></div>
-                        <h4 class="info-card-title">Comunidade</h4>
-                        <p class="info-card-desc">uma comunidade exclusiva para você interagir com outros alunos e tirar suas dúvidas com nossos especialistas.</p>
+                    <div class="info-card has-image">
+                        <img src="https://github.com/design-auvp/projetodelta/blob/main/COMUNIDADE.png?raw=true" alt="Comunidade" class="info-card-image">
+                        <div class="info-card-body">
+                            <h4 class="info-card-title">Comunidade</h4>
+                            <p class="info-card-desc">uma comunidade exclusiva para você interagir com outros alunos e tirar suas dúvidas com nossos especialistas.</p>
+                        </div>
                     </div>
-                    <div class="info-card">
-                        <div class="info-card-icon"><i class="ph-light ph-scales"></i></div>
-                        <h4 class="info-card-title">PIAR</h4>
-                        <p class="info-card-desc">nosso sistema te ajuda a montar e balancear sua carteira de acordo com seu perfil de investidor.</p>
+                    <div class="info-card has-image">
+                        <img src="https://github.com/design-auvp/projetodelta/blob/main/PIAR.png?raw=true" alt="PIAR" class="info-card-image">
+                        <div class="info-card-body">
+                            <h4 class="info-card-title">PIAR</h4>
+                            <p class="info-card-desc">nosso sistema te ajuda a montar e balancear sua carteira de acordo com seu perfil de investidor.</p>
+                        </div>
                     </div>
-                    <div class="info-card">
-                        <div class="info-card-icon"><i class="ph-light ph-tree"></i></div>
-                        <h4 class="info-card-title">Diagrama do cerrado</h4>
-                        <p class="info-card-desc">ferramenta de rebalanceamento de carteira pra você manter seus investimentos protegidos e otimizados conforme as mudanças do mercado e sua</p>
+                    <div class="info-card has-image">
+                        <img src="https://github.com/design-auvp/projetodelta/blob/main/DIAGRAMA%20DO%20CERRADO.png?raw=true" alt="Diagrama do Cerrado" class="info-card-image">
+                        <div class="info-card-body">
+                            <h4 class="info-card-title">Diagrama do cerrado</h4>
+                            <p class="info-card-desc">ferramenta de rebalanceamento de carteira pra você manter seus investimentos protegidos e otimizados conforme as mudanças do mercado e sua</p>
+                        </div>
                     </div>
-                    <div class="info-card">
-                        <div class="info-card-icon"><i class="ph-light ph-wallet"></i></div>
-                        <h4 class="info-card-title">Orçamento doméstico</h4>
-                        <p class="info-card-desc">um planejamento financeiro que organiza o fluxo de dinheiro da sua casa com base em suas próprias metas e rendimentos.</p>
+                    <div class="info-card has-image">
+                        <img src="https://github.com/design-auvp/projetodelta/blob/main/OR%C3%87AMENTO%20DOM%C3%89STICO.png?raw=true" alt="Orçamento Doméstico" class="info-card-image">
+                        <div class="info-card-body">
+                            <h4 class="info-card-title">Orçamento doméstico</h4>
+                            <p class="info-card-desc">um planejamento financeiro que organiza o fluxo de dinheiro da sua casa com base em suas próprias metas e rendimentos.</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1527,7 +1708,7 @@
             <!-- Introdução -->
             <div class="split-layout">
                 <div class="split-visual">
-                    <div class="scrolling-page" style="background-image: url('https://github.com/design-auvp/projetodelta/blob/main/AUVP-Internacional.png?raw=true');"></div>
+                    <div class="scrolling-page" style="background-image: url('https://github.com/design-auvp/projetodelta/blob/main/AUVP-Internacional.png?raw=true'); background-size: 110% auto;"></div>
                 </div>
                 <div class="split-content">
                     <span class="step-pill">Especialização</span>
@@ -1561,7 +1742,7 @@
                 <div class="obs-banner" style="margin-top: 24px;">
                     <i class="ph-light ph-info"></i>
                     <div>
-                        <p class="dobra-desc" style="margin: 0;"><strong>Observação:</strong> Ao adquirir a AUVP Internacional, também se garante o acesso ao treinamento da AUVP Escola. Para saber mais sobre ele e seus benefícios, clique aqui.</p>
+                        <p class="dobra-desc" style="margin: 0;"><strong>Observação:</strong> Ao adquirir a AUVP Internacional, também se garante o acesso ao treinamento da AUVP Escola. Para saber mais sobre ele e seus benefícios, <a href="https://www.aulasauvp.com.br/start" target="_blank" style="color: var(--primary-gold-dark); font-weight: 700; text-decoration: underline;">clique aqui</a>.</p>
                     </div>
                 </div>
                 
@@ -1727,7 +1908,7 @@
                 <p class="dobra-desc">Cada certificação contará com um curso exclusivo dentro da nossa plataforma. Com esse treinamento o aluno encontrará:</p>
                 
                 <ul class="feature-list">
-                    <li><i class="ph-light ph-check-circle"></i><strong>Conteúdo detalhado:</strong> para cada certificação, temos um treinamento com conteúdos específicos e direcionados para</li>
+                    <li><i class="ph-light ph-check-circle"></i><strong>Conteúdo detalhado:</strong> para cada certificação, temos um treinamento com conteúdos específicos e direcionados.</li>
                     <li><i class="ph-light ph-check-circle"></i><strong>Liberdade de acesso:</strong> o conteúdo ficará gravado e disponível na nossa plataforma, permitindo acesso 24 horas por dia, 7 dias por semana.</li>
                     <li><i class="ph-light ph-check-circle"></i><strong>Material complementar:</strong> além das aulas em vídeo, poderá contar com e-books mapas mentais para garantir aplicação do conhecimento de forma prática.</li>
                     <li><i class="ph-light ph-check-circle"></i><strong>Mão na massa de verdade:</strong> simulados com resolução em vídeo, ensinando exatamente como os temas são cobrados nas certificações.</li>
@@ -1792,6 +1973,63 @@
                         <p class="dobra-desc" style="margin: 0;"><strong>Observação:</strong> a quantidade de aulas pode sofrer ajustes, pois o projeto ainda está em fase de planejamento. No entanto, o número de temas abordados será mantido, uma vez que segue a grade oficial das certificações.</p>
                     </div>
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         RESUMO GERAL
+         ========================================== -->
+    <section class="fold fold-white" id="resumo-produtos">
+        <div class="container">
+            <div class="split-layout" style="display: block;">
+                <span class="step-pill">Tabela Comparativa</span>
+                <h2 class="dobra-title"><i class="ph-light ph-table"></i> Resumo de Produtos</h2>
+                <p class="dobra-desc">Consulte rapidamente as informações objetivas de cada produto do ecossistema AUVP.</p>
+            </div>
+
+            <div class="table-responsive">
+                <table class="summary-table">
+                    <thead>
+                        <tr>
+                            <th>Produto</th>
+                            <th>Ticket (Investimento)</th>
+                            <th>Público-Alvo Principal</th>
+                            <th>Duração / Tempo de Acesso</th>
+                            <th>Site Oficial</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="prod-name">AUVP Escola</td>
+                            <td>R$ 2.997,00</td>
+                            <td>Iniciantes a avançados que buscam base sólida, aperfeiçoamento e planejamento para viver de renda.</td>
+                            <td>1843 min (~30 horas)<br><em>(2 meses de suporte ao vivo)</em></td>
+                            <td><a href="https://www.auvp.com.br/" target="_blank">auvp.com.br</a></td>
+                        </tr>
+                        <tr>
+                            <td class="prod-name">AUVP Sempre</td>
+                            <td>R$ 149,70/trimestre ou<br>R$ 548,90/ano</td>
+                            <td>Alunos que já concluíram a AUVP Escola e desejam evolução e blindagem contínua.</td>
+                            <td>Assinatura contínua</td>
+                            <td><a href="https://www.auvp.com.br/auvp-sempre/" target="_blank">auvp.com.br/auvp-sempre</a></td>
+                        </tr>
+                        <tr>
+                            <td class="prod-name">AUVP Internacional</td>
+                            <td>R$ 3.997 (parcelado) ou<br>R$ 3.797 (à vista)</td>
+                            <td>Investidores que buscam segurança, blindagem sucessória e expansão para o mercado global.</td>
+                            <td>1339 min (~22 horas e 19 min)<br><em>(Acesso de 1 ano. Prorrogação: R$ 49,50/mês)</em></td>
+                            <td><a href="https://www.aulasauvp.com.br/auvp-internacional" target="_blank">aulasauvp.com.br/<wbr>auvp-internacional</a></td>
+                        </tr>
+                        <tr>
+                            <td class="prod-name">AUVP PRO</td>
+                            <td>Varia (R$ 797 a R$ 2.199)</td>
+                            <td>Profissionais buscando as certificações ANBIMA (CPA, C-Pro-R, C-Pro-I) ou especialistas em investimentos.</td>
+                            <td>Acesso liberado por 1 ano</td>
+                            <td><a href="https://www.auvp.pro" target="_blank">auvp.pro</a></td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </section>
