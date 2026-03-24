@@ -2116,15 +2116,33 @@
             document.body.classList.add('print-section-only');
             // 2. Adiciona a tag à secção que não deve ser escondida
             document.getElementById(sectionId).classList.add('print-target');
-            // 3. Abre a janela de impressão nativa
-            window.print();
+            
+            // 3. Atraso estratégico (setTimeout): essencial para navegadores mobile (Android/iOS)
+            // Isto permite que o navegador tenha tempo de repintar o ecrã e esconder as outras
+            // secções ANTES de "congelar" a página para gerar a pré-visualização do PDF.
+            setTimeout(() => {
+                window.print();
+            }, 400);
         };
 
-        // Limpa as tags depois de fechar ou cancelar o PDF, restaurando o visual
-        window.addEventListener('afterprint', () => {
+        // Função central para limpar as tags de impressão e restaurar o visual normal
+        const resetPrintState = () => {
             document.body.classList.remove('print-section-only');
             document.querySelectorAll('.print-target').forEach(el => el.classList.remove('print-target'));
-        });
+        };
+
+        // Limpa as tags depois de fechar ou cancelar o PDF (Padrão para Desktop)
+        window.addEventListener('afterprint', resetPrintState);
+
+        // Fallback robusto para iOS/Safari e Android que por vezes falham no 'afterprint'
+        if (window.matchMedia) {
+            const mediaQueryList = window.matchMedia('print');
+            mediaQueryList.addListener(function(mql) {
+                if (!mql.matches) {
+                    resetPrintState();
+                }
+            });
+        }
 
         document.addEventListener('DOMContentLoaded', () => {
 
