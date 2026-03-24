@@ -912,9 +912,32 @@
             .accordion-icon { display: none !important; }
 
             /* 6. Tipografia e Espaçamentos */
-            h2, h3, h4, p, span, li, a { color: #000 !important; }
-            h2.dobra-title { font-size: 22pt !important; margin-top: 20px !important; page-break-after: avoid; }
-            a { text-decoration: none !important; }
+            h2, h3, h4, p, span, li { color: #000 !important; }
+            h2.dobra-title { font-size: 22pt !important; margin-top: 20px !important; }
+            
+            /* Evitar que os títulos e pílulas fiquem sozinhos no final da página */
+            h1, h2, h3, h4, .dobra-title, .step-pill {
+                page-break-after: avoid !important;
+                break-after: avoid !important;
+            }
+            
+            /* Evitar que parágrafos introdutórios quebrem a meio da primeira linha */
+            .dobra-desc {
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
+            }
+
+            /* Links visualmente acessíveis (clicáveis) no PDF */
+            a { 
+                color: #0056b3 !important; 
+                text-decoration: underline !important; 
+            }
+            
+            /* Âncoras internas mais discretas */
+            a[href^="#"] {
+                color: #333 !important;
+                text-decoration-style: dotted !important;
+            }
             
             .mt-80 { margin-top: 30px !important; }
             .mt-40 { margin-top: 20px !important; }
