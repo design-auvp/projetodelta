@@ -10,6 +10,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Anek+Latin:wght@300;400;500;600;700;800&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    
+    <!-- Biblioteca HTML2PDF para Exportação Customizada -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
     <style>
         :root {
@@ -789,6 +792,10 @@
             border-top: 1px dashed var(--border-subtle);
         }
 
+        /* Animação para Carregamento do PDF */
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+        .spin-anim { animation: spin 1s linear infinite; display: inline-block; }
+
         /* Utilitários e Layout Dividido (Scroll Infinito) */
         .split-layout { 
             display: grid; 
@@ -934,8 +941,6 @@
             .navbar-brand { font-size: 18px; gap: 12px; }
             .navbar-logo { height: 32px; }
             .navbar-divider { height: 32px; }
-            
-            .section-export-container { justify-content: center; }
         }
 
         @media (max-width: 767px) {
@@ -975,134 +980,121 @@
         .menu-toggle.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
         /* =========================================
-           ESTILOS DE IMPRESSÃO / EXPORTAÇÃO PDF
+           ESTILOS EXCLUSIVOS PARA O RENDERIZADOR HTML2PDF
            ========================================= */
-        @media print {
-            /* 1. Esconder UI e Multimédia */
-            .navbar, .fab-pdf, .btn-export-section, .split-visual, .modulo-img-wrapper, video, .info-card-image {
-                display: none !important;
-            }
-
-            /* Lógica para impressão de Seção Única */
-            body.print-section-only .fold:not(.print-target) {
-                display: none !important;
-            }
-
-            /* Esconder o card específico que contém o vídeo na seção Escola */
-            .card-grid.grid-fee-video .info-card:last-child,
-            .benefits-dashboard > .info-card {
-                display: none !important;
-            }
-
-            /* Permite impressão correta da tabela */
-            .table-responsive { overflow-x: visible !important; border: none !important; box-shadow: none !important; }
-            .summary-table { min-width: 100% !important; border: 1px solid #ccc !important; }
-            .summary-table th { background-color: #f0f0f0 !important; color: #000 !important; border-bottom: 2px solid #ccc !important; -webkit-print-color-adjust: exact; }
-            .summary-table td { color: #000 !important; border-bottom: 1px solid #ccc !important; }
-
-            /* 2. Resets Globais de Página */
-            body {
-                padding-top: 0 !important;
-                background-color: #fff !important;
-                color: #000 !important;
-                font-size: 11pt !important;
-            }
-            
-            .fold {
-                padding: 30px 0 !important;
-                border-bottom: none !important;
-                page-break-after: always;
-            }
-            .fold:last-child { page-break-after: auto; }
-
-            .container {
-                max-width: 100% !important;
-                padding: 0 !important;
-            }
-
-            /* 3. Correção de Layouts (Sem Imagens) */
-            .split-layout { display: block !important; }
-            .split-content { width: 100% !important; }
-            
-            .card-grid, .feature-list.grid-2, .card-grid.grid-4, .card-grid.grid-2, .card-grid.grid-fee-video, .benefits-dashboard {
-                display: grid !important;
-                grid-template-columns: 1fr 1fr !important;
-                gap: 16px !important;
-            }
-            
-            /* Permite que o stack se misture na grelha do painel principal para impressão */
-            .benefits-stack { display: contents !important; }
-            
-            .info-card.horizontal {
-                flex-direction: column !important;
-                align-items: flex-start !important;
-                padding: 16px !important;
-                gap: 12px !important;
-            }
-
-            /* 4. Estética de Impressão (Remover Fundos e Sombras) */
-            .info-card, .modulo-item, .pricing-card, .highlight-block, .accordion-header {
-                box-shadow: none !important;
-                border: 1px solid #ccc !important;
-                background-color: #fff !important;
-                page-break-inside: avoid;
-            }
-            
-            .highlight-block {
-                border-left: 4px solid #000 !important;
-                padding: 16px !important;
-                margin: 16px 0 !important;
-            }
-
-            .step-pill, .quick-info-badge, .obs-banner {
-                border: 1px solid #ccc !important;
-                background-color: transparent !important;
-                color: #000 !important;
-            }
-            .step-pill { border: 1px solid #000 !important; }
-
-            /* 5. Forçar Acordeões a Imprimir Abertos */
-            .accordion-content {
-                max-height: none !important;
-                display: block !important;
-            }
-            .accordion-header { border-bottom: 1px solid #ccc !important; pointer-events: none; }
-            .accordion-icon { display: none !important; }
-
-            /* 6. Tipografia e Espaçamentos */
-            h2, h3, h4, p, span, li { color: #000 !important; }
-            h2.dobra-title { font-size: 22pt !important; margin-top: 20px !important; }
-            
-            /* Evitar que os títulos e pílulas fiquem sozinhos no final da página */
-            h1, h2, h3, h4, .dobra-title, .step-pill {
-                page-break-after: avoid !important;
-                break-after: avoid !important;
-            }
-            
-            /* Evitar que parágrafos introdutórios quebrem a meio da primeira linha */
-            .dobra-desc {
-                page-break-inside: avoid !important;
-                break-inside: avoid !important;
-            }
-
-            /* Links visualmente acessíveis (clicáveis) no PDF */
-            a { 
-                color: #0056b3 !important; 
-                text-decoration: underline !important; 
-            }
-            
-            /* Âncoras internas mais discretas */
-            a[href^="#"] {
-                color: #333 !important;
-                text-decoration-style: dotted !important;
-            }
-            
-            .mt-80 { margin-top: 30px !important; }
-            .mt-40 { margin-top: 20px !important; }
-            
-            .pricing-card.highlight { border: 2px solid #000 !important; }
+        .pdf-export-mode {
+            background-color: #fff !important;
+            color: #000 !important;
+            padding-top: 0 !important;
         }
 
+        /* Oculta os elementos da interface do utilizador durante a captura */
+        .pdf-export-mode .navbar, 
+        .pdf-export-mode .mobile-quick-nav, 
+        .pdf-export-mode .fab-pdf, 
+        .pdf-export-mode .btn-export-section, 
+        .pdf-export-mode .split-visual, 
+        .pdf-export-mode .modulo-img-wrapper, 
+        .pdf-export-mode video, 
+        .pdf-export-mode .info-card-image {
+            display: none !important;
+        }
+
+        /* Esconder o card específico que contém o vídeo na seção Escola */
+        .pdf-export-mode .card-grid.grid-fee-video .info-card:last-child,
+        .pdf-export-mode .benefits-dashboard > .info-card {
+            display: none !important;
+        }
+
+        /* Permite impressão correta da tabela */
+        .pdf-export-mode .table-responsive { overflow-x: visible !important; border: none !important; box-shadow: none !important; margin-bottom: 20px !important;}
+        .pdf-export-mode .summary-table { min-width: 100% !important; border: 1px solid #ccc !important; }
+        .pdf-export-mode .summary-table th { background-color: #f0f0f0 !important; color: #000 !important; border-bottom: 2px solid #ccc !important; }
+        .pdf-export-mode .summary-table td { color: #000 !important; border-bottom: 1px solid #ccc !important; }
+
+        /* Resets Globais e Divisor do "Rolo Contínuo" */
+        .pdf-export-mode .fold {
+            padding: 40px 0 !important;
+            border-bottom: 2px dashed #ddd !important;
+        }
+        .pdf-export-mode .fold:last-child { border-bottom: none !important; }
+        .pdf-export-mode .container { padding: 0 40px !important; }
+
+        /* Correção de Layouts (Sem Imagens) para o Grid Fixo Desktop */
+        .pdf-export-mode .split-layout { display: block !important; }
+        .pdf-export-mode .split-content { width: 100% !important; }
+        
+        .pdf-export-mode .card-grid, 
+        .pdf-export-mode .feature-list.grid-2, 
+        .pdf-export-mode .card-grid.grid-4, 
+        .pdf-export-mode .card-grid.grid-2, 
+        .pdf-export-mode .card-grid.grid-fee-video, 
+        .pdf-export-mode .benefits-dashboard {
+            display: grid !important;
+            grid-template-columns: 1fr 1fr !important;
+            gap: 20px !important;
+        }
+        
+        .pdf-export-mode .benefits-stack { display: contents !important; }
+        
+        .pdf-export-mode .info-card.horizontal {
+            flex-direction: column !important;
+            align-items: flex-start !important;
+            padding: 24px !important;
+            gap: 16px !important;
+        }
+
+        /* Estética de Impressão (Remover Fundos e Sombras) */
+        .pdf-export-mode .info-card, 
+        .pdf-export-mode .modulo-item, 
+        .pdf-export-mode .pricing-card, 
+        .pdf-export-mode .highlight-block, 
+        .pdf-export-mode .accordion-header {
+            box-shadow: none !important;
+            border: 1px solid #ccc !important;
+            background-color: #fff !important;
+        }
+        
+        .pdf-export-mode .highlight-block {
+            border-left: 4px solid #000 !important;
+            padding: 24px !important;
+            margin: 24px 0 !important;
+        }
+
+        .pdf-export-mode .step-pill, 
+        .pdf-export-mode .quick-info-badge, 
+        .pdf-export-mode .obs-banner {
+            border: 1px solid #ccc !important;
+            background-color: transparent !important;
+            color: #000 !important;
+        }
+        .pdf-export-mode .step-pill { border: 1px solid #000 !important; }
+
+        /* Forçar Acordeões a Imprimir Abertos */
+        .pdf-export-mode .accordion-content {
+            max-height: none !important;
+            display: block !important;
+            background: #fff !important;
+        }
+        .pdf-export-mode .accordion-header { border-bottom: 1px solid #ccc !important; }
+        .pdf-export-mode .accordion-icon { display: none !important; }
+
+        /* Tipografia e Espaçamentos PDF */
+        .pdf-export-mode h2, 
+        .pdf-export-mode h3, 
+        .pdf-export-mode h4, 
+        .pdf-export-mode p, 
+        .pdf-export-mode span, 
+        .pdf-export-mode li { color: #000 !important; }
+        .pdf-export-mode h2.dobra-title { margin-top: 20px !important; }
+        
+        .pdf-export-mode a { color: #0056b3 !important; text-decoration: underline !important; }
+        .pdf-export-mode a[href^="#"] { color: #333 !important; text-decoration-style: dotted !important; }
+        
+        .pdf-export-mode .mt-80 { margin-top: 40px !important; }
+        .pdf-export-mode .mt-40 { margin-top: 24px !important; }
+        
+        .pdf-export-mode .pricing-card.highlight { border: 2px solid #000 !important; }
     </style>
 </head>
 <body>
@@ -1564,7 +1556,7 @@
                         <div class="info-card-icon"><i class="ph-light ph-video"></i></div>
                         <h4 class="info-card-title">Demonstração no App BTG</h4>
                         <div style="margin-top: 16px; display: flex; justify-content: center; width: 100%; flex-grow: 1; align-items: center;">
-                            <video style="border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); width: 100%; max-width: 240px; aspect-ratio: 9/16; display: block; border: 4px solid var(--bg-subtle); background-color: #000; object-fit: cover;" autoplay muted loop playsinline controls>
+                            <video class="demo-video" style="border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); width: 100%; max-width: 240px; aspect-ratio: 9/16; display: block; border: 4px solid var(--bg-subtle); background-color: #000; object-fit: cover;" muted loop playsinline controls>
                                 <source src="https://github.com/design-auvp/projetodelta/blob/main/0324.mp4?raw=true" type="video/mp4">
                                 O seu navegador não suporta a tag de vídeo.
                             </video>
@@ -1575,7 +1567,7 @@
             
             <!-- Botão de Exportar Específico desta Secção -->
             <div class="section-export-container">
-                <button class="btn-export-section" onclick="printSection('auvp-escola')">
+                <button class="btn-export-section" onclick="exportToPDF('auvp-escola')">
                     <i class="ph-bold ph-download-simple"></i> Exportar AUVP Escola (PDF)
                 </button>
             </div>
@@ -1745,7 +1737,7 @@
             
             <!-- Botão de Exportar Específico desta Secção -->
             <div class="section-export-container">
-                <button class="btn-export-section" onclick="printSection('auvp-sempre')">
+                <button class="btn-export-section" onclick="exportToPDF('auvp-sempre')">
                     <i class="ph-bold ph-download-simple"></i> Exportar AUVP Sempre (PDF)
                 </button>
             </div>
@@ -1795,7 +1787,7 @@
                 <div class="obs-banner" style="margin-top: 24px;">
                     <i class="ph-light ph-info"></i>
                     <div>
-                        <p class="dobra-desc" style="margin: 0;"><strong>Observação:</strong> Ao adquirir a AUVP Internacional, também se garante o acesso ao treinamento da AUVP Escola. Para saber mais sobre ele e seus benefícios, <a href="https://www.aulasauvp.com.br/start" target="_blank" style="color: var(--primary-gold-dark); font-weight: 700; text-decoration: underline;">clique aqui</a>.</p>
+                        <p class="dobra-desc" style="margin: 0;"><strong>Observação:</strong> Ao adquirir a AUVP Internacional, também se garante o acesso ao treinamento da AUVP Escola. Para saber mais sobre ele e seus benefícios, <a href="#auvp-escola" style="color: var(--primary-gold-dark); font-weight: 700; text-decoration: underline;">clique aqui</a>.</p>
                     </div>
                 </div>
                 
@@ -1868,7 +1860,7 @@
             
             <!-- Botão de Exportar Específico desta Secção -->
             <div class="section-export-container">
-                <button class="btn-export-section" onclick="printSection('auvp-internacional')">
+                <button class="btn-export-section" onclick="exportToPDF('auvp-internacional')">
                     <i class="ph-bold ph-download-simple"></i> Exportar AUVP Internacional (PDF)
                 </button>
             </div>
@@ -2038,7 +2030,7 @@
             
             <!-- Botão de Exportar Específico desta Secção -->
             <div class="section-export-container">
-                <button class="btn-export-section" onclick="printSection('auvp-pro')">
+                <button class="btn-export-section" onclick="exportToPDF('auvp-pro')">
                     <i class="ph-bold ph-download-simple"></i> Exportar AUVP PRO (PDF)
                 </button>
             </div>
@@ -2104,49 +2096,128 @@
     </section>
 
     <!-- BOTÃO DE EXPORTAÇÃO PDF -->
-    <button class="fab-pdf" onclick="window.print()">
+    <button class="fab-pdf" onclick="exportToPDF()">
         <i class="ph-bold ph-download-simple"></i> Exportar PDF
     </button>
 
     <!-- SCRIPT DE INTERAÇÕES E LÓGICA DO MENU MOBILE -->
     <script>
-        // Função Global de Impressão por Seção
-        window.printSection = function(sectionId) {
-            // 1. Adiciona a classe global ao body para esconder tudo
-            document.body.classList.add('print-section-only');
-            // 2. Adiciona a tag à secção que não deve ser escondida
-            document.getElementById(sectionId).classList.add('print-target');
+        // Prevenção global de erros de Promise não tratadas (ex: bloqueios de autoplay ou scripts de terceiros)
+        window.addEventListener('unhandledrejection', function(event) {
+            event.preventDefault();
+        });
+
+        // Lógica de Exportação Customizada usando html2pdf.js
+        async function exportToPDF(sectionId = null) {
+            const isGlobal = !sectionId;
+
+            // 1. Encontra os botões para dar feedback visual (Loading)
+            const globalBtn = document.querySelector('.fab-pdf');
+            const originalGlobalText = globalBtn.innerHTML;
             
-            // 3. Atraso estratégico (setTimeout): essencial para navegadores mobile (Android/iOS)
-            // Isto permite que o navegador tenha tempo de repintar o ecrã e esconder as outras
-            // secções ANTES de "congelar" a página para gerar a pré-visualização do PDF.
-            setTimeout(() => {
-                window.print();
-            }, 400);
-        };
-
-        // Função central para limpar as tags de impressão e restaurar o visual normal
-        const resetPrintState = () => {
-            document.body.classList.remove('print-section-only');
-            document.querySelectorAll('.print-target').forEach(el => el.classList.remove('print-target'));
-        };
-
-        // Limpa as tags depois de fechar ou cancelar o PDF (Padrão para Desktop)
-        window.addEventListener('afterprint', resetPrintState);
-
-        // Fallback robusto para iOS/Safari e Android que por vezes falham no 'afterprint'
-        if (window.matchMedia) {
-            const mediaQueryList = window.matchMedia('print');
-            mediaQueryList.addListener(function(mql) {
-                if (!mql.matches) {
-                    resetPrintState();
+            // Ativa o estado de carregamento no botão global
+            globalBtn.innerHTML = '<i class="ph-bold ph-spinner spin-anim"></i> Gerando...';
+            
+            let btnSection = null;
+            let originalSectionText = '';
+            if (sectionId) {
+                // Encontra e atualiza o botão específico da secção clicada
+                btnSection = document.querySelector(`#${sectionId} .btn-export-section`);
+                if(btnSection) {
+                    originalSectionText = btnSection.innerHTML;
+                    btnSection.innerHTML = '<i class="ph-bold ph-spinner spin-anim"></i> A Preparar...';
                 }
-            });
+            }
+
+            // 2. Cria um clone exato para medir a altura do documento final
+            const cloneContainer = document.createElement('div');
+            cloneContainer.innerHTML = document.body.innerHTML;
+            cloneContainer.className = 'pdf-export-mode';
+            cloneContainer.style.width = '1200px';
+            cloneContainer.style.position = 'absolute';
+            cloneContainer.style.top = '-99999px';
+            cloneContainer.style.left = '-99999px';
+            cloneContainer.style.visibility = 'hidden';
+            cloneContainer.style.margin = '0';
+            cloneContainer.style.padding = '0';
+            
+            if (sectionId) {
+                // Remove as outras secções no clone para medir a altura correta
+                const folds = cloneContainer.querySelectorAll('.fold');
+                folds.forEach(f => {
+                    if (f.id !== sectionId) f.style.display = 'none';
+                });
+            }
+
+            document.body.appendChild(cloneContainer);
+            
+            // Pequeno atraso para garantir que o DOM renderiza o CSS oculto antes de medir
+            await new Promise(resolve => setTimeout(resolve, 100));
+            
+            let contentHeight = cloneContainer.scrollHeight;
+            document.body.removeChild(cloneContainer);
+
+            // Adiciona uma margem de segurança na altura para evitar cortes de pixel na base
+            contentHeight += 60;
+
+            // 3. Opções de Renderização (Formato de Página Dinâmica Contínua)
+            const opt = {
+                margin:       0,
+                filename:     isGlobal ? 'Guia-de-Vendas-AUVP.pdf' : `Guia-AUVP-${sectionId}.pdf`,
+                image:        { type: 'jpeg', quality: 0.98 },
+                html2canvas:  { 
+                    scale: 2, 
+                    useCORS: true,
+                    windowWidth: 1200, // Força a vista de computador
+                    scrollY: 0, // CRUCIAL: Ignora o scroll atual da página (evita páginas em branco)
+                    onclone: (clonedDoc) => {
+                        // Prepara o documento real clonado pelo motor do PDF
+                        clonedDoc.body.className = 'pdf-export-mode';
+                        clonedDoc.body.style.width = '1200px';
+                        clonedDoc.body.style.margin = '0 auto';
+                        clonedDoc.body.style.padding = '0';
+                        
+                        if (sectionId) {
+                            // Oculta tudo o que não interessa, empurrando a secção escolhida para o Topo(0,0)
+                            const folds = clonedDoc.querySelectorAll('.fold');
+                            folds.forEach(f => {
+                                if (f.id !== sectionId) f.style.display = 'none';
+                            });
+                        }
+                    }
+                },
+                jsPDF: { unit: 'px', format: [1200, Math.max(contentHeight, 800)], orientation: 'portrait' }
+            };
+
+            // 4. Gerar e Guardar o Ficheiro
+            try {
+                // Passamos SEMPRE o document.body! O "onclone" trata de limpar o resto.
+                await html2pdf().set(opt).from(document.body).save();
+            } catch (error) {
+                console.error("Erro durante a exportação do PDF:", error);
+                alert("Ocorreu um erro ao gerar o PDF. Por favor, verifique a sua ligação ou tente novamente.");
+            } finally {
+                // Restaura os botões ao estado normal independentemente de sucesso ou erro
+                globalBtn.innerHTML = originalGlobalText;
+                if (btnSection) btnSection.innerHTML = originalSectionText;
+            }
         }
 
         document.addEventListener('DOMContentLoaded', () => {
 
-            // 1. Iniciar o Scroll das Imagens ao entrar no ecrã
+            // 0. Iniciar vídeo de forma segura (evita bloqueios de autoplay no navegador)
+            const videos = document.querySelectorAll('.demo-video');
+            videos.forEach(video => {
+                const playPromise = video.play();
+                if (playPromise !== undefined) {
+                    playPromise.catch(error => {
+                        // Silencia o erro de autoplay bloqueado
+                        console.log("Autoplay de vídeo prevenido pelo navegador.");
+                    });
+                }
+            });
+
+            // 1. Iniciar o Scroll Das Imagens
             const visuais = document.querySelectorAll('.split-visual');
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
@@ -2158,7 +2229,7 @@
             }, { rootMargin: '0px 0px -10% 0px' });
             visuais.forEach(v => observer.observe(v));
 
-            // 2. Acordeão de Benefícios (Cartão AUVP)
+            // 2. Acordeão de Benefícios
             const accordions = document.querySelectorAll('.accordion-header');
             accordions.forEach(acc => {
                 acc.addEventListener('click', function() {
@@ -2176,7 +2247,7 @@
                 });
             });
 
-            // 2. ScrollSpy (Atualizar links ativos nas duas barras de navegação)
+            // 3. ScrollSpy (Barras de navegação ativas)
             const sections = document.querySelectorAll('section[id]');
             const navLinks = document.querySelectorAll('.navbar-menu > li > .nav-link');
             const quickLinks = document.querySelectorAll('.quick-link');
@@ -2206,7 +2277,7 @@
                 });
             });
 
-            // 3. Lógica do Menu Hamburger (Mobile)
+            // 4. Lógica do Menu Hamburger (Mobile)
             const menuToggle = document.querySelector('.menu-toggle');
             const navbarMenu = document.querySelector('.navbar-menu');
             const allNavLinks = document.querySelectorAll('.navbar-menu a, .quick-link');
@@ -2218,7 +2289,7 @@
                 menuToggle.classList.toggle('active');
             });
 
-            // Abrir / Fechar subcategorias (acordeão no mobile)
+            // Abrir / Fechar subcategorias
             dropdownToggles.forEach(toggle => {
                 toggle.addEventListener('click', (e) => {
                     e.stopPropagation();
@@ -2227,7 +2298,7 @@
                 });
             });
 
-            // Fechar menu ao clicar em qualquer link
+            // Fechar menu ao clicar num link
             allNavLinks.forEach(link => {
                 link.addEventListener('click', () => {
                     if(window.innerWidth <= 991) {
