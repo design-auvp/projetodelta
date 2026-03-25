@@ -975,10 +975,8 @@
            ESTILOS OTIMIZADOS PARA A IMPRESSÃO NATIVA DO BROWSER (PDF TEXTO SELECIONÁVEL)
            ========================================= */
         @media print {
-            @page {
-                margin: 15mm;
-            }
-
+            /* O tamanho da página é gerido dinamicamente pelo JavaScript */
+            
             body {
                 background-color: #fff !important;
                 color: #000 !important;
@@ -986,9 +984,12 @@
                 /* Força a impressão das imagens de fundo */
                 -webkit-print-color-adjust: exact !important;
                 print-color-adjust: exact !important;
+                /* Força a largura de Desktop para manter a diagramação intacta */
+                width: 1200px !important;
+                margin: 0 auto !important;
             }
 
-            /* Esconde apenas elementos da Interface e Vídeos */
+            /* Esconde elementos da Interface e Vídeos */
             .navbar, .mobile-quick-nav, .fab-pdf, .btn-export-section, 
             video, .section-export-container,
             .benefits-dashboard > .info-card {
@@ -997,60 +998,48 @@
 
             /* Resets de Layout e Fundo */
             .fold {
-                padding: 30px 0 !important;
+                padding: 40px 0 !important;
                 border-bottom: 2px dashed #eee !important;
                 page-break-after: auto !important;
             }
             .fold:last-child { border-bottom: none !important; }
-            .container { padding: 0 !important; max-width: 100% !important; }
+            .container { padding: 0 40px !important; max-width: 1200px !important; }
             
-            /* Ajustes para a Introdução com Imagem */
+            /* Grelhas Originais Preservadas (Sem Esmagar o Layout) */
             .split-layout { 
-                display: flex !important; 
-                flex-direction: column !important;
-                gap: 30px !important;
+                display: grid !important; 
+                grid-template-columns: 1fr 1fr !important;
+                gap: 60px !important;
             }
             .split-visual {
-                min-height: 300px !important;
+                min-height: 400px !important;
                 border: 1px solid #ccc !important;
-                page-break-inside: avoid !important;
             }
+            
+            /* Imagens com animação: congeladas e forçadas no TOPO */
             .scrolling-page {
-                /* Pausar animação no PDF e garantir que a imagem aparece */
                 animation: none !important;
-                background-position: center center !important;
+                background-position: top center !important;
             }
-            .split-content { width: 100% !important; }
 
-            /* Grid Otimizado para não quebrar a meio da página */
-            .card-grid, .feature-list.grid-2, .benefits-dashboard {
-                display: flex !important;
-                flex-wrap: wrap !important;
-                gap: 16px !important;
-            }
-            .card-grid > *, .feature-list.grid-2 > *, .benefits-stack > * {
-                flex: 1 1 calc(50% - 16px) !important;
-            }
+            /* Manter as Grelhas Intactas */
+            .card-grid { display: grid !important; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)) !important; gap: 24px !important; }
+            .card-grid.grid-4 { grid-template-columns: repeat(4, 1fr) !important; }
+            .card-grid.grid-2 { grid-template-columns: repeat(2, 1fr) !important; }
+            .feature-list.grid-2 { display: grid !important; grid-template-columns: repeat(2, 1fr) !important; }
+            .benefits-dashboard { display: grid !important; grid-template-columns: 1fr 340px !important; gap: 24px !important; }
 
             .info-card, .modulo-item, .pricing-card, .highlight-block {
                 box-shadow: none !important;
                 border: 1px solid #ccc !important;
                 background-color: #fff !important;
-                page-break-inside: avoid !important; /* Evita cortar o cartão a meio */
+                page-break-inside: avoid !important;
                 break-inside: avoid !important;
-                margin-bottom: 16px !important;
             }
 
             /* Ajustes para imagens nos cartões */
-            .modulo-img-wrapper {
-                width: 200px !important; /* Ligeiramente menor na impressão para caber no A4 */
-            }
-            .info-card.has-image {
-                padding: 0 !important;
-            }
-            .info-card-image {
-                border-bottom: 1px solid #ccc !important;
-            }
+            .info-card.has-image { padding: 0 !important; }
+            .info-card-image { border-bottom: 1px solid #ccc !important; }
 
             /* Acordeões Abertos Automaticamente */
             .accordion-content { max-height: none !important; display: block !important; }
@@ -2077,36 +2066,48 @@
 
     <!-- SCRIPT DE INTERAÇÕES E LÓGICA DO MENU MOBILE -->
     <script>
-        // Lógica de Exportação Nativa e Otimizada
+        // Lógica de Exportação Nativa - Folha Contínua Inteligente
         function exportToPDF(sectionId = null) {
-            
-            // 1. Cria uma tag <style> dinâmica para manipular o visual apenas durante a impressão
             const style = document.createElement('style');
             style.id = 'dynamic-print-style';
             
-            // 2. Se foi pedida uma secção específica, oculta TODAS as outras secções do body
+            // 1. Encontra a secção a exportar (ou o site todo)
+            const targetEl = sectionId ? document.getElementById(sectionId) : document.body;
+            
+            // 2. Mede a altura exata necessária em pixels (com uma margem de segurança)
+            // Isto dirá ao PDF qual o tamanho exato da folha para não haver cortes ou divisões
+            const pageHeight = targetEl.scrollHeight + 100;
+            
+            // 3. Constrói o CSS dinâmico para esconder o resto e definir o tamanho do papel
+            let cssRules = `
+                @page {
+                    size: 1200px ${pageHeight}px;
+                    margin: 0;
+                }
+            `;
+            
             if (sectionId) {
-                style.innerHTML = `
+                cssRules += `
                     @media print {
                         body > section:not(#${sectionId}) { display: none !important; }
-                        #${sectionId} { border-bottom: none !important; padding: 0 !important; }
+                        #${sectionId} { border-bottom: none !important; }
                     }
                 `;
             }
             
-            // Adiciona o estilo à página
+            style.innerHTML = cssRules;
             document.head.appendChild(style);
 
-            // 3. Dá um breve momento para o browser processar a regra CSS e chama a Impressão Nativa
+            // 4. Dá tempo ao browser para processar o CSS e abre o diálogo nativo
             setTimeout(() => {
                 window.print();
                 
-                // 4. Limpa a tag de estilo após a janela de impressão fechar
+                // 5. Limpa o CSS dinâmico assim que terminar
                 setTimeout(() => {
                     const injectedStyle = document.getElementById('dynamic-print-style');
                     if (injectedStyle) injectedStyle.remove();
                 }, 1000);
-            }, 100);
+            }, 300);
         }
 
         document.addEventListener('DOMContentLoaded', () => {
