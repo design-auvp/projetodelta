@@ -983,11 +983,15 @@
                 background-color: #fff !important;
                 color: #000 !important;
                 padding-top: 0 !important;
+                /* Força a impressão das imagens de fundo */
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
             }
 
-            /* Esconde elementos indesejados da Interface e Multimédia */
-            .navbar, .mobile-quick-nav, .fab-pdf, .btn-export-section, .split-visual, 
-            .modulo-img-wrapper, video, .info-card-image, .section-export-container {
+            /* Esconde apenas elementos da Interface e Vídeos */
+            .navbar, .mobile-quick-nav, .fab-pdf, .btn-export-section, 
+            video, .section-export-container,
+            .benefits-dashboard > .info-card {
                 display: none !important;
             }
 
@@ -1000,7 +1004,22 @@
             .fold:last-child { border-bottom: none !important; }
             .container { padding: 0 !important; max-width: 100% !important; }
             
-            .split-layout { display: block !important; }
+            /* Ajustes para a Introdução com Imagem */
+            .split-layout { 
+                display: flex !important; 
+                flex-direction: column !important;
+                gap: 30px !important;
+            }
+            .split-visual {
+                min-height: 300px !important;
+                border: 1px solid #ccc !important;
+                page-break-inside: avoid !important;
+            }
+            .scrolling-page {
+                /* Pausar animação no PDF e garantir que a imagem aparece */
+                animation: none !important;
+                background-position: center center !important;
+            }
             .split-content { width: 100% !important; }
 
             /* Grid Otimizado para não quebrar a meio da página */
@@ -1020,6 +1039,17 @@
                 page-break-inside: avoid !important; /* Evita cortar o cartão a meio */
                 break-inside: avoid !important;
                 margin-bottom: 16px !important;
+            }
+
+            /* Ajustes para imagens nos cartões */
+            .modulo-img-wrapper {
+                width: 200px !important; /* Ligeiramente menor na impressão para caber no A4 */
+            }
+            .info-card.has-image {
+                padding: 0 !important;
+            }
+            .info-card-image {
+                border-bottom: 1px solid #ccc !important;
             }
 
             /* Acordeões Abertos Automaticamente */
