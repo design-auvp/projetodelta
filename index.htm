@@ -1032,10 +1032,12 @@
             .step-pill { border: 1px solid #000 !important; background: transparent !important; }
             a { color: #0056b3 !important; text-decoration: underline !important; }
             
-            /* Tabelas sem bugs */
-            .table-responsive { overflow: visible !important; border: none !important; box-shadow: none !important; }
-            .summary-table { width: 100% !important; border: 1px solid #ccc !important; }
-            .summary-table th { background-color: #f0f0f0 !important; color: #000 !important; -webkit-print-color-adjust: exact; }
+            /* Tabelas sem bugs e sem cortes */
+            .table-responsive { overflow: visible !important; border: none !important; box-shadow: none !important; width: 100% !important; margin-bottom: 20px !important; }
+            .summary-table { width: 100% !important; min-width: 0 !important; border: 1px solid #ccc !important; }
+            .summary-table th, .summary-table td, .summary-table .prod-name { white-space: normal !important; word-wrap: break-word !important; font-size: 10.5pt !important; padding: 12px 10px !important; }
+            .summary-table tr { page-break-inside: avoid !important; break-inside: avoid !important; }
+            .summary-table th { background-color: #f0f0f0 !important; color: #000 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; border-bottom: 2px solid #ccc !important; }
             .summary-table td { border-bottom: 1px solid #ccc !important; }
         }
     </style>
@@ -2045,98 +2047,6 @@
 
     <!-- SCRIPT DE INTERAÇÕES E LÓGICA DO MENU MOBILE -->
     <script>
-        // Prevenção global de erros de Promise não tratadas (ex: bloqueios de autoplay ou scripts de terceiros)
-        window.addEventListener('unhandledrejection', function(event) {
-            event.preventDefault();
-        });
-
-        // Lógica de Exportação Customizada usando html2pdf.js
-        async function exportToPDF(sectionId = null) {
-            const isGlobal = !sectionId;
-
-            // 1. Encontra os botões para dar feedback visual (Loading)
-            const globalBtn = document.querySelector('.fab-pdf');
-            const originalGlobalText = globalBtn.innerHTML;
-            globalBtn.innerHTML = '<i class="ph-bold ph-spinner spin-anim"></i> Gerando...';
-
-            let btnSection = null;
-            let originalSectionText = '';
-            if (sectionId) {
-                btnSection = document.querySelector(`#${sectionId} .btn-export-section`);
-                if (btnSection) {
-                    originalSectionText = btnSection.innerHTML;
-                    btnSection.innerHTML = '<i class="ph-bold ph-spinner spin-anim"></i> A Preparar...';
-                }
-            }
-
-            // Guarda o estado original do body para restaurar depois
-            const originalBodyClass = document.body.className;
-            const originalBodyWidth = document.body.style.width;
-            const originalBodyMargin = document.body.style.margin;
-            const originalBodyPadding = document.body.style.padding;
-            const hiddenFolds = [];
-
-            try {
-                // 2. Aplica o modo PDF diretamente no body para que a medição seja feita
-                //    no mesmo contexto que o html2canvas irá renderizar — eliminando
-                //    a discrepância de altura que causava páginas a mais e conteúdo cortado.
-                document.body.className = 'pdf-export-mode';
-                document.body.style.width = '1200px';
-                document.body.style.margin = '0';
-                document.body.style.padding = '0';
-
-                if (sectionId) {
-                    document.querySelectorAll('.fold').forEach(f => {
-                        if (f.id !== sectionId) {
-                            f.style.display = 'none';
-                            hiddenFolds.push(f);
-                        }
-                    });
-                }
-
-                // Aguarda o browser aplicar o CSS antes de medir
-                await new Promise(resolve => setTimeout(resolve, 150));
-
-                // 3. Mede a altura real do conteúdo já renderizado com o CSS de PDF ativo
-                //    (+60 px de margem de segurança contra cortes de pixel na base)
-                const contentHeight = document.body.scrollHeight + 60;
-
-                // 4. Opções de Renderização — página única contínua, sem quebras
-                const opt = {
-                    margin:   0,
-                    filename: isGlobal ? 'Guia-de-Vendas-AUVP.pdf' : `Guia-AUVP-${sectionId}.pdf`,
-                    image:    { type: 'jpeg', quality: 0.98 },
-                    html2canvas: {
-                        scale: 2,
-                        useCORS: true,
-                        windowWidth: 1200,
-                        scrollY: 0,
-                        logging: false
-                    },
-                    jsPDF: {
-                        unit: 'px',
-                        format: [1200, contentHeight],
-                        orientation: 'portrait'
-                    }
-                };
-
-                // 5. Gera e transfere o ficheiro
-                await html2pdf().set(opt).from(document.body).save();
-
-            } catch (error) {
-                console.error("Erro durante a exportação do PDF:", error);
-                alert("Ocorreu um erro ao gerar o PDF. Por favor, verifique a sua ligação ou tente novamente.");
-            } finally {
-                // Restaura o body e os elementos ocultos independentemente de sucesso ou erro
-                document.body.className = originalBodyClass;
-                document.body.style.width = originalBodyWidth;
-                document.body.style.margin = originalBodyMargin;
-                document.body.style.padding = originalBodyPadding;
-                hiddenFolds.forEach(f => (f.style.display = ''));
-
-                globalBtn.innerHTML = originalGlobalText;
-                if (btnSection) btnSection.innerHTML = originalSectionText;
-            }
         // Lógica de Exportação Nativa e Otimizada
         function exportToPDF(sectionId = null) {
             
