@@ -993,6 +993,7 @@
                 min-width: 1200px !important;
                 max-width: 1200px !important;
                 margin: 0 auto !important;
+                overflow: visible !important; /* CRUCIAL para PDF nativo não desativar links */
             }
 
             /* Esconde elementos da Interface e Vídeos */
@@ -1007,6 +1008,8 @@
                 padding: 40px 0 !important;
                 border-bottom: 2px dashed #eee !important;
                 page-break-after: auto !important;
+                position: relative !important;
+                z-index: 1 !important;
             }
             .fold:last-child { border-bottom: none !important; }
             .container { 
@@ -1035,18 +1038,49 @@
                 background-repeat: no-repeat !important;
             }
 
-            /* CRAVAR O TAMANHO DE TODAS AS IMAGENS PARA NÃO VARIAREM NUNCA NO PDF */
+            /* CRAVAR O TAMANHO E O LAYOUT DOS MÓDULOS LADO A LADO */
+            .modulo-item {
+                display: flex !important;
+                flex-direction: row !important;
+                align-items: center !important;
+                gap: 24px !important;
+                box-shadow: none !important;
+                border: 1px solid #ccc !important;
+                background-color: #fff !important;
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
+                margin-bottom: 16px !important;
+            }
+            .modulo-content {
+                display: flex !important;
+                flex-direction: column !important;
+                justify-content: center !important;
+                flex-grow: 1 !important;
+                width: calc(100% - 284px) !important;
+            }
             .modulo-img-wrapper { 
+                display: block !important;
+                flex-shrink: 0 !important;
                 width: 260px !important; 
                 min-width: 260px !important; 
                 max-width: 260px !important; 
                 height: 146px !important; 
+            }
+            .modulo-img-wrapper a {
+                display: block !important;
+                width: 100% !important;
+                height: 100% !important;
             }
             .modulo-img-wrapper img { 
                 width: 260px !important; 
                 height: 146px !important; 
                 object-fit: cover !important; 
             }
+            .modulo-number, .modulo-icon {
+                flex-shrink: 0 !important;
+                display: flex !important;
+            }
+            
             .info-card.has-image { display: flex !important; flex-direction: column !important; padding: 0 !important; }
             .info-card-image { 
                 width: 100% !important; 
@@ -1062,7 +1096,7 @@
             .feature-list.grid-2 { display: grid !important; grid-template-columns: repeat(2, 1fr) !important; }
             .benefits-dashboard { display: grid !important; grid-template-columns: 1fr 340px !important; gap: 24px !important; }
 
-            .info-card, .modulo-item, .pricing-card, .highlight-block {
+            .info-card, .pricing-card, .highlight-block {
                 box-shadow: none !important;
                 border: 1px solid #ccc !important;
                 background-color: #fff !important;
@@ -1078,7 +1112,18 @@
             /* Tipografia Básica e Cores */
             h2, h3, h4, p, span, li, .step-pill { color: #000 !important; }
             .step-pill { border: 1px solid #000 !important; background: transparent !important; }
-            a { color: #0056b3 !important; text-decoration: underline !important; }
+            
+            /* LINKS FUNCIONAIS E GARANTIDOS NO PDF NATIVO */
+            a { 
+                color: #0056b3 !important; 
+                text-decoration: underline !important; 
+                pointer-events: auto !important;
+                position: relative !important;
+                z-index: 10 !important;
+            }
+            .modulo-img-wrapper a, .info-card-image a, .quick-info-badge a {
+                text-decoration: none !important;
+            }
             
             /* Tabelas sem bugs e sem cortes */
             .table-responsive { overflow: visible !important; border: none !important; box-shadow: none !important; width: 100% !important; margin-bottom: 20px !important; }
