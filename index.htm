@@ -830,6 +830,10 @@
             95%, 100% { background-position: bottom center; }
         }
 
+        /* Animação Loader UI Exportação */
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+        .spin-anim { animation: spin 1s linear infinite; display: inline-block; }
+
         .mt-40 { margin-top: 40px; }
         .mt-80 { margin-top: 80px; }
         .scroll-anchor { scroll-margin-top: 100px; }
@@ -977,15 +981,17 @@
         @media print {
             /* O tamanho da página é gerido dinamicamente pelo JavaScript */
             
-            body {
+            html, body {
                 background-color: #fff !important;
                 color: #000 !important;
                 padding-top: 0 !important;
-                /* Força a impressão das imagens de fundo */
+                /* Força a impressão exata das cores e imagens de fundo */
                 -webkit-print-color-adjust: exact !important;
                 print-color-adjust: exact !important;
-                /* Força a largura de Desktop para manter a diagramação intacta */
+                /* Força a largura exata de Desktop para manter a diagramação intacta e não esmagar elementos */
                 width: 1200px !important;
+                min-width: 1200px !important;
+                max-width: 1200px !important;
                 margin: 0 auto !important;
             }
 
@@ -1003,7 +1009,12 @@
                 page-break-after: auto !important;
             }
             .fold:last-child { border-bottom: none !important; }
-            .container { padding: 0 40px !important; max-width: 1200px !important; }
+            .container { 
+                padding: 0 40px !important; 
+                width: 1200px !important;
+                min-width: 1200px !important;
+                max-width: 1200px !important;
+            }
             
             /* Grelhas Originais Preservadas (Sem Esmagar o Layout) */
             .split-layout { 
@@ -1012,18 +1023,40 @@
                 gap: 60px !important;
             }
             .split-visual {
-                min-height: 400px !important;
+                height: 450px !important; /* Altura rigorosamente cravada */
+                min-height: 450px !important;
                 border: 1px solid #ccc !important;
             }
             
-            /* Imagens com animação: congeladas e forçadas no TOPO */
+            /* Imagens de fundo: congeladas e forçadas no TOPO absoluto para exportação perfeita */
             .scrolling-page {
                 animation: none !important;
-                background-position: top center !important;
+                background-position: 50% 0% !important; /* 50% = centro x, 0% = topo y */
+                background-repeat: no-repeat !important;
             }
 
-            /* Manter as Grelhas Intactas */
-            .card-grid { display: grid !important; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)) !important; gap: 24px !important; }
+            /* CRAVAR O TAMANHO DE TODAS AS IMAGENS PARA NÃO VARIAREM NUNCA NO PDF */
+            .modulo-img-wrapper { 
+                width: 260px !important; 
+                min-width: 260px !important; 
+                max-width: 260px !important; 
+                height: 146px !important; 
+            }
+            .modulo-img-wrapper img { 
+                width: 260px !important; 
+                height: 146px !important; 
+                object-fit: cover !important; 
+            }
+            .info-card.has-image { display: flex !important; flex-direction: column !important; padding: 0 !important; }
+            .info-card-image { 
+                width: 100% !important; 
+                height: 155px !important; /* Fixa a altura padronizada das imagens nas ferramentas */
+                object-fit: cover !important; 
+                border-bottom: 1px solid #ccc !important; 
+            }
+
+            /* Manter as Grelhas Intactas como no Desktop */
+            .card-grid { display: grid !important; grid-template-columns: repeat(4, 1fr) !important; gap: 24px !important; }
             .card-grid.grid-4 { grid-template-columns: repeat(4, 1fr) !important; }
             .card-grid.grid-2 { grid-template-columns: repeat(2, 1fr) !important; }
             .feature-list.grid-2 { display: grid !important; grid-template-columns: repeat(2, 1fr) !important; }
@@ -1036,10 +1069,6 @@
                 page-break-inside: avoid !important;
                 break-inside: avoid !important;
             }
-
-            /* Ajustes para imagens nos cartões */
-            .info-card.has-image { padding: 0 !important; }
-            .info-card-image { border-bottom: 1px solid #ccc !important; }
 
             /* Acordeões Abertos Automaticamente */
             .accordion-content { max-height: none !important; display: block !important; }
@@ -2066,48 +2095,94 @@
 
     <!-- SCRIPT DE INTERAÇÕES E LÓGICA DO MENU MOBILE -->
     <script>
-        // Lógica de Exportação Nativa - Folha Contínua Inteligente
+        // Lógica de Exportação Nativa - Folha Contínua Inteligente com Clone Invisible para medição
         function exportToPDF(sectionId = null) {
-            const style = document.createElement('style');
-            style.id = 'dynamic-print-style';
             
-            // 1. Encontra a secção a exportar (ou o site todo)
-            const targetEl = sectionId ? document.getElementById(sectionId) : document.body;
+            // 1. Dar feedback visual de Loading
+            const globalBtn = document.querySelector('.fab-pdf');
+            const originalGlobalText = globalBtn.innerHTML;
+            globalBtn.innerHTML = '<i class="ph-bold ph-spinner spin-anim"></i> Calculando...';
             
-            // 2. Mede a altura exata necessária em pixels (com uma margem de segurança)
-            // Isto dirá ao PDF qual o tamanho exato da folha para não haver cortes ou divisões
-            const pageHeight = targetEl.scrollHeight + 100;
-            
-            // 3. Constrói o CSS dinâmico para esconder o resto e definir o tamanho do papel
-            let cssRules = `
-                @page {
-                    size: 1200px ${pageHeight}px;
-                    margin: 0;
-                }
-            `;
-            
+            let btnSection = null;
+            let originalSectionText = '';
             if (sectionId) {
-                cssRules += `
-                    @media print {
-                        body > section:not(#${sectionId}) { display: none !important; }
-                        #${sectionId} { border-bottom: none !important; }
+                btnSection = document.querySelector(`#${sectionId} .btn-export-section`);
+                if(btnSection) {
+                    originalSectionText = btnSection.innerHTML;
+                    btnSection.innerHTML = '<i class="ph-bold ph-spinner spin-anim"></i> Preparando...';
+                }
+            }
+
+            // 2. Cria um container de medição rigoroso (1200px para replicar o desktop exatamente)
+            const measureDiv = document.createElement('div');
+            measureDiv.style.width = '1200px';
+            measureDiv.style.position = 'absolute';
+            measureDiv.style.top = '-99999px';
+            measureDiv.style.left = '0';
+            measureDiv.style.visibility = 'hidden';
+            measureDiv.style.display = 'block';
+            measureDiv.style.zIndex = '-1';
+            
+            // 3. Clona APENAS as seções de conteúdo desejadas (Isolando lixo visual da interface)
+            if (sectionId) {
+                const sec = document.getElementById(sectionId).cloneNode(true);
+                measureDiv.appendChild(sec);
+            } else {
+                document.querySelectorAll('.fold').forEach(sec => {
+                    measureDiv.appendChild(sec.cloneNode(true));
+                });
+            }
+
+            // Remove no clone elementos que já iriam ser ocultos no PDF (Evita altura extra desnecessária)
+            measureDiv.querySelectorAll('.btn-export-section, .section-export-container, .benefits-dashboard > .info-card').forEach(el => el.remove());
+
+            // 4. Injeta na página invisivelmente e mede
+            document.body.appendChild(measureDiv);
+            
+            // Esperar um ciclo do browser para garantir renderização total do CSS
+            requestAnimationFrame(() => {
+                
+                const pageHeight = measureDiv.scrollHeight + 150; // Margem extra de respiro
+                document.body.removeChild(measureDiv);
+                
+                // 5. Injeta o CSS dinâmico que define a página única contínua
+                const style = document.createElement('style');
+                style.id = 'dynamic-print-style';
+                
+                let cssRules = `
+                    @page {
+                        size: 1200px ${pageHeight}px;
+                        margin: 0;
                     }
                 `;
-            }
-            
-            style.innerHTML = cssRules;
-            document.head.appendChild(style);
-
-            // 4. Dá tempo ao browser para processar o CSS e abre o diálogo nativo
-            setTimeout(() => {
-                window.print();
                 
-                // 5. Limpa o CSS dinâmico assim que terminar
+                // Ocultar da tela real as outras seções apenas para o momento da impressão
+                if (sectionId) {
+                    cssRules += `
+                        @media print {
+                            body > section:not(#${sectionId}) { display: none !important; }
+                            #${sectionId} { border-bottom: none !important; }
+                        }
+                    `;
+                }
+                
+                style.innerHTML = cssRules;
+                document.head.appendChild(style);
+
+                // 6. Restaura UI e invoca a impressão nativa
                 setTimeout(() => {
-                    const injectedStyle = document.getElementById('dynamic-print-style');
-                    if (injectedStyle) injectedStyle.remove();
-                }, 1000);
-            }, 300);
+                    globalBtn.innerHTML = originalGlobalText;
+                    if (btnSection) btnSection.innerHTML = originalSectionText;
+                    
+                    window.print();
+                    
+                    // 7. Limpeza do CSS após o fim da impressão
+                    setTimeout(() => {
+                        const injectedStyle = document.getElementById('dynamic-print-style');
+                        if (injectedStyle) injectedStyle.remove();
+                    }, 1000);
+                }, 100);
+            });
         }
 
         document.addEventListener('DOMContentLoaded', () => {
