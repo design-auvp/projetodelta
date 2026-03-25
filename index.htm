@@ -10,9 +10,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Anek+Latin:wght@300;400;500;600;700;800&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
-    
-    <!-- Biblioteca HTML2PDF para Exportação Customizada -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
     <style>
         :root {
@@ -306,7 +303,6 @@
             border: 2px dashed #a1a1aa;
             border-radius: 12px;
         }
-        .placeholder-video { aspect-ratio: 9/16; max-width: 320px; }
 
         /* =========================================
            ESTILOS CONSISTENTES (COMPONENTES GERAIS)
@@ -792,10 +788,6 @@
             border-top: 1px dashed var(--border-subtle);
         }
 
-        /* Animação para Carregamento do PDF */
-        @keyframes spin { 100% { transform: rotate(360deg); } }
-        .spin-anim { animation: spin 1s linear infinite; display: inline-block; }
-
         /* Utilitários e Layout Dividido (Scroll Infinito) */
         .split-layout { 
             display: grid; 
@@ -980,121 +972,72 @@
         .menu-toggle.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
         /* =========================================
-           ESTILOS EXCLUSIVOS PARA O RENDERIZADOR HTML2PDF
+           ESTILOS OTIMIZADOS PARA A IMPRESSÃO NATIVA DO BROWSER (PDF TEXTO SELECIONÁVEL)
            ========================================= */
-        .pdf-export-mode {
-            background-color: #fff !important;
-            color: #000 !important;
-            padding-top: 0 !important;
-        }
+        @media print {
+            @page {
+                margin: 15mm;
+            }
 
-        /* Oculta os elementos da interface do utilizador durante a captura */
-        .pdf-export-mode .navbar, 
-        .pdf-export-mode .mobile-quick-nav, 
-        .pdf-export-mode .fab-pdf, 
-        .pdf-export-mode .btn-export-section, 
-        .pdf-export-mode .split-visual, 
-        .pdf-export-mode .modulo-img-wrapper, 
-        .pdf-export-mode video, 
-        .pdf-export-mode .info-card-image {
-            display: none !important;
-        }
+            body {
+                background-color: #fff !important;
+                color: #000 !important;
+                padding-top: 0 !important;
+            }
 
-        /* Esconder o card específico que contém o vídeo na seção Escola */
-        .pdf-export-mode .card-grid.grid-fee-video .info-card:last-child,
-        .pdf-export-mode .benefits-dashboard > .info-card {
-            display: none !important;
-        }
+            /* Esconde elementos indesejados da Interface e Multimédia */
+            .navbar, .mobile-quick-nav, .fab-pdf, .btn-export-section, .split-visual, 
+            .modulo-img-wrapper, video, .info-card-image, .section-export-container {
+                display: none !important;
+            }
 
-        /* Permite impressão correta da tabela */
-        .pdf-export-mode .table-responsive { overflow-x: visible !important; border: none !important; box-shadow: none !important; margin-bottom: 20px !important;}
-        .pdf-export-mode .summary-table { min-width: 100% !important; border: 1px solid #ccc !important; }
-        .pdf-export-mode .summary-table th { background-color: #f0f0f0 !important; color: #000 !important; border-bottom: 2px solid #ccc !important; }
-        .pdf-export-mode .summary-table td { color: #000 !important; border-bottom: 1px solid #ccc !important; }
+            /* Resets de Layout e Fundo */
+            .fold {
+                padding: 30px 0 !important;
+                border-bottom: 2px dashed #eee !important;
+                page-break-after: auto !important;
+            }
+            .fold:last-child { border-bottom: none !important; }
+            .container { padding: 0 !important; max-width: 100% !important; }
+            
+            .split-layout { display: block !important; }
+            .split-content { width: 100% !important; }
 
-        /* Resets Globais e Divisor do "Rolo Contínuo" */
-        .pdf-export-mode .fold {
-            padding: 40px 0 !important;
-            border-bottom: 2px dashed #ddd !important;
-        }
-        .pdf-export-mode .fold:last-child { border-bottom: none !important; }
-        .pdf-export-mode .container { padding: 0 40px !important; }
+            /* Grid Otimizado para não quebrar a meio da página */
+            .card-grid, .feature-list.grid-2, .benefits-dashboard {
+                display: flex !important;
+                flex-wrap: wrap !important;
+                gap: 16px !important;
+            }
+            .card-grid > *, .feature-list.grid-2 > *, .benefits-stack > * {
+                flex: 1 1 calc(50% - 16px) !important;
+            }
 
-        /* Correção de Layouts (Sem Imagens) para o Grid Fixo Desktop */
-        .pdf-export-mode .split-layout { display: block !important; }
-        .pdf-export-mode .split-content { width: 100% !important; }
-        
-        .pdf-export-mode .card-grid, 
-        .pdf-export-mode .feature-list.grid-2, 
-        .pdf-export-mode .card-grid.grid-4, 
-        .pdf-export-mode .card-grid.grid-2, 
-        .pdf-export-mode .card-grid.grid-fee-video, 
-        .pdf-export-mode .benefits-dashboard {
-            display: grid !important;
-            grid-template-columns: 1fr 1fr !important;
-            gap: 20px !important;
-        }
-        
-        .pdf-export-mode .benefits-stack { display: contents !important; }
-        
-        .pdf-export-mode .info-card.horizontal {
-            flex-direction: column !important;
-            align-items: flex-start !important;
-            padding: 24px !important;
-            gap: 16px !important;
-        }
+            .info-card, .modulo-item, .pricing-card, .highlight-block {
+                box-shadow: none !important;
+                border: 1px solid #ccc !important;
+                background-color: #fff !important;
+                page-break-inside: avoid !important; /* Evita cortar o cartão a meio */
+                break-inside: avoid !important;
+                margin-bottom: 16px !important;
+            }
 
-        /* Estética de Impressão (Remover Fundos e Sombras) */
-        .pdf-export-mode .info-card, 
-        .pdf-export-mode .modulo-item, 
-        .pdf-export-mode .pricing-card, 
-        .pdf-export-mode .highlight-block, 
-        .pdf-export-mode .accordion-header {
-            box-shadow: none !important;
-            border: 1px solid #ccc !important;
-            background-color: #fff !important;
-        }
-        
-        .pdf-export-mode .highlight-block {
-            border-left: 4px solid #000 !important;
-            padding: 24px !important;
-            margin: 24px 0 !important;
-        }
+            /* Acordeões Abertos Automaticamente */
+            .accordion-content { max-height: none !important; display: block !important; }
+            .accordion-header { border-bottom: 1px solid #ccc !important; }
+            .accordion-icon { display: none !important; }
 
-        .pdf-export-mode .step-pill, 
-        .pdf-export-mode .quick-info-badge, 
-        .pdf-export-mode .obs-banner {
-            border: 1px solid #ccc !important;
-            background-color: transparent !important;
-            color: #000 !important;
+            /* Tipografia Básica e Cores */
+            h2, h3, h4, p, span, li, .step-pill { color: #000 !important; }
+            .step-pill { border: 1px solid #000 !important; background: transparent !important; }
+            a { color: #0056b3 !important; text-decoration: underline !important; }
+            
+            /* Tabelas sem bugs */
+            .table-responsive { overflow: visible !important; border: none !important; box-shadow: none !important; }
+            .summary-table { width: 100% !important; border: 1px solid #ccc !important; }
+            .summary-table th { background-color: #f0f0f0 !important; color: #000 !important; -webkit-print-color-adjust: exact; }
+            .summary-table td { border-bottom: 1px solid #ccc !important; }
         }
-        .pdf-export-mode .step-pill { border: 1px solid #000 !important; }
-
-        /* Forçar Acordeões a Imprimir Abertos */
-        .pdf-export-mode .accordion-content {
-            max-height: none !important;
-            display: block !important;
-            background: #fff !important;
-        }
-        .pdf-export-mode .accordion-header { border-bottom: 1px solid #ccc !important; }
-        .pdf-export-mode .accordion-icon { display: none !important; }
-
-        /* Tipografia e Espaçamentos PDF */
-        .pdf-export-mode h2, 
-        .pdf-export-mode h3, 
-        .pdf-export-mode h4, 
-        .pdf-export-mode p, 
-        .pdf-export-mode span, 
-        .pdf-export-mode li { color: #000 !important; }
-        .pdf-export-mode h2.dobra-title { margin-top: 20px !important; }
-        
-        .pdf-export-mode a { color: #0056b3 !important; text-decoration: underline !important; }
-        .pdf-export-mode a[href^="#"] { color: #333 !important; text-decoration-style: dotted !important; }
-        
-        .pdf-export-mode .mt-80 { margin-top: 40px !important; }
-        .pdf-export-mode .mt-40 { margin-top: 24px !important; }
-        
-        .pdf-export-mode .pricing-card.highlight { border: 2px solid #000 !important; }
     </style>
 </head>
 <body>
@@ -2114,93 +2057,116 @@
             // 1. Encontra os botões para dar feedback visual (Loading)
             const globalBtn = document.querySelector('.fab-pdf');
             const originalGlobalText = globalBtn.innerHTML;
-            
-            // Ativa o estado de carregamento no botão global
             globalBtn.innerHTML = '<i class="ph-bold ph-spinner spin-anim"></i> Gerando...';
-            
+
             let btnSection = null;
             let originalSectionText = '';
             if (sectionId) {
-                // Encontra e atualiza o botão específico da secção clicada
                 btnSection = document.querySelector(`#${sectionId} .btn-export-section`);
-                if(btnSection) {
+                if (btnSection) {
                     originalSectionText = btnSection.innerHTML;
                     btnSection.innerHTML = '<i class="ph-bold ph-spinner spin-anim"></i> A Preparar...';
                 }
             }
 
-            // 2. Cria um clone exato para medir a altura do documento final
-            const cloneContainer = document.createElement('div');
-            cloneContainer.innerHTML = document.body.innerHTML;
-            cloneContainer.className = 'pdf-export-mode';
-            cloneContainer.style.width = '1200px';
-            cloneContainer.style.position = 'absolute';
-            cloneContainer.style.top = '-99999px';
-            cloneContainer.style.left = '-99999px';
-            cloneContainer.style.visibility = 'hidden';
-            cloneContainer.style.margin = '0';
-            cloneContainer.style.padding = '0';
-            
-            if (sectionId) {
-                // Remove as outras secções no clone para medir a altura correta
-                const folds = cloneContainer.querySelectorAll('.fold');
-                folds.forEach(f => {
-                    if (f.id !== sectionId) f.style.display = 'none';
-                });
-            }
+            // Guarda o estado original do body para restaurar depois
+            const originalBodyClass = document.body.className;
+            const originalBodyWidth = document.body.style.width;
+            const originalBodyMargin = document.body.style.margin;
+            const originalBodyPadding = document.body.style.padding;
+            const hiddenFolds = [];
 
-            document.body.appendChild(cloneContainer);
-            
-            // Pequeno atraso para garantir que o DOM renderiza o CSS oculto antes de medir
-            await new Promise(resolve => setTimeout(resolve, 100));
-            
-            let contentHeight = cloneContainer.scrollHeight;
-            document.body.removeChild(cloneContainer);
-
-            // Adiciona uma margem de segurança na altura para evitar cortes de pixel na base
-            contentHeight += 60;
-
-            // 3. Opções de Renderização (Formato de Página Dinâmica Contínua)
-            const opt = {
-                margin:       0,
-                filename:     isGlobal ? 'Guia-de-Vendas-AUVP.pdf' : `Guia-AUVP-${sectionId}.pdf`,
-                image:        { type: 'jpeg', quality: 0.98 },
-                html2canvas:  { 
-                    scale: 2, 
-                    useCORS: true,
-                    windowWidth: 1200, // Força a vista de computador
-                    scrollY: 0, // CRUCIAL: Ignora o scroll atual da página (evita páginas em branco)
-                    onclone: (clonedDoc) => {
-                        // Prepara o documento real clonado pelo motor do PDF
-                        clonedDoc.body.className = 'pdf-export-mode';
-                        clonedDoc.body.style.width = '1200px';
-                        clonedDoc.body.style.margin = '0 auto';
-                        clonedDoc.body.style.padding = '0';
-                        
-                        if (sectionId) {
-                            // Oculta tudo o que não interessa, empurrando a secção escolhida para o Topo(0,0)
-                            const folds = clonedDoc.querySelectorAll('.fold');
-                            folds.forEach(f => {
-                                if (f.id !== sectionId) f.style.display = 'none';
-                            });
-                        }
-                    }
-                },
-                jsPDF: { unit: 'px', format: [1200, Math.max(contentHeight, 800)], orientation: 'portrait' }
-            };
-
-            // 4. Gerar e Guardar o Ficheiro
             try {
-                // Passamos SEMPRE o document.body! O "onclone" trata de limpar o resto.
+                // 2. Aplica o modo PDF diretamente no body para que a medição seja feita
+                //    no mesmo contexto que o html2canvas irá renderizar — eliminando
+                //    a discrepância de altura que causava páginas a mais e conteúdo cortado.
+                document.body.className = 'pdf-export-mode';
+                document.body.style.width = '1200px';
+                document.body.style.margin = '0';
+                document.body.style.padding = '0';
+
+                if (sectionId) {
+                    document.querySelectorAll('.fold').forEach(f => {
+                        if (f.id !== sectionId) {
+                            f.style.display = 'none';
+                            hiddenFolds.push(f);
+                        }
+                    });
+                }
+
+                // Aguarda o browser aplicar o CSS antes de medir
+                await new Promise(resolve => setTimeout(resolve, 150));
+
+                // 3. Mede a altura real do conteúdo já renderizado com o CSS de PDF ativo
+                //    (+60 px de margem de segurança contra cortes de pixel na base)
+                const contentHeight = document.body.scrollHeight + 60;
+
+                // 4. Opções de Renderização — página única contínua, sem quebras
+                const opt = {
+                    margin:   0,
+                    filename: isGlobal ? 'Guia-de-Vendas-AUVP.pdf' : `Guia-AUVP-${sectionId}.pdf`,
+                    image:    { type: 'jpeg', quality: 0.98 },
+                    html2canvas: {
+                        scale: 2,
+                        useCORS: true,
+                        windowWidth: 1200,
+                        scrollY: 0,
+                        logging: false
+                    },
+                    jsPDF: {
+                        unit: 'px',
+                        format: [1200, contentHeight],
+                        orientation: 'portrait'
+                    }
+                };
+
+                // 5. Gera e transfere o ficheiro
                 await html2pdf().set(opt).from(document.body).save();
+
             } catch (error) {
                 console.error("Erro durante a exportação do PDF:", error);
                 alert("Ocorreu um erro ao gerar o PDF. Por favor, verifique a sua ligação ou tente novamente.");
             } finally {
-                // Restaura os botões ao estado normal independentemente de sucesso ou erro
+                // Restaura o body e os elementos ocultos independentemente de sucesso ou erro
+                document.body.className = originalBodyClass;
+                document.body.style.width = originalBodyWidth;
+                document.body.style.margin = originalBodyMargin;
+                document.body.style.padding = originalBodyPadding;
+                hiddenFolds.forEach(f => (f.style.display = ''));
+
                 globalBtn.innerHTML = originalGlobalText;
                 if (btnSection) btnSection.innerHTML = originalSectionText;
             }
+        // Lógica de Exportação Nativa e Otimizada
+        function exportToPDF(sectionId = null) {
+            
+            // 1. Cria uma tag <style> dinâmica para manipular o visual apenas durante a impressão
+            const style = document.createElement('style');
+            style.id = 'dynamic-print-style';
+            
+            // 2. Se foi pedida uma secção específica, oculta TODAS as outras secções do body
+            if (sectionId) {
+                style.innerHTML = `
+                    @media print {
+                        body > section:not(#${sectionId}) { display: none !important; }
+                        #${sectionId} { border-bottom: none !important; padding: 0 !important; }
+                    }
+                `;
+            }
+            
+            // Adiciona o estilo à página
+            document.head.appendChild(style);
+
+            // 3. Dá um breve momento para o browser processar a regra CSS e chama a Impressão Nativa
+            setTimeout(() => {
+                window.print();
+                
+                // 4. Limpa a tag de estilo após a janela de impressão fechar
+                setTimeout(() => {
+                    const injectedStyle = document.getElementById('dynamic-print-style');
+                    if (injectedStyle) injectedStyle.remove();
+                }, 1000);
+            }, 100);
         }
 
         document.addEventListener('DOMContentLoaded', () => {
