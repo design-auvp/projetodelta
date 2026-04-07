@@ -117,7 +117,7 @@
         .navbar-menu {
             list-style: none;
             display: flex;
-            gap: 32px;
+            gap: 20px; 
             margin: 0;
             padding: 0;
         }
@@ -128,7 +128,7 @@
             color: #a1a1aa;
             text-decoration: none;
             font-family: var(--font-sans);
-            font-size: 15px;
+            font-size: 14px;
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.5px;
@@ -209,9 +209,7 @@
         }
 
         /* --- MOBILE TOGGLES & BARS --- */
-        .mobile-dropdown-toggle {
-            display: none;
-        }
+        .mobile-dropdown-toggle { display: none; }
 
         .menu-toggle {
             display: none;
@@ -243,10 +241,10 @@
             align-items: center;
             overflow-x: auto;
             -webkit-overflow-scrolling: touch;
-            scrollbar-width: none; /* Firefox */
+            scrollbar-width: none; 
         }
         
-        .mobile-quick-nav::-webkit-scrollbar { display: none; /* Safari/Chrome */ }
+        .mobile-quick-nav::-webkit-scrollbar { display: none; }
 
         .mobile-quick-container {
             display: flex;
@@ -392,7 +390,7 @@
             border-bottom: 1px solid var(--border-subtle);
         }
         .highlight-block.bg-subtle { background-color: var(--bg-subtle); }
-        .highlight-block.full-radius { border-radius: 12px; }
+        .highlight-block.full-radius { border-radius: 12px; border-left: 1px solid var(--border-subtle); }
         .highlight-block .dobra-title { font-size: 24px; margin-bottom: 16px; }
         .highlight-block p:last-child { margin-bottom: 0; }
 
@@ -540,7 +538,7 @@
             margin-bottom: 8px;
         }
 
-        /* Listas de Módulos (Cronogramas) */
+        /* Listas de Módulos (Cronogramas) e Expansão */
         .modulo-list {
             display: flex;
             flex-direction: column;
@@ -549,18 +547,24 @@
         }
 
         .modulo-item {
-            display: flex;
-            gap: 24px;
             background: #fff;
             border: 1px solid var(--border-subtle);
             border-radius: 12px;
-            padding: 24px;
-            transition: box-shadow 0.15s ease;
-            align-items: center;
+            transition: box-shadow 0.15s ease, border-color 0.15s ease;
+            overflow: hidden;
         }
         .modulo-item:hover {
             box-shadow: 0 8px 24px rgba(0,0,0,0.05);
             border-color: rgba(239, 191, 78, 0.4);
+        }
+
+        .modulo-header {
+            display: flex;
+            gap: 24px;
+            padding: 24px;
+            align-items: center;
+            cursor: pointer;
+            width: 100%;
         }
 
         .modulo-img-wrapper {
@@ -645,6 +649,127 @@
             margin: 0;
         }
 
+        .modulo-toggle-icon {
+            font-size: 24px;
+            color: var(--primary-gold-dark);
+            transition: transform 0.3s ease;
+            margin-left: auto;
+            flex-shrink: 0;
+        }
+
+        .modulo-item.active .modulo-toggle-icon {
+            transform: rotate(180deg);
+        }
+
+        .modulo-body {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out;
+            background-color: var(--bg-subtle);
+        }
+
+        .modulo-body-inner {
+            padding: 0 24px 24px 24px;
+            border-top: 1px solid var(--border-subtle);
+        }
+
+        .class-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 16px;
+            background: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--border-subtle);
+        }
+
+        .class-table th, .class-table td {
+            padding: 12px 16px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-subtle);
+            font-family: var(--font-body);
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+
+        .class-table th {
+            font-family: var(--font-title);
+            color: var(--text-dark);
+            font-weight: 700;
+            background-color: #f0f0f0;
+            text-transform: uppercase;
+            font-size: 13px;
+        }
+
+        .class-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .class-table td:nth-child(1) { width: 15%; font-weight: 600; color: var(--primary-gold-dark); }
+        .class-table td:nth-child(2) { width: 70%; font-weight: 500; color: var(--text-dark); }
+        .class-table td:nth-child(3) { width: 15%; text-align: right; }
+
+        /* AUVP Agro Custom Cards */
+        .agro-card {
+            background: #fff;
+            border: 1px solid var(--border-subtle);
+            border-radius: 12px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 16px;
+            transition: box-shadow 0.15s ease, border-color 0.15s ease;
+        }
+        .agro-card:hover {
+            box-shadow: 0 8px 24px rgba(0,0,0,0.05);
+            border-color: rgba(239, 191, 78, 0.4);
+        }
+        .agro-card-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            width: 100%;
+        }
+        .agro-card-icon {
+            width: 48px;
+            height: 48px;
+            border: 1px solid var(--border-subtle);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: var(--text-dark);
+            flex-shrink: 0;
+        }
+        .agro-card-title {
+            font-family: var(--font-title);
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin: 0;
+        }
+        .agro-card-badge {
+            border: 1px solid var(--border-subtle);
+            background-color: transparent;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-family: var(--font-body);
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .agro-card-desc {
+            font-family: var(--font-body);
+            font-size: 15px;
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin: 0;
+        }
+
         /* Acordeões (Cartão AUVP) */
         .accordion-container { width: 100%; margin-top: 24px; border: 1px solid var(--border-subtle); border-radius: 12px; background: #fff; overflow: hidden; }
         .accordion-item { border-bottom: 1px solid var(--border-subtle); }
@@ -656,7 +781,7 @@
         .accordion-content { max-height: 0; overflow: hidden; transition: max-height 0.2s ease-out; background: var(--bg-subtle); }
         .accordion-content-inner { padding: 24px; font-family: var(--font-body); color: var(--text-muted); font-size: 15px; line-height: 1.6; border-top: 1px solid var(--border-subtle); }
 
-        /* Pricing Cards (AUVP PRO) */
+        /* Pricing Cards (Pro, Analítica, Agro) */
         .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); gap: 24px; margin-top: 32px; }
         .pricing-card { background: #fff; border: 1px solid var(--border-subtle); border-radius: 16px; padding: 40px 32px; display: flex; flex-direction: column; transition: transform 0.15s ease, box-shadow 0.15s ease; }
         .pricing-card:hover { transform: translateY(-4px); box-shadow: 0 15px 35px rgba(0,0,0,0.06); border-color: rgba(239, 191, 78, 0.4); }
@@ -844,7 +969,6 @@
         @media (max-width: 991px) {
             .split-layout { grid-template-columns: 1fr; gap: 40px; }
             
-            /* Inverte a ordem no mobile: Texto/Resumo primeiro, Imagem com Scroll depois */
             .split-content { order: 1; }
             .split-visual { order: 2; }
             
@@ -852,13 +976,11 @@
             
             .benefits-dashboard { grid-template-columns: 1fr; }
             
-            /* Ativa a barra ágil inferior apenas no mobile */
             .mobile-quick-nav { display: flex; }
             .navbar-main { border-bottom: 1px solid rgba(255,255,255,0.05); }
 
             .menu-toggle { display: flex; }
             
-            /* Painel de Navegação Hambúrguer */
             .navbar-menu {
                 position: fixed;
                 top: var(--navbar-height);
@@ -874,7 +996,6 @@
             }
             .navbar-menu.active { left: 0; }
             
-            /* Estrutura em bloco para corrigir bugs de margens/overflow */
             .dropdown {
                 display: block;
                 width: 100%;
@@ -886,11 +1007,10 @@
                 display: inline-block;
                 padding: 16px 0; 
                 font-size: 18px; 
-                width: calc(100% - 60px); /* Espaço para o botão seta */
+                width: calc(100% - 60px);
             }
             .nav-link::after { display: none; }
             
-            /* Botão Seta (Toggle Independente) */
             .mobile-dropdown-toggle { 
                 display: flex; 
                 align-items: center;
@@ -908,7 +1028,6 @@
                 cursor: pointer;
             }
             
-            /* Reset do Dropdown para Mobile (Fica abaixo do link) */
             .dropdown-menu {
                 display: none;
                 position: relative;
@@ -926,14 +1045,12 @@
             .dropdown-menu::before { display: none; }
             .dropdown-menu a { font-size: 15px; border-bottom: none; padding: 10px 0; color: #71717a;}
             
-            /* Classe dinâmica para o dropdown ativo no mobile */
             .dropdown.mobile-open .dropdown-menu { display: block; }
             .dropdown.mobile-open .mobile-dropdown-toggle {
                 transform: rotate(180deg);
                 color: var(--primary-gold);
             }
             
-            /* Ajustes Logo Mobile */
             .navbar-brand { font-size: 18px; gap: 12px; }
             .navbar-logo { height: 32px; }
             .navbar-divider { height: 32px; }
@@ -949,13 +1066,14 @@
             .info-card.horizontal { flex-direction: column; align-items: flex-start; padding: 24px; gap: 16px; }
             .info-card.horizontal .info-card-icon { margin-bottom: 0; }
             
-            .modulo-item {
+            .modulo-header {
                 flex-direction: column;
                 gap: 16px;
                 padding: 20px;
                 align-items: flex-start;
             }
             .modulo-img-wrapper { width: 100%; }
+            .modulo-toggle-icon { margin-left: 0; align-self: flex-end; margin-top: -30px; }
             
             .highlight-block { padding: 20px; }
             .feature-list li { padding: 20px 20px 20px 52px; }
@@ -979,21 +1097,33 @@
            ESTILOS OTIMIZADOS PARA A IMPRESSÃO NATIVA DO BROWSER (PDF TEXTO SELECIONÁVEL)
            ========================================= */
         @media print {
-            /* O tamanho da página é gerido dinamicamente pelo JavaScript */
-            
+            @page {
+                size: A4 portrait;
+                margin: 12mm 10mm;
+            }
+
             html, body {
                 background-color: #fff !important;
                 color: #000 !important;
                 padding-top: 0 !important;
-                /* Força a impressão exata das cores e imagens de fundo */
                 -webkit-print-color-adjust: exact !important;
                 print-color-adjust: exact !important;
-                /* Força a largura exata de Desktop para manter a diagramação intacta e não esmagar elementos */
-                width: 1200px !important;
-                min-width: 1200px !important;
-                max-width: 1200px !important;
-                margin: 0 auto !important;
-                overflow: visible !important; /* CRUCIAL para PDF nativo não desativar links */
+                
+                width: auto !important;
+                min-width: 0 !important;
+                max-width: none !important;
+                margin: 0 !important;
+                overflow: visible !important;
+            }
+
+            /* Lógica para exportar apenas uma seção quando acionada via JS */
+            body.print-specific-section section.fold {
+                display: none !important;
+            }
+            body.print-specific-section section.fold.print-target-section {
+                display: block !important;
+                padding-top: 0 !important;
+                border-bottom: none !important;
             }
 
             /* Esconde elementos da Interface e Vídeos */
@@ -1003,9 +1133,8 @@
                 display: none !important;
             }
 
-            /* Resets de Layout e Fundo */
             .fold {
-                padding: 40px 0 !important;
+                padding: 20px 0 !important;
                 border-bottom: 2px dashed #eee !important;
                 page-break-after: auto !important;
                 position: relative !important;
@@ -1013,58 +1142,74 @@
             }
             .fold:last-child { border-bottom: none !important; }
             .container { 
-                padding: 0 40px !important; 
-                width: 1200px !important;
-                min-width: 1200px !important;
-                max-width: 1200px !important;
+                padding: 0 !important; 
+                width: 100% !important;
+                max-width: 100% !important;
             }
             
-            /* Grelhas Originais Preservadas (Sem Esmagar o Layout) */
             .split-layout { 
-                display: grid !important; 
-                grid-template-columns: 1fr 1fr !important;
-                gap: 60px !important;
+                display: flex !important; 
+                flex-direction: column !important;
+                gap: 24px !important;
             }
             .split-visual {
-                height: 450px !important; /* Altura rigorosamente cravada */
-                min-height: 450px !important;
+                height: 250px !important; 
+                min-height: 250px !important;
                 border: 1px solid #ccc !important;
+                page-break-inside: avoid !important;
             }
             
-            /* Imagens de fundo: congeladas e forçadas no TOPO absoluto para exportação perfeita */
             .scrolling-page {
                 animation: none !important;
-                background-position: 50% 0% !important; /* 50% = centro x, 0% = topo y */
+                background-position: center 30% !important; 
                 background-repeat: no-repeat !important;
             }
 
-            /* CRAVAR O TAMANHO E O LAYOUT DOS MÓDULOS LADO A LADO */
+            /* CRAVAR O TAMANHO E O LAYOUT DOS MÓDULOS LADO A LADO E ABERTOS NO PDF */
             .modulo-item {
                 display: flex !important;
-                flex-direction: row !important;
-                align-items: center !important;
-                gap: 24px !important;
+                flex-direction: column !important;
+                gap: 0 !important;
                 box-shadow: none !important;
                 border: 1px solid #ccc !important;
                 background-color: #fff !important;
-                page-break-inside: avoid !important;
-                break-inside: avoid !important;
+                page-break-inside: auto !important;
+                break-inside: auto !important;
                 margin-bottom: 16px !important;
             }
+            
+            .modulo-header {
+                display: flex !important;
+                flex-direction: row !important;
+                align-items: center !important;
+                padding: 16px !important;
+                gap: 20px !important;
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
+            }
+
+            .modulo-toggle-icon { display: none !important; }
+            
+            /* Forçar abertura das listas de aulas na impressão */
+            .modulo-body {
+                max-height: none !important;
+                display: block !important;
+                page-break-inside: auto !important;
+            }
+
             .modulo-content {
                 display: flex !important;
                 flex-direction: column !important;
                 justify-content: center !important;
                 flex-grow: 1 !important;
-                width: calc(100% - 284px) !important;
+                width: calc(100% - 220px) !important;
             }
             .modulo-img-wrapper { 
                 display: block !important;
                 flex-shrink: 0 !important;
-                width: 260px !important; 
-                min-width: 260px !important; 
-                max-width: 260px !important; 
-                height: 146px !important; 
+                width: 200px !important; 
+                min-width: 200px !important; 
+                height: 112px !important; 
             }
             .modulo-img-wrapper a {
                 display: block !important;
@@ -1072,8 +1217,8 @@
                 height: 100% !important;
             }
             .modulo-img-wrapper img { 
-                width: 260px !important; 
-                height: 146px !important; 
+                width: 200px !important; 
+                height: 112px !important; 
                 object-fit: cover !important; 
             }
             .modulo-number, .modulo-icon {
@@ -1084,36 +1229,37 @@
             .info-card.has-image { display: flex !important; flex-direction: column !important; padding: 0 !important; }
             .info-card-image { 
                 width: 100% !important; 
-                height: 155px !important; /* Fixa a altura padronizada das imagens nas ferramentas */
+                height: 140px !important;
                 object-fit: cover !important; 
                 border-bottom: 1px solid #ccc !important; 
             }
 
-            /* Manter as Grelhas Intactas como no Desktop */
-            .card-grid { display: grid !important; grid-template-columns: repeat(4, 1fr) !important; gap: 24px !important; }
-            .card-grid.grid-4 { grid-template-columns: repeat(4, 1fr) !important; }
+            .card-grid { display: grid !important; grid-template-columns: repeat(2, 1fr) !important; gap: 16px !important; }
+            .card-grid.grid-4 { grid-template-columns: repeat(2, 1fr) !important; }
             .card-grid.grid-2 { grid-template-columns: repeat(2, 1fr) !important; }
-            .feature-list.grid-2 { display: grid !important; grid-template-columns: repeat(2, 1fr) !important; }
-            .benefits-dashboard { display: grid !important; grid-template-columns: 1fr 340px !important; gap: 24px !important; }
+            .feature-list.grid-2 { display: grid !important; grid-template-columns: repeat(2, 1fr) !important; gap: 16px !important;}
+            .benefits-dashboard { display: grid !important; grid-template-columns: 1fr !important; gap: 16px !important; }
 
-            .info-card, .pricing-card, .highlight-block {
+            .info-card, .pricing-card, .highlight-block, tr, .agro-card {
                 box-shadow: none !important;
                 border: 1px solid #ccc !important;
                 background-color: #fff !important;
                 page-break-inside: avoid !important;
                 break-inside: avoid !important;
+                margin-bottom: 16px !important;
             }
 
-            /* Acordeões Abertos Automaticamente */
-            .accordion-content { max-height: none !important; display: block !important; }
-            .accordion-header { border-bottom: 1px solid #ccc !important; }
-            .accordion-icon { display: none !important; }
+            .info-card { padding: 20px !important; }
 
-            /* Tipografia Básica e Cores */
+            .accordion-content { max-height: none !important; display: block !important; }
+            .accordion-header { border-bottom: 1px solid #ccc !important; padding: 16px !important;}
+            .accordion-icon { display: none !important; }
+            .accordion-content-inner { padding: 16px !important; }
+
             h2, h3, h4, p, span, li, .step-pill { color: #000 !important; }
+            h2.dobra-title { font-size: 24pt !important; margin-top: 10px !important; }
             .step-pill { border: 1px solid #000 !important; background: transparent !important; }
             
-            /* LINKS FUNCIONAIS E GARANTIDOS NO PDF NATIVO */
             a { 
                 color: #0056b3 !important; 
                 text-decoration: underline !important; 
@@ -1125,10 +1271,9 @@
                 text-decoration: none !important;
             }
             
-            /* Tabelas sem bugs e sem cortes */
             .table-responsive { overflow: visible !important; border: none !important; box-shadow: none !important; width: 100% !important; margin-bottom: 20px !important; }
             .summary-table { width: 100% !important; min-width: 0 !important; border: 1px solid #ccc !important; }
-            .summary-table th, .summary-table td, .summary-table .prod-name { white-space: normal !important; word-wrap: break-word !important; font-size: 10.5pt !important; padding: 12px 10px !important; }
+            .summary-table th, .summary-table td, .summary-table .prod-name { white-space: normal !important; word-wrap: break-word !important; font-size: 10pt !important; padding: 10px !important; }
             .summary-table tr { page-break-inside: avoid !important; break-inside: avoid !important; }
             .summary-table th { background-color: #f0f0f0 !important; color: #000 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; border-bottom: 2px solid #ccc !important; }
             .summary-table td { border-bottom: 1px solid #ccc !important; }
@@ -1159,7 +1304,7 @@
                         <a href="#auvp-escola" class="nav-link active">Escola</a>
                         <button class="mobile-dropdown-toggle"><i class="ph-bold ph-caret-down"></i></button>
                         <ul class="dropdown-menu">
-                            <li><a href="#escola-publico">Informações</a></li>
+                            <li><a href="#escola-publico">Para quem é?</a></li>
                             <li><a href="#escola-o-que-e">O que é AUVP?</a></li>
                             <li><a href="#escola-cronograma">Cronograma</a></li>
                             <li><a href="#escola-ferramentas">Ferramentas e Capital</a></li>
@@ -1167,20 +1312,10 @@
                         </ul>
                     </li>
                     <li class="dropdown">
-                        <a href="#auvp-sempre" class="nav-link">Sempre</a>
-                        <button class="mobile-dropdown-toggle"><i class="ph-bold ph-caret-down"></i></button>
-                        <ul class="dropdown-menu">
-                            <li><a href="#sempre-publico">Informações</a></li>
-                            <li><a href="#sempre-o-que-e">O que é?</a></li>
-                            <li><a href="#sempre-cronograma">Cronograma</a></li>
-                            <li><a href="#sempre-ferramentas">Benefícios</a></li>
-                        </ul>
-                    </li>
-                    <li class="dropdown">
                         <a href="#auvp-internacional" class="nav-link">Internacional</a>
                         <button class="mobile-dropdown-toggle"><i class="ph-bold ph-caret-down"></i></button>
                         <ul class="dropdown-menu">
-                            <li><a href="#internacional-publico">Informações</a></li>
+                            <li><a href="#internacional-publico">Para quem é?</a></li>
                             <li><a href="#internacional-o-que-e">O que é?</a></li>
                             <li><a href="#internacional-cronograma">Cronograma</a></li>
                         </ul>
@@ -1189,10 +1324,51 @@
                         <a href="#auvp-pro" class="nav-link">PRO</a>
                         <button class="mobile-dropdown-toggle"><i class="ph-bold ph-caret-down"></i></button>
                         <ul class="dropdown-menu">
-                            <li><a href="#pro-publico">Informações</a></li>
+                            <li><a href="#pro-publico">Para quem é?</a></li>
                             <li><a href="#pro-investimento">Investimento</a></li>
                             <li><a href="#pro-o-que-e">O que é?</a></li>
                             <li><a href="#pro-cronograma">Cronograma</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#auvp-analitica" class="nav-link">Analítica</a>
+                        <button class="mobile-dropdown-toggle"><i class="ph-bold ph-caret-down"></i></button>
+                        <ul class="dropdown-menu">
+                            <li><a href="#analitica-publico">Para quem é?</a></li>
+                            <li><a href="#analitica-investimento">Investimento</a></li>
+                            <li><a href="#analitica-o-que-e">O que é?</a></li>
+                            <li><a href="#analitica-acesso">Acesso e Teste</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#auvp-agro" class="nav-link">Agro</a>
+                        <button class="mobile-dropdown-toggle"><i class="ph-bold ph-caret-down"></i></button>
+                        <ul class="dropdown-menu">
+                            <li><a href="#agro-publico">Para quem é?</a></li>
+                            <li><a href="#agro-subprodutos">Subprodutos</a></li>
+                            <li><a href="#agro-cronograma">Cronograma</a></li>
+                            <li><a href="#agro-fazendas">AUVP Fazendas</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#auvp-conta" class="nav-link">Conta AUVP</a>
+                        <button class="mobile-dropdown-toggle"><i class="ph-bold ph-caret-down"></i></button>
+                        <ul class="dropdown-menu">
+                            <li><a href="#conta-publico">Para quem é</a></li>
+                            <li><a href="#conta-o-que-e">Contas Integradas</a></li>
+                            <li><a href="#conta-modelos">Modelos e Planos</a></li>
+                            <li><a href="#conta-abertura">Abertura de Conta</a></li>
+                            <li><a href="#conta-beneficios">Benefícios e Cartão</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#auvp-sempre" class="nav-link">Sempre</a>
+                        <button class="mobile-dropdown-toggle"><i class="ph-bold ph-caret-down"></i></button>
+                        <ul class="dropdown-menu">
+                            <li><a href="#sempre-publico">Para quem é?</a></li>
+                            <li><a href="#sempre-o-que-e">O que é?</a></li>
+                            <li><a href="#sempre-cronograma">Módulos</a></li>
+                            <li><a href="#sempre-ferramentas">Benefícios</a></li>
                         </ul>
                     </li>
                     <li class="dropdown">
@@ -1206,9 +1382,12 @@
         <div class="mobile-quick-nav">
             <div class="mobile-quick-container">
                 <a href="#auvp-escola" class="quick-link active">Escola</a>
-                <a href="#auvp-sempre" class="quick-link">Sempre</a>
                 <a href="#auvp-internacional" class="quick-link">Internacional</a>
                 <a href="#auvp-pro" class="quick-link">PRO</a>
+                <a href="#auvp-analitica" class="quick-link">Analítica</a>
+                <a href="#auvp-agro" class="quick-link">Agro</a>
+                <a href="#auvp-conta" class="quick-link">Conta AUVP</a>
+                <a href="#auvp-sempre" class="quick-link">Sempre</a>
                 <a href="#resumo-produtos" class="quick-link">Resumo</a>
             </div>
         </div>
@@ -1230,12 +1409,12 @@
                     <h2 class="dobra-title">AUVP Escola</h2>
                     
                     <div class="quick-info-bar">
-                        <div class="quick-info-badge"><i class="ph-light ph-tag"></i> Ticket: R$ 2997,00</div>
+                        <div class="quick-info-badge"><i class="ph-light ph-tag"></i> Investimento: R$ 2997,00</div>
                         <div class="quick-info-badge"><i class="ph-light ph-globe"></i> Site: <a href="https://www.auvp.com.br/" target="_blank">auvp.com.br</a></div>
                     </div>
 
                     <div class="highlight-block" style="margin: 20px 0 0 0; padding: 20px;">
-                        <p class="dobra-desc" style="margin:0;"><strong>Público-Alvo:</strong> A <strong>AUVP Escola</strong> é essencial para quem quer se aprofundar no mundo dos investimentos e entende que o caminho para a liberdade financeira está na disciplina e no conhecimento sólido, e não em atalhos.</p>
+                        <p class="dobra-desc" style="margin:0;"><strong>Para quem é?:</strong> A <strong>AUVP Escola</strong> é essencial para quem quer se aprofundar no mundo dos investimentos e entende que o caminho para a liberdade financeira está na disciplina e no conhecimento sólido, e não em atalhos.</p>
                     </div>
                 </div>
             </div>
@@ -1281,133 +1460,328 @@
             <!-- Cronograma de Conteúdo -->
             <div class="scroll-anchor mt-80" id="escola-cronograma">
                 <h3 class="dobra-title"><i class="ph-light ph-list-checks"></i> Cronograma de conteúdo:</h3>
+                <p class="dobra-desc" style="font-size: 14px; margin-bottom: 24px;"><em>* Clique nos módulos abaixo para expandir e ver a lista de aulas e durações.</em></p>
                 
                 <div class="modulo-list">
+                    
+                    <!-- Módulo 1 -->
                     <div class="modulo-item">
-                        <div class="modulo-img-wrapper">
-                            <a href="https://www.aulasauvp.com.br/path-player?courseid=auvp&unit=665dd5ac62d0ad7e11013a9fUnit" target="_blank" style="display: block;">
-                                <img class="placeholder-img" src="https://www.auvp.com.br/wp-content/uploads/2024/09/MODULO-1-768x481.png" alt="Módulo 1">
-                            </a>
-                        </div>
-                        <div class="modulo-content">
-                            <h4 class="modulo-title">Preparando o seu cérebro (não obrigatório)</h4>
-                            <div class="modulo-meta">
-                                <span>10 Aulas padrão</span>
-                                <span>1 Aula bônus</span>
+                        <div class="modulo-header">
+                            <div class="modulo-img-wrapper">
+                                <img src="https://www.auvp.com.br/wp-content/uploads/2024/09/MODULO-1-768x481.png" alt="Módulo 1">
                             </div>
-                            <p class="modulo-desc">Mude sua perspectiva sobre dinheiro. Aborda crenças, liberdade financeira e a disciplina necessária para metas.</p>
+                            <div class="modulo-content">
+                                <h4 class="modulo-title">Preparando o seu cérebro</h4>
+                                <div class="modulo-meta">
+                                    <span>10 Aulas padrão</span>
+                                    <span>1 Aula bônus</span>
+                                    <span><i class="ph-bold ph-clock"></i> > 3h 40min</span>
+                                </div>
+                                <p class="modulo-desc">Mude sua perspectiva sobre dinheiro. Aborda crenças, liberdade financeira e a disciplina necessária para metas.</p>
+                            </div>
+                            <i class="ph-bold ph-caret-down modulo-toggle-icon"></i>
+                        </div>
+                        <div class="modulo-body">
+                            <div class="modulo-body-inner">
+                                <table class="class-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Aula</th>
+                                            <th>Título</th>
+                                            <th>Duração</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr><td>Aula 01</td><td>Preparando seu cérebro</td><td>04:49</td></tr>
+                                        <tr><td>Aula 02</td><td>Por que os ricos ficam cada vez mais ricos?</td><td>13:37</td></tr>
+                                        <tr><td>Aula 03</td><td>Crenças limitantes</td><td>17:09</td></tr>
+                                        <tr><td>Aula 04</td><td>Juros Compostos</td><td>15:43</td></tr>
+                                        <tr><td>Aula 05</td><td>O que é Liberdade Financeira?</td><td>20:07</td></tr>
+                                        <tr><td>Bônus</td><td>AUVP Crédito</td><td>02:42</td></tr>
+                                        <tr><td>Aula 06</td><td>Como não cair em golpes</td><td>23:28</td></tr>
+                                        <tr><td>Aula 07</td><td>Metade salada e metade droga</td><td>07:19</td></tr>
+                                        <tr><td>Aula 08</td><td>Autoajuda é o caralho</td><td>11:09</td></tr>
+                                        <tr><td>Aula 09</td><td>Pare de procrastinar</td><td>13:19</td></tr>
+                                        <tr><td>Aula 10</td><td>Aula da família</td><td>01:21:33</td></tr>
+                                        <tr><td>Bônus</td><td>Onde investir sua reserva de emergência</td><td>11:16</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                     
+                    <!-- Módulo 2 -->
                     <div class="modulo-item">
-                        <div class="modulo-img-wrapper">
-                            <a href="https://www.aulasauvp.com.br/path-player?courseid=auvp&unit=6679e802eb0264584a00a21aUnit" target="_blank" style="display: block;">
-                                <img class="placeholder-img" src="https://www.auvp.com.br/wp-content/uploads/2024/09/MODULO-2-768x481.png" alt="Módulo 2">
-                            </a>
-                        </div>
-                        <div class="modulo-content">
-                            <h4 class="modulo-title">Organizando sua vida financeira</h4>
-                            <div class="modulo-meta">
-                                <span>6 Aulas padrão</span>
-                                <span>N/A</span>
+                        <div class="modulo-header">
+                            <div class="modulo-img-wrapper">
+                                <img src="https://www.auvp.com.br/wp-content/uploads/2024/09/MODULO-2-768x481.png" alt="Módulo 2">
                             </div>
-                            <p class="modulo-desc">Ensina a montar um orçamento, identificar gargalos e entender a verdade sobre financiamentos, consórcios e previdência privada.</p>
+                            <div class="modulo-content">
+                                <h4 class="modulo-title">Organizando sua vida financeira</h4>
+                                <div class="modulo-meta">
+                                    <span>6 Aulas padrão</span>
+                                    <span><i class="ph-bold ph-clock"></i> 1h 24min</span>
+                                </div>
+                                <p class="modulo-desc">Ensina a montar um orçamento, identificar gargalos e entender a verdade sobre financiamentos, consórcios e previdência privada.</p>
+                            </div>
+                            <i class="ph-bold ph-caret-down modulo-toggle-icon"></i>
+                        </div>
+                        <div class="modulo-body">
+                            <div class="modulo-body-inner">
+                                <table class="class-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Aula</th>
+                                            <th>Título</th>
+                                            <th>Duração</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr><td>Aula 01</td><td>Finanças pessoais</td><td>20:30</td></tr>
+                                        <tr><td>Aula 02</td><td>Como usar seu cartão de crédito</td><td>19:00</td></tr>
+                                        <tr><td>Aula 03</td><td>Como resolver as dívidas</td><td>05:55</td></tr>
+                                        <tr><td>Aula 04</td><td>Financiamento de imóvel faz sentido?</td><td>19:39</td></tr>
+                                        <tr><td>Aula 05</td><td>Consórcios SÃO TOPS?</td><td>09:30</td></tr>
+                                        <tr><td>Aula 06</td><td>Viver de renda e primeiro milhão</td><td>10:17</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
 
+                    <!-- Módulo 3 -->
                     <div class="modulo-item">
-                        <div class="modulo-img-wrapper">
-                            <a href="https://www.aulasauvp.com.br/path-player?courseid=auvp&unit=66aa4ff66ded5ca09b0b77ddUnit" target="_blank" style="display: block;">
-                                <img class="placeholder-img" src="https://www.auvp.com.br/wp-content/uploads/2024/09/MODULO-3-768x481.png" alt="Módulo 3">
-                            </a>
-                        </div>
-                        <div class="modulo-content">
-                            <h4 class="modulo-title">Renda fixa</h4>
-                            <div class="modulo-meta">
-                                <span>17 Aulas padrão</span>
-                                <span>2 Aulas bônus</span>
+                        <div class="modulo-header">
+                            <div class="modulo-img-wrapper">
+                                <img src="https://www.auvp.com.br/wp-content/uploads/2024/09/MODULO-3-768x481.png" alt="Módulo 3">
                             </div>
-                            <p class="modulo-desc">Explora Tesouro Direto, CDBs, Debentures e LCIS/LCAs. Ensina conceitos como Marcação a Mercado, Contrafluxo e Juros Semestrais.</p>
+                            <div class="modulo-content">
+                                <h4 class="modulo-title">Renda fixa</h4>
+                                <div class="modulo-meta">
+                                    <span>17 Aulas padrão</span>
+                                    <span>2 Aulas bônus</span>
+                                    <span><i class="ph-bold ph-clock"></i> 5 horas</span>
+                                </div>
+                                <p class="modulo-desc">Explora Tesouro Direto, CDBs, Debentures e LCIS/LCAs. Ensina conceitos como Marcação a Mercado, Contrafluxo e Juros Semestrais.</p>
+                            </div>
+                            <i class="ph-bold ph-caret-down modulo-toggle-icon"></i>
+                        </div>
+                        <div class="modulo-body">
+                            <div class="modulo-body-inner">
+                                <table class="class-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Aula</th>
+                                            <th>Título</th>
+                                            <th>Duração</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr><td>Aula 01</td><td>O que é Renda Fixa?</td><td>11:40</td></tr>
+                                        <tr><td>Aula 02</td><td>Escolhendo uma corretora</td><td>13:20</td></tr>
+                                        <tr><td>Aula 03</td><td>Introdução ao Tesouro Direto</td><td>17:55</td></tr>
+                                        <tr><td>Aula 04</td><td>Tesouro Selic</td><td>15:49</td></tr>
+                                        <tr><td>Aula 05</td><td>Tesouro pré-fixado</td><td>13:51</td></tr>
+                                        <tr><td>Aula 06</td><td>Tesouro IPCA+</td><td>07:50</td></tr>
+                                        <tr><td>Aula 07</td><td>Marcação a mercado</td><td>03:32</td></tr>
+                                        <tr><td>Aula 07</td><td>Marcação a mercado - Parte 2</td><td>18:00</td></tr>
+                                        <tr><td>Aula 08</td><td>Tesouro Prefixado e IPCA+ com Juros Semestrais</td><td>05:19</td></tr>
+                                        <tr><td>Bônus</td><td>Conhecendo nossos ETF's - AUPO11</td><td>20:36</td></tr>
+                                        <tr><td>Bônus</td><td>Conhecendo nossos ETF's - AREA11</td><td>13:38</td></tr>
+                                        <tr><td>Aula 09</td><td>Tesouro Educa+ e Renda+</td><td>06:31</td></tr>
+                                        <tr><td>Aula 10</td><td>CDBs, LCs e RDBs</td><td>27:00</td></tr>
+                                        <tr><td>Aula 11</td><td>LCI e LCA</td><td>08:15</td></tr>
+                                        <tr><td>Aula 12</td><td>CRI's e CRA's</td><td>10:53</td></tr>
+                                        <tr><td>Aula 13</td><td>Debentures</td><td>17:21</td></tr>
+                                        <tr><td>Aula 14</td><td>Previdência Privada</td><td>11:19</td></tr>
+                                        <tr><td>Aula 15</td><td>Fundos de Investimento</td><td>24:38</td></tr>
+                                        <tr><td>Aula 16</td><td>Contrafluxo</td><td>26:07</td></tr>
+                                        <tr><td>Aula 17</td><td>Montando uma carteira de Renda Fixa</td><td>07:55</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
 
+                    <!-- Módulo 4 -->
                     <div class="modulo-item">
-                        <div class="modulo-img-wrapper">
-                            <a href="https://www.aulasauvp.com.br/path-player?courseid=auvp&unit=66b24a64fff2a647fe00df98Unit" target="_blank" style="display: block;">
-                                <img class="placeholder-img" src="https://www.auvp.com.br/wp-content/uploads/2024/09/MODULO-4-768x481.png" alt="Módulo 4">
-                            </a>
-                        </div>
-                        <div class="modulo-content">
-                            <h4 class="modulo-title">Renda variável</h4>
-                            <div class="modulo-meta">
-                                <span>21 Aulas padrão</span>
-                                <span>3 Aulas bônus</span>
+                        <div class="modulo-header">
+                            <div class="modulo-img-wrapper">
+                                <img src="https://www.auvp.com.br/wp-content/uploads/2024/09/MODULO-4-768x481.png" alt="Módulo 4">
                             </div>
-                            <p class="modulo-desc">Estrutura os pilares da renda variável, abrangendo as filosofias de investimento, dividendos, ETFs, Fundos de Investimento Imobiliário (FIIs) e ações.</p>
+                            <div class="modulo-content">
+                                <h4 class="modulo-title">Renda variável</h4>
+                                <div class="modulo-meta">
+                                    <span>21 Aulas padrão</span>
+                                    <span>3 Aulas bônus</span>
+                                    <span><i class="ph-bold ph-clock"></i> 09h 39min</span>
+                                </div>
+                                <p class="modulo-desc">Estrutura os pilares da renda variável, abrangendo as filosofias de investimento, dividendos, ETFs, FIIs e ações.</p>
+                            </div>
+                            <i class="ph-bold ph-caret-down modulo-toggle-icon"></i>
+                        </div>
+                        <div class="modulo-body">
+                            <div class="modulo-body-inner">
+                                <table class="class-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Aula</th>
+                                            <th>Título</th>
+                                            <th>Duração</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr><td>Aula 01</td><td>Introdução à Renda Variável</td><td>03:28</td></tr>
+                                        <tr><td>Aula 02</td><td>Bolsa de Valores</td><td>17:26</td></tr>
+                                        <tr><td>Aula 03</td><td>Ações: Preço x Valor</td><td>10:24</td></tr>
+                                        <tr><td>Aula 04</td><td>Abertura de capital (IPO)</td><td>20:43</td></tr>
+                                        <tr><td>Aula 05</td><td>Nomenclaturas e termos da bolsa</td><td>27:05</td></tr>
+                                        <tr><td>Aula 06</td><td>As escolas de investimento</td><td>27:41</td></tr>
+                                        <tr><td>Aula 07</td><td>Analisando ações</td><td>07:23</td></tr>
+                                        <tr><td>Aula 07</td><td>Análise de ações - Parte 2</td><td>50:50</td></tr>
+                                        <tr><td>Aula 07</td><td>Análise de ações - Parte 3</td><td>31:27</td></tr>
+                                        <tr><td>Aula 07</td><td>Análise de ações - Parte 4</td><td>33:05</td></tr>
+                                        <tr><td>Aula 08</td><td>Comprando ações, na prática</td><td>09:40</td></tr>
+                                        <tr><td>Aula 09</td><td>Inserindo no diagrama</td><td>33:19</td></tr>
+                                        <tr><td>Aula 10</td><td>Pra que serve o preço médio?</td><td>16:02</td></tr>
+                                        <tr><td>Aula 11</td><td>Proventos</td><td>17:56</td></tr>
+                                        <tr><td>Aula 12</td><td>Dividendos e Data EX</td><td>19:38</td></tr>
+                                        <tr><td>Aula 13</td><td>Desdobramentos e Grupamentos</td><td>11:30</td></tr>
+                                        <tr><td>Aula 14</td><td>Aluguel de Ações</td><td>10:30</td></tr>
+                                        <tr><td>Aula 15</td><td>Índices e ETF's</td><td>13:51</td></tr>
+                                        <tr><td>Aula 16</td><td>Fundos Imobiliários</td><td>21:38</td></tr>
+                                        <tr><td>Aula 16</td><td>Como analisar Flls na prática? Parte 2</td><td>10:21</td></tr>
+                                        <tr><td>Aula 16</td><td>Analisando um Fll na prática - Parte 3</td><td>21:17</td></tr>
+                                        <tr><td>Aula 16</td><td>Como identificar Flls de qualidade - Parte 4</td><td>16:41</td></tr>
+                                        <tr><td>Aula 17</td><td>Fiagro e fundos de papéis</td><td>19:02</td></tr>
+                                        <tr><td>Aula 18</td><td>Fi-Infra</td><td>09:54</td></tr>
+                                        <tr><td>Extra</td><td>Small Caps</td><td>32:26</td></tr>
+                                        <tr><td>Aula 19</td><td>O método burro</td><td>08:23</td></tr>
+                                        <tr><td>Aula 20</td><td>Como montar uma carteira de investimentos</td><td>21:09</td></tr>
+                                        <tr><td>Extra</td><td>Por que o brasileiro gosta de investir em dividendos?</td><td>18:20</td></tr>
+                                        <tr><td>Extra</td><td>Armadilhas do Mercado Financeiro</td><td>21:40</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
 
+                    <!-- Módulo 5 -->
                     <div class="modulo-item">
-                        <div class="modulo-img-wrapper">
-                            <a href="https://www.aulasauvp.com.br/path-player?courseid=auvp&unit=66c3500e6b65af229a02848fUnit" target="_blank" style="display: block;">
-                                <img class="placeholder-img" src="https://www.auvp.com.br/wp-content/uploads/2024/09/MODULO-5-768x481.png" alt="Módulo 5">
-                            </a>
-                        </div>
-                        <div class="modulo-content">
-                            <h4 class="modulo-title">Reserva de valor</h4>
-                            <div class="modulo-meta">
-                                <span>7 Aulas padrão</span>
-                                <span>2 Aulas bônus</span>
+                        <div class="modulo-header">
+                            <div class="modulo-img-wrapper">
+                                <img src="https://www.auvp.com.br/wp-content/uploads/2024/09/MODULO-5-768x481.png" alt="Módulo 5">
                             </div>
-                            <p class="modulo-desc">Conceito e aplicação da reserva de valor, incluindo estratégias de investimento em ouro e Bitcoin.</p>
+                            <div class="modulo-content">
+                                <h4 class="modulo-title">Reserva de valor</h4>
+                                <div class="modulo-meta">
+                                    <span>7 Aulas padrão</span>
+                                    <span>2 Aulas bônus</span>
+                                    <span><i class="ph-bold ph-clock"></i> 2h 16min</span>
+                                </div>
+                                <p class="modulo-desc">Conceito e aplicação da reserva de valor, incluindo estratégias de investimento em ouro e Bitcoin.</p>
+                            </div>
+                            <i class="ph-bold ph-caret-down modulo-toggle-icon"></i>
+                        </div>
+                        <div class="modulo-body">
+                            <div class="modulo-body-inner">
+                                <table class="class-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Aula</th>
+                                            <th>Título</th>
+                                            <th>Duração</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr><td>Aula 01</td><td>O que é uma reserva de valor, e qual a sua função?</td><td>19:11</td></tr>
+                                        <tr><td>Aula 02</td><td>Comprando ouro físico</td><td>14:03</td></tr>
+                                        <tr><td>Aula 03</td><td>Como investir em ouro</td><td>11:49</td></tr>
+                                        <tr><td>Aula 04</td><td>História do bitcoin</td><td>19:57</td></tr>
+                                        <tr><td>Aula 05</td><td>Por que ter Bitcoin?</td><td>12:09</td></tr>
+                                        <tr><td>Aula 06</td><td>Qual o momento certo de comprar Bitcoin?</td><td>07:45</td></tr>
+                                        <tr><td>Aula 07</td><td>Armazenando e protegendo seus Bitcoins</td><td>28:11</td></tr>
+                                        <tr><td>Extra</td><td>Os ciclos ESTRANHOS do Bitcoin</td><td>13:51</td></tr>
+                                        <tr><td>Bônus</td><td>O que são e quais os benefícios dos stablecoins</td><td>10:11</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
 
+                    <!-- Módulo 6 -->
                     <div class="modulo-item">
-                        <div class="modulo-img-wrapper">
-                            <a href="https://www.aulasauvp.com.br/path-player?courseid=auvp&unit=66c4d5df27bf7b1dcb0b54a3Unit" target="_blank" style="display: block;">
-                                <img class="placeholder-img" src="https://www.auvp.com.br/wp-content/uploads/2024/09/MODULO-6-768x481.png" alt="Módulo 6">
-                            </a>
-                        </div>
-                        <div class="modulo-content">
-                            <h4 class="modulo-title">Investindo no exterior</h4>
-                            <div class="modulo-meta">
-                                <span>8 Aulas padrão</span>
-                                <span>N/A</span>
+                        <div class="modulo-header">
+                            <div class="modulo-img-wrapper">
+                                <img src="https://www.auvp.com.br/wp-content/uploads/2024/09/MODULO-6-768x481.png" alt="Módulo 6">
                             </div>
-                            <p class="modulo-desc">Guia para investir nos EUA, abordando corretoras, ETFS, REITs (Fundos Imobiliários Americanos), ações e renda fixa internacional.</p>
+                            <div class="modulo-content">
+                                <h4 class="modulo-title">Investindo no exterior</h4>
+                                <div class="modulo-meta">
+                                    <span>8 Aulas padrão</span>
+                                    <span><i class="ph-bold ph-clock"></i> 3h 13min</span>
+                                </div>
+                                <p class="modulo-desc">Guia para investir nos EUA, abordando corretoras, ETFS, REITs, ações e renda fixa internacional.</p>
+                            </div>
+                            <i class="ph-bold ph-caret-down modulo-toggle-icon"></i>
+                        </div>
+                        <div class="modulo-body">
+                            <div class="modulo-body-inner">
+                                <table class="class-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Aula</th>
+                                            <th>Título</th>
+                                            <th>Duração</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr><td>Aula 01</td><td>Por que investir no exterior?</td><td>25:09</td></tr>
+                                        <tr><td>Aula 02</td><td>Como funciona o mercado americano?</td><td>13:19</td></tr>
+                                        <tr><td>Aula 03</td><td>Mercado dos EUA x Brasil</td><td>13:29</td></tr>
+                                        <tr><td>Aula 04</td><td>ETFs Internacionais</td><td>14:36</td></tr>
+                                        <tr><td>Aula 04</td><td>ETFs Internacionais - Parte 2</td><td>18:02</td></tr>
+                                        <tr><td>Aula 04</td><td>ETFs Internacionais - Parte 3</td><td>12:26</td></tr>
+                                        <tr><td>Aula 05</td><td>REITS</td><td>25:33</td></tr>
+                                        <tr><td>Aula 06</td><td>Stocks (Ações Americanas)</td><td>26:45</td></tr>
+                                        <tr><td>Aula 07</td><td>Renda fixa nos Estados Unidos</td><td>16:25</td></tr>
+                                        <tr><td>Aula 08</td><td>Renda Fixa nos EUA na prática</td><td>27:52</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
 
+                    <!-- Módulo 7 (Extra) -->
                     <div class="modulo-item">
-                        <div class="modulo-img-wrapper">
-                            <a href="https://www.aulasauvp.com.br/path-player?courseid=auvp&unit=66c78b95da837def870fab97Unit" target="_blank" style="display: block;">
-                                <img class="placeholder-img" src="https://www.auvp.com.br/wp-content/uploads/2025/05/MODULO-7-768x481.jpg" alt="Módulo 7">
-                            </a>
-                        </div>
-                        <div class="modulo-content">
-                            <h4 class="modulo-title">O começo</h4>
-                            <div class="modulo-meta">
-                                <span>8 Aulas padrão</span>
-                                <span>N/A</span>
+                        <div class="modulo-header">
+                            <div class="modulo-img-wrapper">
+                                <img src="https://www.auvp.com.br/wp-content/uploads/2025/05/MODULO-7-768x481.jpg" alt="Módulo 7">
                             </div>
-                            <p class="modulo-desc">Módulo prático. Focado em como montar e gerenciar sua carteira de investimentos na prática.</p>
+                            <div class="modulo-content">
+                                <h4 class="modulo-title">O começo</h4>
+                                <div class="modulo-meta">
+                                    <span>8 Aulas padrão</span>
+                                </div>
+                                <p class="modulo-desc">Módulo prático. Focado em como montar e gerenciar sua carteira de investimentos na prática.</p>
+                            </div>
+                            <!-- Sem dropdown content fornecido para este modulo -->
                         </div>
                     </div>
 
+                    <!-- Bônus IR -->
                     <div class="modulo-item">
-                        <div class="modulo-img-wrapper">
-                            <a href="https://www.aulasauvp.com.br/path-player?courseid=ir&unit=6802e2c31e6d771686052811Unit" target="_blank" style="display: block;">
-                                <img class="placeholder-img" src="https://www.auvp.com.br/wp-content/uploads/2025/05/MODULO-BONUS-768x481.jpg" alt="Módulo Bônus">
-                            </a>
-                        </div>
-                        <div class="modulo-content">
-                            <h4 class="modulo-title">Bônus: imposto de renda</h4>
-                            <div class="modulo-meta">
-                                <span>10 Aulas padrão</span>
-                                <span>N/A</span>
+                        <div class="modulo-header">
+                            <div class="modulo-img-wrapper">
+                                <img src="https://www.auvp.com.br/wp-content/uploads/2025/05/MODULO-BONUS-768x481.jpg" alt="Módulo Bônus">
                             </div>
-                            <p class="modulo-desc">Descomplica a declaração de Imposto de Renda para investidores: como declarar e pagar tributos corretamente.</p>
+                            <div class="modulo-content">
+                                <h4 class="modulo-title">Bônus: imposto de renda</h4>
+                                <div class="modulo-meta">
+                                    <span>10 Aulas padrão</span>
+                                </div>
+                                <p class="modulo-desc">Descomplica a declaração de Imposto de Renda para investidores: como declarar e pagar tributos corretamente.</p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -1598,176 +1972,6 @@
     </section>
 
     <!-- ==========================================
-         PRODUTO 2: AUVP SEMPRE
-         ========================================== -->
-    <section class="fold fold-gray" id="auvp-sempre">
-        <div class="container">
-            <!-- Introdução -->
-            <div class="split-layout">
-                <div class="split-visual">
-                    <div class="scrolling-page" style="background-image: url('https://github.com/design-auvp/projetodelta/blob/main/AUVP-Sempre-AUVP.png?raw=true');"></div>
-                </div>
-                <div class="split-content">
-                    <span class="step-pill">Continuidade (Upsell)</span>
-                    <h2 class="dobra-title">AUVP Sempre</h2>
-                    
-                    <div class="quick-info-bar">
-                        <div class="quick-info-badge"><i class="ph-light ph-tag"></i> Ticket: R$149,70 por trimestre ou R$548,90 ao ano.</div>
-                        <div class="quick-info-badge"><i class="ph-light ph-globe"></i> Site: <a href="https://www.auvp.com.br/auvp-sempre/" target="_blank">auvp.com.br/auvp-sempre/</a></div>
-                    </div>
-
-                    <div class="highlight-block scroll-anchor" id="sempre-publico" style="margin: 20px 0 0 0; padding: 20px;">
-                        <p class="dobra-desc" style="margin:0;"><strong>Público-Alvo:</strong> A AUVP Sempre é um benefício exclusivo de quem já é aluno da AUVP Escola.</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- O que é -->
-            <div class="scroll-anchor mt-80" id="sempre-o-que-e">
-                <h3 class="dobra-title"><i class="ph-light ph-arrows-clockwise"></i> O que é AUVP Sempre?</h3>
-                <p class="dobra-desc">A AUVP Sempre é uma assinatura contínua projetada para alunos que concluíram a AUVP Escola. Ela oferece acesso a módulos de conteúdo avançado, ferramentas exclusivas, suporte especializado e uma comunidade para investidores que desejam evoluir constantemente e se manter protegidos no mercado financeiro.</p>
-            </div>
-
-            <!-- Cronograma -->
-            <div class="scroll-anchor mt-80" id="sempre-cronograma">
-                <h3 class="dobra-title"><i class="ph-light ph-list-checks"></i> O que encontro na AUVP Sempre?</h3>
-                
-                <div class="modulo-list">
-                    <div class="modulo-item">
-                        <div class="modulo-img-wrapper">
-                            <img class="placeholder-img" src="https://prod.auvp.com.br/wp-content/uploads/2025/09/thumb-treinamento-1.jpg" alt="Análise de setores">
-                        </div>
-                        <div class="modulo-content">
-                            <h4 class="modulo-title">Análise de setores</h4>
-                            <div class="modulo-meta">
-                                <span>Aulas: 01 (será alterado em breve)</span>
-                                <span>Duração: 43min</span>
-                            </div>
-                            <p class="modulo-desc">Destrincha os pontos mais importantes para entender cada setor da economia. Ensina como funciona o ciclo de crescimento de empresas em diferentes áreas e quais indicadores realmente importam para investir com estratégia.</p>
-                        </div>
-                    </div>
-
-                    <div class="modulo-item">
-                        <div class="modulo-img-wrapper">
-                            <img class="placeholder-img" src="https://prod.auvp.com.br/wp-content/uploads/2026/03/9650cccc4a538335429d2752327ee254.jpg" alt="Valuation">
-                        </div>
-                        <div class="modulo-content">
-                            <h4 class="modulo-title">Valuation</h4>
-                            <div class="modulo-meta">
-                                <span>Aulas: 11</span>
-                                <span>Duração: 332min - 5,53 h</span>
-                            </div>
-                            <p class="modulo-desc">Ensina fundamentos da análise contábil, como a leitura de Balanços, DREs, Fluxos de Caixa e muito mais para encontrar o valor real de qualquer empresa.</p>
-                        </div>
-                    </div>
-
-                    <div class="modulo-item">
-                        <div class="modulo-img-wrapper">
-                            <img class="placeholder-img" src="https://prod.auvp.com.br/wp-content/uploads/2025/09/thumb-treinamento.jpg" alt="Geopolítica">
-                        </div>
-                        <div class="modulo-content">
-                            <h4 class="modulo-title">Geopolítica</h4>
-                            <div class="modulo-meta">
-                                <span>China: 03 | EUA: 10 | Índia: 03</span>
-                                <span>Duração: 456 min - 7,6 h</span>
-                            </div>
-                            <p class="modulo-desc">Este conteúdo mostra como decisões políticas, guerras, políticas econômicas e relações internacionais afetam diretamente seus investimentos. Também ajuda a desenvolver uma visão estratégica para antecipar movimentos do mercado e proteger sua carteira.</p>
-                        </div>
-                    </div>
-
-                    <div class="modulo-item">
-                        <div class="modulo-img-wrapper">
-                            <img class="placeholder-img" src="https://prod.auvp.com.br/wp-content/uploads/2025/09/thumb-treinamento-2.jpg" alt="Aulas Técnicas">
-                        </div>
-                        <div class="modulo-content">
-                            <h4 class="modulo-title">Aulas Técnicas</h4>
-                            <div class="modulo-meta">
-                                <span>Aulas: 15</span>
-                                <span>Duração: 253min - 4,22 h</span>
-                            </div>
-                            <p class="modulo-desc">Auxilia na compreensão da saúde financeira de empresas e tomar decisões de investimento fundamentadas. Ensina a interpretar balanços, demonstrativos de resultados, fluxo de caixa e muito mais.</p>
-                        </div>
-                    </div>
-
-                    <div class="modulo-item">
-                        <div class="modulo-img-wrapper">
-                            <img class="placeholder-img" src="https://prod.auvp.com.br/wp-content/uploads/2025/09/thumb-treinamento-3.jpg" alt="AUVP Internacional">
-                        </div>
-                        <div class="modulo-content">
-                            <h4 class="modulo-title">AUVP Internacional (bônus com 2 primeiros módulos)</h4>
-                            <div class="modulo-meta">
-                                <span>Mód 1: 16 | Mód 2: 11</span>
-                                <span>Duração: 524min - 8,73 h</span>
-                            </div>
-                            <p class="modulo-desc">Em dois módulos, mergulha na Renda Fixa Internacional, ensina sobre stocks, REITs e Private Equity, e explica como o ciclo econômico impacta os seus investimentos. Assim, ajuda a expandir oportunidades no mercado global.</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="obs-banner">
-                    <i class="ph-light ph-info"></i>
-                    <p class="dobra-desc" style="margin: 0;"><strong>Observação:</strong> a quantidade de aulas e módulos sofrerá com ajustes regulares, pois estamos sempre produzindo e disponibilizando novos treinamentos aos membros, como forma de preservar qualidade e manter a evolução constante de nossos produtos.</p>
-                </div>
-            </div>
-
-            <!-- Ferramentas e Benefícios -->
-            <div class="scroll-anchor mt-80" id="sempre-ferramentas">
-                <h3 class="dobra-title"><i class="ph-light ph-gift"></i> Benefícios</h3>
-                
-                <ul class="feature-list grid-2">
-                    <li><i class="ph-light ph-check"></i><strong>1.</strong> Acesso a AUVP Analítica;</li>
-                    <li><i class="ph-light ph-check"></i><strong>2.</strong> Acesso a comunidade completa incluindo a área de dúvidas;</li>
-                    <li><i class="ph-light ph-check"></i><strong>3.</strong> Acesso ao Diagrama do Cerrado;</li>
-                    <li><i class="ph-light ph-check"></i><strong>4.</strong> Acesso a Ferramentas;</li>
-                    <li><i class="ph-light ph-check"></i><strong>5.</strong> Acesso ao treinamento AUVP Escola e aulas constantemente atualizadas;</li>
-                    <li><i class="ph-light ph-check"></i><strong>6.</strong> Acesso a live semanal com Raul e o plantão de dúvidas, toda semana enquanto você quiser.</li>
-                </ul>
-
-                <h3 class="dobra-title mt-80"><i class="ph-light ph-toolbox"></i> Ferramentas AUVP</h3>
-                
-                <div class="card-grid grid-4">
-                    <div class="info-card has-image">
-                        <img src="https://github.com/design-auvp/projetodelta/blob/main/COMUNIDADE.png?raw=true" alt="Comunidade" class="info-card-image">
-                        <div class="info-card-body">
-                            <h4 class="info-card-title">Comunidade</h4>
-                            <p class="info-card-desc">uma comunidade exclusiva para você interagir com outros alunos e tirar suas dúvidas com nossos especialistas.</p>
-                        </div>
-                    </div>
-                    <div class="info-card has-image">
-                        <img src="https://github.com/design-auvp/projetodelta/blob/main/PIAR.png?raw=true" alt="PIAR" class="info-card-image">
-                        <div class="info-card-body">
-                            <h4 class="info-card-title">PIAR</h4>
-                            <p class="info-card-desc">nosso sistema te ajuda a montar e balancear sua carteira de acordo com seu perfil de investidor.</p>
-                        </div>
-                    </div>
-                    <div class="info-card has-image">
-                        <img src="https://github.com/design-auvp/projetodelta/blob/main/DIAGRAMA%20DO%20CERRADO.png?raw=true" alt="Diagrama do Cerrado" class="info-card-image">
-                        <div class="info-card-body">
-                            <h4 class="info-card-title">Diagrama do cerrado</h4>
-                            <p class="info-card-desc">ferramenta de rebalanceamento de carteira pra você manter seus investimentos protegidos e otimizados conforme as mudanças do mercado e sua</p>
-                        </div>
-                    </div>
-                    <div class="info-card has-image">
-                        <img src="https://github.com/design-auvp/projetodelta/blob/main/OR%C3%87AMENTO%20DOM%C3%89STICO.png?raw=true" alt="Orçamento Doméstico" class="info-card-image">
-                        <div class="info-card-body">
-                            <h4 class="info-card-title">Orçamento doméstico</h4>
-                            <p class="info-card-desc">um planejamento financeiro que organiza o fluxo de dinheiro da sua casa com base em suas próprias metas e rendimentos.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Botão de Exportar Específico desta Secção -->
-            <div class="section-export-container">
-                <button class="btn-export-section" onclick="exportToPDF('auvp-sempre')">
-                    <i class="ph-bold ph-download-simple"></i> Exportar AUVP Sempre (PDF)
-                </button>
-            </div>
-            
-        </div>
-    </section>
-
-    <!-- ==========================================
          PRODUTO 3: AUVP INTERNACIONAL
          ========================================== -->
     <section class="fold fold-white" id="auvp-internacional">
@@ -1782,13 +1986,13 @@
                     <h2 class="dobra-title">AUVP Internacional</h2>
                     
                     <div class="quick-info-bar">
-                        <div class="quick-info-badge"><i class="ph-light ph-tag"></i> Ticket: R$3.997 parcelado ou 3.797 à vista.</div>
+                        <div class="quick-info-badge"><i class="ph-light ph-tag"></i> Investimento: R$3.997 parcelado ou 3.797 à vista.</div>
                         <div class="quick-info-badge"><i class="ph-light ph-globe"></i> Site: <a href="https://www.aulasauvp.com.br/auvp-internacional" target="_blank">aulasauvp.com.br/auvp-internacional</a></div>
                         <div class="quick-info-badge"><i class="ph-light ph-clock"></i> Tempo de acesso: 1 ano (prorrogação: R$ 49,50/mês).</div>
                     </div>
 
                     <div class="highlight-block scroll-anchor" id="internacional-publico" style="margin: 20px 0 0 0; padding: 20px;">
-                        <p class="dobra-desc" style="margin:0;"><strong>Público-Alvo:</strong> no geral, investidores que buscam segurança e querem deixar de ser reféns da economia local para se tornarem Estrategistas Globais.</p>
+                        <p class="dobra-desc" style="margin:0;"><strong>Para quem é?:</strong> no geral, investidores que buscam segurança e querem deixar de ser reféns da economia local para se tornarem Estrategistas Globais.</p>
                     </div>
                 </div>
             </div>
@@ -1823,8 +2027,8 @@
                 <h3 class="dobra-title"><i class="ph-light ph-list-checks"></i> Cronograma de conteúdo:</h3>
 
                 <div class="modulo-list">
-                    <div class="modulo-item">
-                        <div class="modulo-number">01</div>
+                    <div class="modulo-item" style="flex-direction: row; gap: 24px;">
+                        <div class="modulo-number" style="flex-shrink:0;">01</div>
                         <div class="modulo-content">
                             <h4 class="modulo-title">Fundamentos do Investimento Internacional</h4>
                             <div class="modulo-meta">
@@ -1834,8 +2038,8 @@
                         </div>
                     </div>
 
-                    <div class="modulo-item">
-                        <div class="modulo-number">02</div>
+                    <div class="modulo-item" style="flex-direction: row; gap: 24px;">
+                        <div class="modulo-number" style="flex-shrink:0;">02</div>
                         <div class="modulo-content">
                             <h4 class="modulo-title">Ativos Alternativos e Estratégicos</h4>
                             <div class="modulo-meta">
@@ -1845,8 +2049,8 @@
                         </div>
                     </div>
 
-                    <div class="modulo-item">
-                        <div class="modulo-number">03</div>
+                    <div class="modulo-item" style="flex-direction: row; gap: 24px;">
+                        <div class="modulo-number" style="flex-shrink:0;">03</div>
                         <div class="modulo-content">
                             <h4 class="modulo-title">Macroeconomia Aplicada para Investidores</h4>
                             <div class="modulo-meta">
@@ -1856,8 +2060,8 @@
                         </div>
                     </div>
 
-                    <div class="modulo-item">
-                        <div class="modulo-number">04</div>
+                    <div class="modulo-item" style="flex-direction: row; gap: 24px;">
+                        <div class="modulo-number" style="flex-shrink:0;">04</div>
                         <div class="modulo-content">
                             <h4 class="modulo-title">Saída Fiscal e Planejamento de Vida no Exterior</h4>
                             <div class="modulo-meta">
@@ -1867,8 +2071,8 @@
                         </div>
                     </div>
 
-                    <div class="modulo-item">
-                        <div class="modulo-number">05</div>
+                    <div class="modulo-item" style="flex-direction: row; gap: 24px;">
+                        <div class="modulo-number" style="flex-shrink:0;">05</div>
                         <div class="modulo-content">
                             <h4 class="modulo-title">Estruturação e Otimização de Portfólios Internacionais</h4>
                             <div class="modulo-meta">
@@ -1905,12 +2109,12 @@
                     <h2 class="dobra-title">AUVP PRO</h2>
                     
                     <div class="quick-info-bar">
-                        <div class="quick-info-badge"><i class="ph-light ph-tag"></i> Ticket: &nbsp;<a href="#pro-investimento">Varia de acordo com a contratação.</a></div>
+                        <div class="quick-info-badge"><i class="ph-light ph-tag"></i> Investimento: &nbsp;<a href="#pro-investimento">Varia de acordo com a contratação.</a></div>
                         <div class="quick-info-badge"><i class="ph-light ph-globe"></i> Site: <a href="https://www.auvp.pro" target="_blank">www.auvp.pro</a></div>
                     </div>
 
                     <div class="highlight-block scroll-anchor" id="pro-publico" style="margin: 20px 0 0 0; padding: 20px;">
-                        <p class="dobra-desc" style="margin: 0;"><strong>Público-Alvo:</strong> pessoas que desejam conquistar as certificações CPA, C-Pro-R ou C-Pro-I para ampliar suas oportunidades de atuação como especialistas em investimentos, além de profissionais já certificados que buscam se destacar por meio de uma gestão de carteiras mais eficiente, segura e estratégica.</p>
+                        <p class="dobra-desc" style="margin: 0;"><strong>Para quem é?:</strong> pessoas que desejam conquistar as certificações CPA, C-Pro-R ou C-Pro-I para ampliar suas oportunidades de atuação como especialistas em investimentos, além de profissionais já certificados que buscam se destacar por meio de uma gestão de carteiras mais eficiente, segura e estratégica.</p>
                     </div>
                 </div>
             </div>
@@ -2002,8 +2206,8 @@
                 <p class="dobra-desc">Todos os cursos serão estruturados em 4 módulos, com a seguinte previsão de aulas e temas abordados:</p>
                 
                 <div class="modulo-list">
-                    <div class="modulo-item">
-                        <div class="modulo-icon">
+                    <div class="modulo-item" style="flex-direction: row; gap: 24px;">
+                        <div class="modulo-icon" style="flex-shrink:0;">
                             <i class="ph-light ph-certificate"></i>
                         </div>
                         <div class="modulo-content">
@@ -2015,8 +2219,8 @@
                         </div>
                     </div>
 
-                    <div class="modulo-item">
-                        <div class="modulo-icon">
+                    <div class="modulo-item" style="flex-direction: row; gap: 24px;">
+                        <div class="modulo-icon" style="flex-shrink:0;">
                             <i class="ph-light ph-certificate"></i>
                         </div>
                         <div class="modulo-content">
@@ -2028,8 +2232,8 @@
                         </div>
                     </div>
 
-                    <div class="modulo-item">
-                        <div class="modulo-icon">
+                    <div class="modulo-item" style="flex-direction: row; gap: 24px;">
+                        <div class="modulo-icon" style="flex-shrink:0;">
                             <i class="ph-light ph-certificate"></i>
                         </div>
                         <div class="modulo-content">
@@ -2061,6 +2265,888 @@
     </section>
 
     <!-- ==========================================
+         PRODUTO 5: AUVP ANALÍTICA
+         ========================================== -->
+    <section class="fold fold-white" id="auvp-analitica">
+        <div class="container">
+            <!-- Introdução -->
+            <div class="split-layout">
+                <div class="split-visual">
+                    <div class="scrolling-page" style="background-image: url('https://github.com/design-auvp/projetodelta/blob/main/Analise-de-a%C3%A7%C3%B5es-e-indicadores-AUVP-Anal%C3%ADtica.png?raw=true');"></div>
+                </div>
+                <div class="split-content">
+                    <span class="step-pill">Dados e Ferramentas</span>
+                    <h2 class="dobra-title">AUVP Analítica</h2>
+                    
+                    <div class="quick-info-bar">
+                        <div class="quick-info-badge"><i class="ph-light ph-tag"></i> Investimento: &nbsp;<a href="#analitica-investimento">R$ 150,00 a R$ 238,80</a></div>
+                        <div class="quick-info-badge"><i class="ph-light ph-globe"></i> Site: <a href="https://analitica.auvp.com.br/" target="_blank">analitica.auvp.com.br</a></div>
+                    </div>
+
+                    <div class="highlight-block scroll-anchor" id="analitica-publico" style="margin: 20px 0 0 0; padding: 20px;">
+                        <p class="dobra-desc" style="margin: 0;"><strong>Para quem é?:</strong> Ela serve tanto a investidores iniciantes quanto experientes. Nossa missão é fornecer dados confiáveis e ferramentas analíticas para apoiar decisões de investimentos sem recomendações.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Formato de Liberação e Acesso -->
+            <div class="scroll-anchor mt-40" id="analitica-acesso">
+                <div class="highlight-block bg-subtle full-radius">
+                    <h3 class="dobra-title" style="font-size: 22px; margin-bottom: 12px;">Formato de liberação</h3>
+                    <p class="dobra-desc" style="margin-bottom: 20px;">A liberação será feita de forma instantânea. Qualquer usuário consegue acessar o site pelo navegador e consultar os dados disponibilizados de forma gratuita. Para os assinantes, a partir do login via SSO (login único) oferecemos conteúdo exclusivo e com diferenciais.</p>
+                    
+                    <h3 class="dobra-title" style="font-size: 22px; margin-bottom: 12px;">Tempo de acesso</h3>
+                    <p class="dobra-desc" style="margin: 0;">Enquanto os pagamentos estiverem em dia a assinatura estará ativa.</p>
+                </div>
+            </div>
+
+            <div class="obs-banner" style="margin-top: 24px; align-items: center;">
+                <i class="ph-light ph-gift"></i>
+                <div>
+                    <p class="dobra-desc" style="margin: 0;"><strong>Teste Grátis:</strong> A AUVP Analítica possui em todos os planos de assinatura um período de <strong>30 dias corridos de teste grátis</strong>. Após os 30 dias de teste, a cobrança é realizada no cartão de crédito inserido no checkout. Assim, a primeira cobrança só é realizada após os 30 dias corridos de teste.</p>
+                </div>
+            </div>
+
+            <!-- Preços -->
+            <div class="scroll-anchor mt-80" id="analitica-investimento">
+                <h3 class="dobra-title"><i class="ph-light ph-currency-dollar"></i> Investimento</h3>
+                <p class="dobra-desc">Os valores pagos variam de acordo com a forma de contratação escolhida.</p>
+                
+                <div class="pricing-grid">
+                    <div class="pricing-card">
+                        <div class="pricing-tag">Plano Trimestral</div>
+                        <div class="pricing-item" style="flex-direction: column; align-items: flex-start; border:none; padding-bottom: 0;">
+                            <span style="font-size: 20px; font-weight: 700; margin-bottom: 8px;">Por trimestre:</span>
+                            <span class="pricing-value" style="font-size: 36px; color: var(--primary-gold-dark);">R$ 150,00</span>
+                            <span class="pricing-desc" style="margin-top: 12px; font-size: 15px;">Parcelamento: até 3x sem juros (3x de R$50,00)</span>
+                        </div>
+                    </div>
+
+                    <div class="pricing-card">
+                        <div class="pricing-tag">Plano Semestral</div>
+                        <div class="pricing-item" style="flex-direction: column; align-items: flex-start; border:none; padding-bottom: 0;">
+                            <span style="font-size: 20px; font-weight: 700; margin-bottom: 8px;">Por semestre:</span>
+                            <span class="pricing-value" style="font-size: 36px; color: var(--primary-gold-dark);">R$ 225,00</span>
+                            <span class="pricing-desc" style="margin-top: 12px; font-size: 15px;">Parcelamento: até 6x sem juros (6x de R$37,50)</span>
+                        </div>
+                    </div>
+
+                    <div class="pricing-card highlight">
+                        <div class="pricing-tag">Plano Anual</div>
+                        <div class="pricing-item" style="flex-direction: column; align-items: flex-start; border:none; padding-bottom: 0;">
+                            <span style="font-size: 20px; font-weight: 700; margin-bottom: 8px;">Por ano:</span>
+                            <span class="pricing-value" style="font-size: 36px; color: var(--primary-gold);">R$ 238,80</span>
+                            <span class="pricing-desc" style="margin-top: 12px; font-size: 15px;">Parcelamento: até 12x sem juros (12x de R$19,90)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- O que é -->
+            <div class="scroll-anchor mt-80" id="analitica-o-que-e">
+                <h3 class="dobra-title"><i class="ph-light ph-chart-bar"></i> O que é AUVP Analítica?</h3>
+                <p class="dobra-desc">A AUVP Analítica é um site voltado para a consulta de dados sobre investimentos em ações e fundos imobiliários.</p>
+                <p class="dobra-desc">O serviço opera sob um <strong>modelo freemium</strong>, onde uma parte das funcionalidades está disponível gratuitamente para todos os usuários, enquanto recursos adicionais são oferecidos mediante assinatura paga.</p>
+                
+                <ul class="feature-list">
+                    <li><i class="ph-light ph-database"></i><strong>Dados Diretos da CVM:</strong> Os dados disponíveis para consulta são replicados diretamente da CVM e de outros bancos de dados relevantes, permitindo que os usuários analisem o ativo de sua escolha com base em informações atualizadas e confiáveis.</li>
+                    <li><i class="ph-light ph-shield-check"></i><strong>Análise Pessoal e Segura:</strong> Reforçamos que o produto possui apenas fins de conhecimento, para análise pessoal. Nenhuma das funcionalidades são recomendações de compra/venda de ativos.</li>
+                </ul>
+            </div>
+            
+            <!-- Botão de Exportar Específico desta Secção -->
+            <div class="section-export-container">
+                <button class="btn-export-section" onclick="exportToPDF('auvp-analitica')">
+                    <i class="ph-bold ph-download-simple"></i> Exportar Analítica (PDF)
+                </button>
+            </div>
+            
+        </div>
+    </section>
+
+    <!-- ==========================================
+         PRODUTO 6: AUVP AGRO
+         ========================================== -->
+    <section class="fold fold-gray" id="auvp-agro">
+        <div class="container">
+            <!-- Introdução -->
+            <div class="split-layout">
+                <div class="split-visual">
+                    <div class="scrolling-page" style="background-image: url('https://github.com/design-auvp/projetodelta/blob/main/AUVP-Agro-Consultoria-Agro-Especializada.png?raw=true');"></div>
+                </div>
+                <div class="split-content">
+                    <span class="step-pill">Agronegócio</span>
+                    <h2 class="dobra-title">AUVP Agro</h2>
+                    
+                    <div class="quick-info-bar">
+                        <div class="quick-info-badge"><i class="ph-light ph-tag"></i> Investimento: &nbsp;<a href="#agro-subprodutos">R$ 1.498,50 a R$ 2.997,00</a></div>
+                        <div class="quick-info-badge"><i class="ph-light ph-globe"></i> Site: <a href="https://auvpagro.com.br/" target="_blank">auvpagro.com.br</a></div>
+                    </div>
+
+                    <div class="highlight-block scroll-anchor" id="agro-publico" style="margin: 20px 0 0 0; padding: 20px;">
+                        <p class="dobra-desc" style="margin: 0;"><strong>Para quem é?:</strong> A AUVP Agro é destinada a toda a cadeia produtiva e estratégica do setor: desde produtores de grãos e pecuaristas até gestores, sucessores e grandes tomadores de decisão. O programa abrange também o ecossistema de suporte, conectando cooperativas, revendas, consultores e especialistas em crédito, logística, barter e hedge.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Objetivo -->
+            <div class="highlight-block bg-subtle full-radius" style="margin-top: 40px;">
+                <p class="dobra-desc" style="margin: 0;"><strong>Objetivo do Produto:</strong> posicionar a AUVP como referência em informação, inteligência de mercado para o agronegócio e consultoria, oferecendo um portal de conteúdo estratégico com as principais notícias, análises e oportunidades do setor.</p>
+            </div>
+
+            <!-- O que é -->
+            <div class="scroll-anchor mt-80" id="agro-o-que-e">
+                <h3 class="dobra-title"><i class="ph-light ph-tractor"></i> O que é AUVP Agro?</h3>
+                <p class="dobra-desc">O AUVP Agro consiste em um ecossistema de soluções e informações especializadas no mercado financeiro do agronegócio.</p>
+                <p class="dobra-desc">Ele traz consigo nossas veias de educação, inteligência de mercado, plataformas, ferramentas e consultoria da AUVP para atender às necessidades e especificidades daqueles que vivem e adquirem patrimônio através do agro.</p>
+            </div>
+
+            <!-- Subprodutos -->
+            <div class="scroll-anchor mt-80" id="agro-subprodutos">
+                <h3 class="dobra-title"><i class="ph-light ph-layers"></i> Subprodutos da AUVP Agro</h3>
+                
+                <!-- 1. Plataforma Agro -->
+                <div class="highlight-block" style="border-left-color: var(--text-dark); margin-top: 40px;">
+                    <h3 class="dobra-title" style="font-size: 26px;">1. Plataforma Agro</h3>
+                    <p class="dobra-desc">A plataforma da AUVP Agro é o hub de inteligência do serviço e oferece suporte completo para a tomada de decisão no campo. Dessa forma, a partir do momento em que ela é adquirida, pode-se acessar aos diversos recursos disponíveis.</p>
+                    
+                    <!-- Preços Plataforma -->
+                    <div class="pricing-grid" style="margin-top: 24px;">
+                        <div class="pricing-card highlight">
+                            <div class="pricing-tag">Plataforma Agro (1 ano)</div>
+                            <div class="pricing-item">
+                                <span>Alunos AUVP Escola:</span>
+                                <span class="pricing-value" style="color: var(--primary-gold);">R$ 1.498,50</span>
+                            </div>
+                            <div class="pricing-item">
+                                <span>Não Alunos:</span>
+                                <span class="pricing-value" style="color: var(--primary-gold);">R$ 2.997,00</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h4 style="font-family: var(--font-title); font-size: 20px; font-weight: 700; margin: 32px 0 16px 0;">Recursos Inclusos</h4>
+                    <ul class="feature-list grid-2">
+                        <li><i class="ph-light ph-chart-line-up"></i><strong>Cotações em Tempo Real:</strong> fornece dados em tempo real, tabelas regionais e análises de mercado de commodities como milho, soja, e também boi gordo, boi China, vaca gorda e novilha gorda.</li>
+                        <li><i class="ph-light ph-cloud-sun"></i><strong>Clima:</strong> dados e informações meteorológicas integradas.</li>
+                        <li><i class="ph-light ph-file-text"></i><strong>Recomendações:</strong> relatórios estratégicos e análises profundas sobre o mercado agropecuário, sustentabilidade e gestão, documentadas e disponibilizadas dentro da própria plataforma.</li>
+                        <li><i class="ph-light ph-video-camera"></i><strong>Análises Ao Vivo:</strong> transmissões semanais ao vivo com análises aprofundadas a respeito dos principais acontecimentos nos mercados globais e locais de soja, milho e boi. Nestas análises o membro tem acesso a dados semanais de inspeção de exportação de commodities agrícolas dos EUA, do Brasil e outros players, assim como um panorama geral do mercado toda quarta-feira.</li>
+                        <li><i class="ph-light ph-chalkboard-teacher"></i><strong>Aulas:</strong> atualmente com três treinamentos disponíveis, sendo o de Hedge, Crédito e Sucessão patrimonial.</li>
+                    </ul>
+                </div>
+
+                <!-- Cronograma Plataforma Agro -->
+                <div class="scroll-anchor mt-80" id="agro-cronograma">
+                    <h3 class="dobra-title"><i class="ph-light ph-list-checks"></i> Cronograma de conteúdo (Plataforma):</h3>
+                    
+                    <div style="display: flex; flex-direction: column; gap: 16px; margin: 24px 0;">
+                        <div class="agro-card">
+                            <div class="agro-card-header">
+                                <div class="agro-card-icon"><i class="ph-light ph-shield-check"></i></div>
+                                <h4 class="agro-card-title">Treinamento de Hedge</h4>
+                            </div>
+                            <span class="agro-card-badge">10 aulas</span>
+                            <p class="agro-card-desc">Ensina de forma detalhada acerca do que é hedge e como funcionam as pormenoridades da proteção de preços no agro.</p>
+                        </div>
+
+                        <div class="agro-card">
+                            <div class="agro-card-header">
+                                <div class="agro-card-icon"><i class="ph-light ph-tree-structure"></i></div>
+                                <h4 class="agro-card-title">Treinamento de Sucessão</h4>
+                            </div>
+                            <span class="agro-card-badge">4 aulas</span>
+                            <p class="agro-card-desc">Voltado para sucessores de grandes fortunas e propriedades agrícolas se desenvolverem no mercado, manterem e ampliarem o legado construído por suas famílias no agronegócio.</p>
+                        </div>
+
+                        <div class="agro-card">
+                            <div class="agro-card-header">
+                                <div class="agro-card-icon"><i class="ph-light ph-bank"></i></div>
+                                <h4 class="agro-card-title">Treinamento de Crédito Rural</h4>
+                            </div>
+                            <span class="agro-card-badge">1 aula</span>
+                            <p class="agro-card-desc">Explica de forma clara e estratégica, como funciona o crédito rural no Brasil e como utilizá-lo a seu favor. Além das linhas de crédito, ensina como os bancos analisam sua operação: capacidade de pagamento, endividamento, garantias reais e documentação obrigatória.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="obs-banner">
+                        <i class="ph-light ph-info"></i>
+                        <div>
+                            <p class="dobra-desc" style="margin: 0;"><strong>Observação:</strong> a quantidade de aulas e módulos sofrerá com ajustes regulares, pois estamos sempre produzindo e disponibilizando novos treinamentos aos membros, como forma de preservar qualidade e manter a evolução constante de nossos produtos.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. Consultoria Agro -->
+                <div class="highlight-block bg-subtle" style="border-left-color: var(--text-dark); margin-top: 60px;">
+                    <h3 class="dobra-title" style="font-size: 26px;">2. Consultoria Agro</h3>
+                    <p class="dobra-desc">O serviço está em fase de transição para uma estrutura mais robusta.</p>
+                    <ul style="list-style: none; padding: 0; margin-top: 16px;">
+                        <li style="margin-bottom: 12px;"><i class="ph-bold ph-caret-right" style="color: var(--primary-gold-dark); margin-right: 8px;"></i> <strong>Status Atual:</strong> o atendimento é realizado via fee fixo, negociado diretamente com cada membro.</li>
+                        <li><i class="ph-bold ph-caret-right" style="color: var(--primary-gold-dark); margin-right: 8px;"></i> <strong>Futuro Próximo:</strong> o serviço será formalmente integrado à estrutura da assessoria em modelo de spread.</li>
+                    </ul>
+                </div>
+
+                <!-- 3. AUVP Fazendas -->
+                <div class="highlight-block" style="border-left-color: var(--text-dark); margin-top: 60px;" id="agro-fazendas">
+                    <h3 class="dobra-title" style="font-size: 26px;">3. AUVP Fazendas</h3>
+                    
+                    <div class="quick-info-bar" style="margin-bottom: 24px;">
+                        <div class="quick-info-badge"><i class="ph-light ph-tag"></i> Investimento: R$ 389,00 (Plano Único)</div>
+                        <div class="quick-info-badge"><i class="ph-light ph-globe"></i> Site: <a href="https://auvpfazendas.com.br/" target="_blank">auvpfazendas.com.br</a></div>
+                    </div>
+
+                    <div class="obs-banner" style="margin-bottom: 24px; margin-top: 0; background-color: #fff1f2; border-color: #ffcdd2;">
+                        <i class="ph-light ph-warning-circle" style="color: #d32f2f;"></i>
+                        <div>
+                            <p class="dobra-desc" style="margin: 0; color: #b71c1c;"><strong>Observação:</strong> no momento as operações da AUVP Fazendas estão despriorizadas.</p>
+                        </div>
+                    </div>
+
+                    <p class="dobra-desc">Um catálogo de venda e compra de fazenda, onde o anunciante paga o valor de RS 389,00 para divulgar a venda.</p>
+                    <p class="dobra-desc" style="margin-bottom: 0;">Busca simplificar e tornar mais seguro o processo de compra e venda de propriedades rurais no Brasil, conectando diretamente compradores e vendedores, e oferecendo suporte completo que inclui avaliação de solo, documentação jurídica e produção de material audiovisual das propriedades.</p>
+                    
+                    <div class="pricing-grid" style="margin-top: 24px;">
+                        <div class="pricing-card">
+                            <div class="pricing-tag">Divulgação de Venda</div>
+                            <div class="pricing-item" style="flex-direction: column; align-items: flex-start; border:none; padding-bottom: 0;">
+                                <span style="font-size: 20px; font-weight: 700; margin-bottom: 8px;">Plano Único:</span>
+                                <span class="pricing-value" style="font-size: 32px; color: var(--text-dark);">R$ 389,00</span>
+                                <span class="pricing-desc" style="margin-top: 12px; font-size: 15px;">Parcelamento: ou 3x de R$ 130,00</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+            
+            <!-- Botão de Exportar Específico desta Secção -->
+            <div class="section-export-container">
+                <button class="btn-export-section" onclick="exportToPDF('auvp-agro')">
+                    <i class="ph-bold ph-download-simple"></i> Exportar AUVP Agro (PDF)
+                </button>
+            </div>
+            
+        </div>
+    </section>
+
+    <!-- ==========================================
+         PRODUTO 7: CONTA AUVP (AUVP CAPITAL)
+         ========================================== -->
+    <section class="fold fold-white" id="auvp-conta">
+        <div class="container">
+            <!-- Introdução -->
+            <div class="split-layout">
+                <div class="split-visual">
+                    <div class="scrolling-page" style="background-image: url('https://github.com/design-auvp/projetodelta/blob/main/Planos-AUVP-Capital.png?raw=true'); background-size: 100% auto;"></div>
+                </div>
+                <div class="split-content">
+                    <span class="step-pill">Ecossistema Financeiro</span>
+                    <h2 class="dobra-title">Abra sua conta com a AUVP</h2>
+                    
+                    <div class="quick-info-bar">
+                        <div class="quick-info-badge"><i class="ph-light ph-globe"></i> Site: <a href="https://auvpcapital.com.br/planos/" target="_blank">auvpcapital.com.br/planos</a></div>
+                    </div>
+
+                    <div class="highlight-block scroll-anchor" id="conta-publico" style="margin: 20px 0 0 0; padding: 20px;">
+                        <p class="dobra-desc" style="margin: 0;"><strong>Para quem é a conta AUVP?</strong><br>A conta AUVP é destinada exclusivamente para alunos do treinamento da AUVP, funcionando como uma extensão prática do que é ensinado e permitindo que o cliente aplique e gerencie seus investimentos com suporte da consultoria.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- O que é a conta -->
+            <div class="scroll-anchor mt-80" id="conta-o-que-e">
+                <div class="split-layout" style="gap: 40px; margin-bottom: 24px;">
+                    <div>
+                        <h3 class="dobra-title"><i class="ph-light ph-chart-line-up"></i> A conta de investimentos</h3>
+                        <p class="dobra-desc">A conta de investimentos da AUVP é o ambiente que permite ao cliente acessar o mercado financeiro, investir, acompanhar e movimentar seus ativos, contando com suporte de consultoria especializada.</p>
+                        <p class="dobra-desc">Por meio dela, é possível comprar e vender ativos, diversificar e gerir investimentos e, também, realizar operações financeiras no geral como:</p>
+                        <ul class="feature-list" style="grid-template-columns: 1fr; margin-top: 16px;">
+                            <li><i class="ph-light ph-caret-right"></i> Depósitos;</li>
+                            <li><i class="ph-light ph-caret-right"></i> Saques;</li>
+                            <li><i class="ph-light ph-caret-right"></i> Transferências;</li>
+                            <li><i class="ph-light ph-caret-right"></i> Pagamento de despesas relacionadas aos investimentos.</li>
+                        </ul>
+                        <p class="dobra-desc mt-40">Esta conta funciona de forma integrada à conta bancária, oferecendo acesso a diversos produtos no Brasil e no exterior, com mais praticidade na gestão financeira.</p>
+                    </div>
+                    
+                    <div>
+                        <h3 class="dobra-title"><i class="ph-light ph-bank"></i> A conta banking AUVP</h3>
+                        <p class="dobra-desc">A conta banking da AUVP é a conta utilizada para a movimentação financeira do dia a dia, integrada ao ecossistema da AUVP e à estrutura do BTG Pactual.</p>
+                        <p class="dobra-desc">Por meio dela, é possível:</p>
+                        <ul class="feature-list" style="grid-template-columns: 1fr; margin-top: 16px;">
+                            <li><i class="ph-light ph-caret-right"></i> Realizar Pix, transferências e pagamentos;</li>
+                            <li><i class="ph-light ph-caret-right"></i> Fazer depósitos e saques;</li>
+                            <li><i class="ph-light ph-caret-right"></i> Utilizar cartão de crédito e débito;</li>
+                            <li><i class="ph-light ph-caret-right"></i> Gerenciar despesas e entradas de forma centralizada.</li>
+                        </ul>
+                        <p class="dobra-desc mt-40">Ela funciona de forma integrada à conta de investimentos, permitindo mais praticidade ao concentrar movimentações e investimentos em um único ambiente.</p>
+                    </div>
+                </div>
+
+                <div class="obs-banner">
+                    <i class="ph-light ph-info"></i>
+                    <div>
+                        <p class="dobra-desc" style="margin: 0;"><strong>Observação:</strong> a estrutura de investimentos e a conta banking estão integradas ao BTG Pactual.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modelos de contratação -->
+            <div class="scroll-anchor mt-80" id="conta-modelos">
+                <h3 class="dobra-title"><i class="ph-light ph-handshake"></i> Modelos de contratação</h3>
+                <p class="dobra-desc">Na AUVP, sabemos que cada pessoa investe de um jeito. Por isso, oferecemos diferentes planos, que combinam com seu momento: desde quem quer autonomia total até quem prefere ter alguém do lado para ajudar a decidir. São três opções, com taxas justas, benefícios reais e zero conflito de interesse.</p>
+                
+                <div class="pricing-grid">
+                    <div class="pricing-card">
+                        <div class="pricing-tag">Plano "Se Vira Aí"</div>
+                        <p class="info-card-desc" style="margin-bottom: 24px; min-height: 80px;">(Autoatendimento)<br>Você investe com autonomia total, usando a plataforma e usufruindo dos benefícios de ser membro da AUVP Capital.</p>
+                        <div class="pricing-item" style="flex-direction: column; align-items: flex-start; border:none; padding-bottom: 0; margin-top: auto;">
+                            <span style="font-size: 16px; font-weight: 700; margin-bottom: 8px;">Taxa:</span>
+                            <span class="pricing-value" style="font-size: 24px; color: var(--primary-gold-dark);">0,025% a 0,033% a.m.</span>
+                            <span class="pricing-desc" style="margin-top: 8px; font-size: 14px;">(0,3% a 0,4% a.a)</span>
+                        </div>
+                    </div>
+
+                    <div class="pricing-card">
+                        <div class="pricing-tag">Plano "Me diz o que fazer"</div>
+                        <p class="info-card-desc" style="margin-bottom: 24px; min-height: 80px;">(Básico)<br>Orientação em investimentos para quem quer clareza e direção na hora de montar ou ajustar sua carteira.</p>
+                        <div class="pricing-item" style="flex-direction: column; align-items: flex-start; border:none; padding-bottom: 0; margin-top: auto;">
+                            <span style="font-size: 16px; font-weight: 700; margin-bottom: 8px;">Taxa:</span>
+                            <span class="pricing-value" style="font-size: 24px; color: var(--primary-gold-dark);">0,075% a.m.</span>
+                            <span class="pricing-desc" style="margin-top: 8px; font-size: 14px;">(0,9% a.a.)</span>
+                        </div>
+                    </div>
+
+                    <div class="pricing-card highlight">
+                        <div class="pricing-tag">Plano "Resolve Aí"</div>
+                        <p class="info-card-desc" style="margin-bottom: 24px; min-height: 80px; color: #ccc;">O plano Resolve aí é um serviço de consultoria completa, com acompanhamento ativo, personalização e responsabilidade técnica sobre o patrimônio orientado.</p>
+                        <div class="pricing-item" style="flex-direction: column; align-items: flex-start; border:none; padding-bottom: 0; margin-top: auto;">
+                            <span style="font-size: 16px; font-weight: 700; margin-bottom: 8px; color: #fff;">Taxa:</span>
+                            <span class="pricing-value" style="font-size: 20px; color: var(--primary-gold); line-height: 1.3;">Definida conforme patrimônio orientado</span>
+                            <span class="pricing-desc" style="margin-top: 8px; font-size: 14px;">(variável)</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 32px; text-align: center;">
+                    <a href="https://auvpcapital.com.br/planos/" target="_blank" style="font-family: var(--font-sans); font-size: 18px; font-weight: 700; color: var(--primary-gold-dark); text-decoration: underline;">Clique aqui e conheça os planos da AUVP Capital.</a>
+                </div>
+            </div>
+
+            <!-- Como funciona a abertura -->
+            <div class="scroll-anchor mt-80" id="conta-abertura">
+                <div class="highlight-block bg-subtle full-radius">
+                    <h3 class="dobra-title"><i class="ph-light ph-user-plus"></i> Como funciona a abertura de conta na AUVP?</h3>
+                    <p class="dobra-desc">Existem várias formas de abrir sua conta com a AUVP, o processo pode ser feito diretamente pelo nosso site ou pelo app "BTG Investimentos". Mas, caso precise de ajuda nesse processo, temos um suporte especializado para te auxiliar no processo.</p>
+                    
+                    <div class="obs-banner" style="margin-top: 24px; background-color: #fff1f2; border-color: #ffcdd2;">
+                        <i class="ph-light ph-warning-circle" style="color: #d32f2f;"></i>
+                        <div>
+                            <p class="dobra-desc" style="margin: 0; color: #b71c1c;"><strong>Observação:</strong> quem já possui conta no BTG, pode apenas solicitar a troca de assessoria.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Plataforma de investimentos -->
+            <div class="scroll-anchor mt-80" id="conta-plataforma">
+                <div class="split-layout" style="align-items: center;">
+                    <div class="split-content">
+                        <h3 class="dobra-title"><i class="ph-light ph-laptop"></i> Como funciona nossa plataforma de investimentos?</h3>
+                        <p class="dobra-desc">Abrindo a conta na nossa plataforma de investimentos, já se tem acesso automático à plataforma de investimentos, que atua em parceria com o BTG Pactual.</p>
+                    </div>
+                    
+                    <div style="display: flex; justify-content: center; align-items: center; width: 100%;">
+                        <video class="demo-video" style="border-radius: 16px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); width: 100%; max-width: 280px; aspect-ratio: 9/16; display: block; border: 4px solid #fff; background-color: #000; object-fit: cover;" muted loop playsinline controls>
+                            <source src="https://github.com/design-auvp/projetodelta/blob/main/0324.mp4?raw=true" type="video/mp4">
+                            O seu navegador não suporta a tag de vídeo.
+                        </video>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Beneficios da conta e cartao -->
+            <div class="scroll-anchor mt-80" id="conta-beneficios">
+                <h3 class="dobra-title"><i class="ph-light ph-star"></i> Benefícios da conta AUVP Capital</h3>
+                <ul class="feature-list grid-2">
+                    <li><i class="ph-light ph-check-circle" style="color: #22c55e;"></i><strong>Cashback em Renda Fixa:</strong> não retemos parte dos rendimentos, como fazem outras corretoras, nós devolvemos essa porcentagem em forma de saldo para você.</li>
+                    <li><i class="ph-light ph-check-circle" style="color: #22c55e;"></i><strong>Cashback de aluguel de ações:</strong> receba pelo seu aluguel das suas ações e uma porcentagem a mais sobre esse valor.</li>
+                    <li><i class="ph-light ph-check-circle" style="color: #22c55e;"></i><strong>Isenção de Taxa de Corretagem:</strong> taxa de corretagem zero em suas operações.</li>
+                    <li><i class="ph-light ph-check-circle" style="color: #22c55e;"></i><strong>Kinvo premium:</strong> 12 meses de acesso gratuito.</li>
+                    <li><i class="ph-light ph-check-circle" style="color: #22c55e;"></i><strong>Seleção Curada de Títulos de Renda Fixa:</strong> enviamos semanalmente uma seleção exclusiva dos melhores títulos de renda fixa, escolhidos a dedo, diretamente para você via WhatsApp.</li>
+                </ul>
+
+                <h3 class="dobra-title mt-80"><i class="ph-light ph-credit-card"></i> Benefícios do Cartão AUVP</h3>
+                <p class="dobra-desc"><strong>Módulos de Benefícios:</strong><br>Personalize seu cartão com até 5 módulos exclusivos, ajustando os benefícios conforme suas preferências e necessidades. Veja quais são eles:</p>
+                
+                <div class="accordion-container">
+                    <div class="accordion-item">
+                        <button class="accordion-header">
+                            1. Entretenimento
+                            <span class="accordion-icon"><i class="ph-light ph-plus"></i></span>
+                        </button>
+                        <div class="accordion-content">
+                            <div class="accordion-content-inner">
+                                * Arena BTG: 10% de desconto nas locações e aulas.<br>
+                                * Empiricus: 10% de desconto e cursos "Palavras do estrategistas" e "Super Renda Fixa" grátis.<br>
+                                * Benefício Mastercard Black: seguro viagem, concierge, sala VIP em aeroportos e mais.<br>
+                                * Mastercard Surpreenda: 1 ponto a cada compra feita com seu cartão BTG.<br>
+                                * Isenção de rolha: isenção da taxa da rolha na primeira garrafa em restaurantes selecionados.<br>
+                                * Iplace: acesso ao Iplace facilita a melhor opção para garantir seu novo produto Apple.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <button class="accordion-header">
+                            2. Viagem
+                            <span class="accordion-icon"><i class="ph-light ph-plus"></i></span>
+                        </button>
+                        <div class="accordion-content">
+                            <div class="accordion-content-inner">
+                                * IOF Zero: sem cobrança de IOF em compras internacionais (crédito ou débito).<br>
+                                * 4 acessos gratuitos a Salas VIP LoungeKey.<br>
+                                * Terminal BTG Pactual: 10% de desconto no primeiro terminal exclusivo da América Latina.<br>
+                                * Rhino: descontos para viajar em transportes blindados.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <button class="accordion-header">
+                            3. Investimentos
+                            <span class="accordion-icon"><i class="ph-light ph-plus"></i></span>
+                        </button>
+                        <div class="accordion-content">
+                            <div class="accordion-content-inner">
+                                * Acesso exclusivo a um novo Fundo com liquidez diária, sem taxa de administração e com teto de R$ 1 milhão.<br>
+                                * Acesso aos conteúdos da revista Exame Digital.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <button class="accordion-header">
+                            4. Segurança Extra
+                            <span class="accordion-icon"><i class="ph-light ph-plus"></i></span>
+                        </button>
+                        <div class="accordion-content">
+                            <div class="accordion-content-inner">
+                                * Seguro Conta e Cartão.<br>
+                                * Monitoramento do CPF pelo Serasa.<br>
+                                * Avisos e alertas de segurança via WhatsApp.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <button class="accordion-header">
+                            5. Transacional
+                            <span class="accordion-icon"><i class="ph-light ph-plus"></i></span>
+                        </button>
+                        <div class="accordion-content">
+                            <div class="accordion-content-inner">
+                                * 10 dias sem juros no Limite da Conta (cheque especial do BTG).<br>
+                                * 10% de cashback nas Tags de Transporte (Sem Parar, ConectCar, Veloe) limitado a R$ 30.<br>
+                                * Saques ilimitados.<br>
+                                * 2 cartões adicionais isentos da taxa de adesão.<br>
+                                * Sujeito a análise de crédito.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="benefits-dashboard" style="margin-bottom: 24px;">
+                    <!-- Coluna Esquerda: Texto Empilhado -->
+                    <div class="benefits-stack">
+                        <div class="info-card horizontal">
+                            <div class="info-card-icon"><i class="ph-light ph-coins"></i></div>
+                            <div class="info-card-content">
+                                <h4 class="info-card-title">✔ Programa de Pontos</h4>
+                                <p class="info-card-desc">Acumule 2.2 pontos por dólar gasto, podendo escolher entre Esfera ou Livelo. Troque seus pontos por milhas, serviços ou outros benefícios que mais lhe agradam.</p>
+                            </div>
+                        </div>
+                        <div class="info-card horizontal">
+                            <div class="info-card-icon"><i class="ph-light ph-money"></i></div>
+                            <div class="info-card-content">
+                                <h4 class="info-card-title">Cashback na Fatura</h4>
+                                <p class="info-card-desc">Receba 1% do valor das suas compras de volta como cashback, diretamente na sua fatura, para usar como preferir.</p>
+                            </div>
+                        </div>
+                        <div class="info-card horizontal">
+                            <div class="info-card-icon"><i class="ph-light ph-handshake"></i></div>
+                            <div class="info-card-content">
+                                <h4 class="info-card-title">✔ FEE Based</h4>
+                                <p class="info-card-desc">Nosso modelo de cobrança atual é o Fee Based, escolhido por ser transparente e eliminando possíveis conflitos de interesses, que outros modelos de cobranças podem ter.<br><br>A taxa Fee Based corresponde a 0,9% ao ano sobre o seu patrimônio total, mas fique tranquilo, pois é diluída em 12 meses, resultando em apenas 0,075% ao mês.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Coluna Direita: Vídeo -->
+                    <div class="info-card" style="align-items: center; text-align: center;">
+                        <div class="info-card-icon"><i class="ph-light ph-video"></i></div>
+                        <h4 class="info-card-title">Demonstração no App BTG</h4>
+                        <div style="margin-top: 16px; display: flex; justify-content: center; width: 100%; flex-grow: 1; align-items: center;">
+                            <video class="demo-video" style="border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); width: 100%; max-width: 240px; aspect-ratio: 9/16; display: block; border: 4px solid var(--bg-subtle); background-color: #000; object-fit: cover;" muted loop playsinline controls>
+                                <source src="https://github.com/design-auvp/projetodelta/blob/main/0324.mp4?raw=true" type="video/mp4">
+                                O seu navegador não suporta a tag de vídeo.
+                            </video>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="obs-banner" style="background-color: #fff1f2; border-color: #ffcdd2;">
+                    <i class="ph-light ph-warning-circle" style="color: #d32f2f;"></i>
+                    <div>
+                        <p class="dobra-desc" style="margin: 0; color: #b71c1c;"><strong>Observação:</strong> O cartão AUVP Capital está sujeito a análise de crédito.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Botão de Exportar Específico desta Secção -->
+            <div class="section-export-container">
+                <button class="btn-export-section" onclick="exportToPDF('auvp-conta')">
+                    <i class="ph-bold ph-download-simple"></i> Exportar Conta AUVP (PDF)
+                </button>
+            </div>
+            
+        </div>
+    </section>
+
+    <!-- ==========================================
+         PRODUTO 8: AUVP SEMPRE
+         ========================================== -->
+    <section class="fold fold-gray" id="auvp-sempre">
+        <div class="container">
+            <!-- Introdução -->
+            <div class="split-layout">
+                <div class="split-visual">
+                    <div class="scrolling-page" style="background-image: url('https://github.com/design-auvp/projetodelta/blob/main/AUVP-Sempre-AUVP.png?raw=true');"></div>
+                </div>
+                <div class="split-content">
+                    <span class="step-pill" style="background-color: var(--primary-gold); color: #000;">EXCLUSIVO PARA ASSINANTES AUVP SEMPRE</span>
+                    <h2 class="dobra-title">AUVP Sempre</h2>
+                    
+                    <div class="quick-info-bar">
+                        <div class="quick-info-badge"><i class="ph-light ph-tag"></i> Investimento: R$149,70 por trimestre ou R$548,90 ao ano.</div>
+                        <div class="quick-info-badge"><i class="ph-light ph-globe"></i> Site: <a href="https://www.auvp.com.br/auvp-sempre/" target="_blank">auvp.com.br/auvp-sempre/</a></div>
+                    </div>
+
+                    <div class="highlight-block scroll-anchor" id="sempre-publico" style="margin: 20px 0 0 0; padding: 20px;">
+                        <p class="dobra-desc" style="margin:0;"><strong>Para quem é?:</strong> A AUVP Sempre é um benefício exclusivo de quem já é aluno da AUVP Escola.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- O que é -->
+            <div class="scroll-anchor mt-80" id="sempre-o-que-e">
+                <h3 class="dobra-title"><i class="ph-light ph-arrows-clockwise"></i> O que é AUVP Sempre?</h3>
+                <p class="dobra-desc">A AUVP Sempre é uma assinatura contínua projetada para alunos que concluíram a AUVP Escola. Ela oferece acesso a módulos de conteúdo avançado, ferramentas exclusivas, suporte especializado e uma comunidade para investidores que desejam evoluir constantemente e se manter protegidos no mercado financeiro.</p>
+            </div>
+
+            <!-- Cronograma -->
+            <div class="scroll-anchor mt-80" id="sempre-cronograma">
+                <h3 class="dobra-title"><i class="ph-light ph-list-checks"></i> O que encontro na AUVP Sempre?</h3>
+                <p class="dobra-desc" style="font-size: 14px; margin-bottom: 24px;"><em>* Clique nos módulos extras abaixo para expandir e ver a lista de aulas e durações.</em></p>
+                
+                <div class="modulo-list">
+                    
+                    <!-- Análise de setores -->
+                    <div class="modulo-item">
+                        <div class="modulo-header">
+                            <div class="modulo-img-wrapper">
+                                <img src="https://prod.auvp.com.br/wp-content/uploads/2025/09/thumb-treinamento-1.jpg" alt="Análise de setores">
+                            </div>
+                            <div class="modulo-content">
+                                <h4 class="modulo-title">Análise de setores</h4>
+                                <div class="modulo-meta">
+                                    <span>13 Aulas</span>
+                                    <span><i class="ph-bold ph-clock"></i> ~10 horas (620 min)</span>
+                                </div>
+                                <p class="modulo-desc">Destrincha os pontos mais importantes para entender cada setor da economia. Ensina como funciona o ciclo de crescimento de empresas em diferentes áreas e quais indicadores realmente importam para investir com estratégia.</p>
+                            </div>
+                            <i class="ph-bold ph-caret-down modulo-toggle-icon"></i>
+                        </div>
+                        <div class="modulo-body">
+                            <div class="modulo-body-inner">
+                                <table class="class-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Aula</th>
+                                            <th>Título</th>
+                                            <th>Duração</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr><td>Aula 01</td><td>Bancos</td><td>43:28</td></tr>
+                                        <tr><td>Aula 02</td><td>Petróleo</td><td>42:25</td></tr>
+                                        <tr><td>Aula 03</td><td>Energia Elétrica</td><td>35:14</td></tr>
+                                        <tr><td>Aula 04</td><td>Mineração</td><td>34:57</td></tr>
+                                        <tr><td>Aula 05</td><td>Saneamento</td><td>47:50</td></tr>
+                                        <tr><td>Aula 06</td><td>Proteína Animal</td><td>39:26</td></tr>
+                                        <tr><td>Aula 07</td><td>Operadoras e Planos de Saúde</td><td>43:40</td></tr>
+                                        <tr><td>Aula 08</td><td>Telecomunicações</td><td>48:16</td></tr>
+                                        <tr><td>Aula 09</td><td>Varejo Alimentar</td><td>42:34</td></tr>
+                                        <tr><td>Aula 10</td><td>Lojas e E-commerce (Varejo)</td><td>58:20</td></tr>
+                                        <tr><td>Aula 11</td><td>Imobiliário</td><td>01:06:49</td></tr>
+                                        <tr><td>Aula 12</td><td>Transporte e Logística</td><td>01:01:02</td></tr>
+                                        <tr><td>Aula 13</td><td>Indústrias</td><td>56:04</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Geopolítica -->
+                    <div class="modulo-item">
+                        <div class="modulo-header">
+                            <div class="modulo-img-wrapper">
+                                <img src="https://prod.auvp.com.br/wp-content/uploads/2025/09/thumb-treinamento.jpg" alt="Geopolítica">
+                            </div>
+                            <div class="modulo-content">
+                                <h4 class="modulo-title">Geopolítica</h4>
+                                <div class="modulo-meta">
+                                    <span>China: 03 | EUA: 10 | Índia: 03</span>
+                                    <span><i class="ph-bold ph-clock"></i> ~7,6 horas (456 min)</span>
+                                </div>
+                                <p class="modulo-desc">Este conteúdo mostra como decisões políticas, guerras, políticas econômicas e relações internacionais afetam diretamente seus investimentos. Desenvolva uma visão estratégica para antecipar movimentos do mercado e proteger sua carteira.</p>
+                            </div>
+                            <i class="ph-bold ph-caret-down modulo-toggle-icon"></i>
+                        </div>
+                        <div class="modulo-body">
+                            <div class="modulo-body-inner">
+                                <table class="class-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Aula</th>
+                                            <th>Título</th>
+                                            <th>Duração</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr><td>Mód 1 - 00</td><td>Boas vindas (China)</td><td>19:26</td></tr>
+                                        <tr><td>Mód 1 - 01</td><td>Retorno do Império do Meio</td><td>32:03</td></tr>
+                                        <tr><td>Mód 1 - 02</td><td>A Ascensão Econômica da China</td><td>37:28</td></tr>
+                                        <tr><td>Mód 1 - 03</td><td>Desafios e Futuro da China</td><td>53:10</td></tr>
+                                        <tr><td>Mód 2 - 01</td><td>Introdução à Geopolítica dos EUA</td><td>17:48</td></tr>
+                                        <tr><td>Mód 2 - 02</td><td>Colonização e Expansão</td><td>22:40</td></tr>
+                                        <tr><td>Mód 2 - 03</td><td>Ascenção da América e seu papel nas Grandes Guerras Mundiais</td><td>35:56</td></tr>
+                                        <tr><td>Mód 2 - 04</td><td>Pós-Guerra Fria</td><td>21:02</td></tr>
+                                        <tr><td>Mód 2 - 05</td><td>EUA e China</td><td>36:24</td></tr>
+                                        <tr><td>Mód 2 - 06</td><td>EUA e Rússia</td><td>19:20</td></tr>
+                                        <tr><td>Mód 2 - 07</td><td>EUA e Oriente Médio</td><td>25:49</td></tr>
+                                        <tr><td>Mód 2 - 08</td><td>EUA e Europa</td><td>19:15</td></tr>
+                                        <tr><td>Mód 2 - 09</td><td>EUA e a América Latina</td><td>11:32</td></tr>
+                                        <tr><td>Mód 2 - 10</td><td>A Nova Ordem Mundial</td><td>21:51</td></tr>
+                                        <tr><td>Mód 3 - 01</td><td>Índia e as relações geopolíticas</td><td>21:59</td></tr>
+                                        <tr><td>Mód 3 - 02</td><td>Potência emergente e crescimento econômico</td><td>21:52</td></tr>
+                                        <tr><td>Mód 3 - 03</td><td>Relações geopolíticas, estratégicas e internacionais</td><td>38:50</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Valuation -->
+                    <div class="modulo-item">
+                        <div class="modulo-header">
+                            <div class="modulo-img-wrapper">
+                                <img src="https://prod.auvp.com.br/wp-content/uploads/2026/03/9650cccc4a538335429d2752327ee254.jpg" alt="Valuation">
+                            </div>
+                            <div class="modulo-content">
+                                <h4 class="modulo-title">Valuation</h4>
+                                <div class="modulo-meta">
+                                    <span>11 Aulas</span>
+                                    <span><i class="ph-bold ph-clock"></i> ~5,53 horas (332 min)</span>
+                                </div>
+                                <p class="modulo-desc">Domine a matemática por trás das grandes decisões. Ensina fundamentos da análise contábil, como a leitura de Balanços, DREs, Fluxos de Caixa para encontrar o valor real de qualquer empresa.</p>
+                            </div>
+                            <i class="ph-bold ph-caret-down modulo-toggle-icon"></i>
+                        </div>
+                        <div class="modulo-body">
+                            <div class="modulo-body-inner">
+                                <table class="class-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Aula</th>
+                                            <th>Título</th>
+                                            <th>Duração</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr><td>Aula 01</td><td>Introdução</td><td>08:31</td></tr>
+                                        <tr><td>Aula 02</td><td>Balanço Patrimonial</td><td>35:15</td></tr>
+                                        <tr><td>Aula 03</td><td>DRE</td><td>41:52</td></tr>
+                                        <tr><td>Aula 4.1</td><td>Fluxo de caixa</td><td>29:03</td></tr>
+                                        <tr><td>Aula 4.2</td><td>Capital de giro</td><td>36:40</td></tr>
+                                        <tr><td>Aula 4.3</td><td>Fluxo de caixa da firma</td><td>18:39</td></tr>
+                                        <tr><td>Aula 4.4</td><td>Fluxo de caixa do acionista</td><td>22:02</td></tr>
+                                        <tr><td>Aula 05</td><td>KE E CAPM - Parte 1</td><td>21:30</td></tr>
+                                        <tr><td>Aula 05</td><td>WACC, KE E CAPM - Parte 2</td><td>23:33</td></tr>
+                                        <tr><td>Aula 06</td><td>Valuation Vivara Parte 1</td><td>52:21</td></tr>
+                                        <tr><td>Aula 06</td><td>Valuation Vivara Parte 2</td><td>42:34</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Aulas Técnicas -->
+                    <div class="modulo-item">
+                        <div class="modulo-header">
+                            <div class="modulo-img-wrapper">
+                                <img src="https://prod.auvp.com.br/wp-content/uploads/2025/09/thumb-treinamento-2.jpg" alt="Aulas Técnicas">
+                            </div>
+                            <div class="modulo-content">
+                                <h4 class="modulo-title">Aulas Técnicas</h4>
+                                <div class="modulo-meta">
+                                    <span>15 Aulas</span>
+                                    <span><i class="ph-bold ph-clock"></i> ~4,22 horas (253 min)</span>
+                                </div>
+                                <p class="modulo-desc">Auxilia na compreensão da saúde financeira de empresas e tomar decisões de investimento fundamentadas. Aprenda a interpretar balanços, DRE, fluxo de caixa e estrutura de capital.</p>
+                            </div>
+                            <i class="ph-bold ph-caret-down modulo-toggle-icon"></i>
+                        </div>
+                        <div class="modulo-body">
+                            <div class="modulo-body-inner">
+                                <table class="class-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Aula</th>
+                                            <th>Título</th>
+                                            <th>Duração</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr><td>Aula 01</td><td>Balanço Patrimonial</td><td>30:00</td></tr>
+                                        <tr><td>Aula 02</td><td>O segredo dos Grandes Investidores: como o DRE Pode Mudar Seu Jogo!</td><td>21:56</td></tr>
+                                        <tr><td>Aula 03</td><td>Domine o FLUXO DE CAIXA: Guia completo para Investidores!</td><td>17:27</td></tr>
+                                        <tr><td>Aula 04</td><td>Evite armadilhas: a relação entre balanço patrimonial, DRE e Fluxo de Caixa</td><td>12:55</td></tr>
+                                        <tr><td>Aula 05</td><td>Liquidez corrente: Como analisar e aplicar</td><td>16:53</td></tr>
+                                        <tr><td>Aula 06</td><td>EBIT e EBITDA: como podem transformar seus investimentos!</td><td>09:51</td></tr>
+                                        <tr><td>Aula 07</td><td>Entenda ROE, ROIC e ROA e melhore suas decisões de investimento!</td><td>21:31</td></tr>
+                                        <tr><td>Aula 08</td><td>O que é WACC? Aprenda a calcular o custo médio ponderado de capital</td><td>17:19</td></tr>
+                                        <tr><td>Aula 09</td><td>O que é payback e taxa de retorno? Aprenda a calcular de forma simples</td><td>18:00</td></tr>
+                                        <tr><td>Aula 10</td><td>Passo a passo para analisar os resultados de uma instituição financeira</td><td>15:49</td></tr>
+                                        <tr><td>Aula 11</td><td>A fórmula mágica de Joel Greenblatt</td><td>10:05</td></tr>
+                                        <tr><td>Aula 12</td><td>Conheça o método DuPont</td><td>15:13</td></tr>
+                                        <tr><td>Aula 13</td><td>Como aplicar o método bazin para aumentar seus lucros</td><td>17:49</td></tr>
+                                        <tr><td>Aula 14</td><td>Valor Intrínseco: Warren Buffet usa esta fórmula! Entenda o método de Graham</td><td>13:54</td></tr>
+                                        <tr><td>Aula 15</td><td>RMG, Sales-and-Leaseback e WAULT</td><td>13:58</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- AUVP Internacional -->
+                    <div class="modulo-item">
+                        <div class="modulo-header">
+                            <div class="modulo-img-wrapper">
+                                <img src="https://prod.auvp.com.br/wp-content/uploads/2025/09/thumb-treinamento-3.jpg" alt="AUVP Internacional">
+                            </div>
+                            <div class="modulo-content">
+                                <h4 class="modulo-title">AUVP Internacional (bônus com 2 primeiros módulos)</h4>
+                                <div class="modulo-meta">
+                                    <span>Mód 1: 16 Aulas | Mód 2: 11 Aulas</span>
+                                    <span><i class="ph-bold ph-clock"></i> ~8,73 horas (524 min)</span>
+                                </div>
+                                <p class="modulo-desc">Em dois módulos, mergulha na Renda Fixa Internacional, ensina sobre stocks, REITs e Private Equity, e explica como o ciclo econômico impacta os seus investimentos. Assim, ajuda a expandir oportunidades no mercado global.</p>
+                            </div>
+                            <i class="ph-bold ph-caret-down modulo-toggle-icon"></i>
+                        </div>
+                        <div class="modulo-body">
+                            <div class="modulo-body-inner">
+                                <table class="class-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Aula</th>
+                                            <th>Título</th>
+                                            <th>Duração</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr><td>Mód 1 - 00</td><td>Onboarding</td><td>03:49</td></tr>
+                                        <tr><td>Mód 1 - 01</td><td>O que é e como funciona a renda fixa internacional</td><td>31:06</td></tr>
+                                        <tr><td>Mód 1 - 02</td><td>Como ter segurança e liquidez em dólar</td><td>07:39</td></tr>
+                                        <tr><td>Mód 1 - 03</td><td>Como fazer uma análise de crédito</td><td>21:02</td></tr>
+                                        <tr><td>Mód 1 - 04</td><td>Análise de crédito na prática</td><td>26:58</td></tr>
+                                        <tr><td>Mód 1 - 05</td><td>Conhecendo ETF de renda fixa</td><td>09:14</td></tr>
+                                        <tr><td>Mód 1 - 06</td><td>ETF de renda fixa na prática</td><td>28:47</td></tr>
+                                        <tr><td>Mód 1 - 07</td><td>Como montar sua reserva de emergência no exterior</td><td>15:08</td></tr>
+                                        <tr><td>Mód 1 - 08</td><td>Como montar uma carteira de títulos de renda fixa</td><td>09:23</td></tr>
+                                        <tr><td>Mód 1 - 09</td><td>Ações internacionais: growth, value, dividendos e outros</td><td>26:54</td></tr>
+                                        <tr><td>Mód 1 - 10</td><td>Como escolher ações americanas</td><td>17:27</td></tr>
+                                        <tr><td>Mód 1 - 11</td><td>O que são ETFs e como eles ajudam na diversificação</td><td>23:21</td></tr>
+                                        <tr><td>Mód 1 - 12</td><td>Como usar a estratégia core-satellite com ETFs</td><td>13:10</td></tr>
+                                        <tr><td>Mód 1 - 13</td><td>Como escolher os melhores ETFs para sua carteira</td><td>09:25</td></tr>
+                                        <tr><td>Mód 1 - 14</td><td>Analisando ETFs na prática</td><td>27:37</td></tr>
+                                        <tr><td>Mód 1 - 15</td><td>Onde investir: ações individuais ou ETFs?</td><td>12:20</td></tr>
+                                        <tr><td>Mód 2 - 01</td><td>Investimentos Alternativos</td><td>39:42</td></tr>
+                                        <tr><td>Mód 2 - 02</td><td>Entendendo REITs</td><td>19:37</td></tr>
+                                        <tr><td>Mód 2 - 03</td><td>Perfis, estratégias e estruturas de REITs</td><td>16:12</td></tr>
+                                        <tr><td>Mód 2 - 04</td><td>Como analisar REITs, na prática</td><td>25:48</td></tr>
+                                        <tr><td>Mód 2 - 05</td><td>Entendendo os setores dos REITS</td><td>19:35</td></tr>
+                                        <tr><td>Mód 2 - 06</td><td>Como escolher e monitorar os REITS</td><td>15:58</td></tr>
+                                        <tr><td>Mód 2 - 07</td><td>Commodities - Perenidade do Ouro</td><td>26:34</td></tr>
+                                        <tr><td>Mód 2 - 08</td><td>Commodities - Compreendendo seu papel na economia real</td><td>25:40</td></tr>
+                                        <tr><td>Mód 2 - 09</td><td>Commodities Agrícolas - Inflação, clima e segurança</td><td>15:54</td></tr>
+                                        <tr><td>Mód 2 - 10</td><td>Ciclos econômicos das commodities</td><td>18:30</td></tr>
+                                        <tr><td>Mód 2 - 11</td><td>Petróleo - Energia, poder geopolítico e ciclos econômicos</td><td>17:13</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="obs-banner">
+                    <i class="ph-light ph-info"></i>
+                    <p class="dobra-desc" style="margin: 0;"><strong>Observação:</strong> a quantidade de aulas e módulos sofrerá com ajustes regulares, pois estamos sempre produzindo e disponibilizando novos treinamentos aos membros, como forma de preservar qualidade e manter a evolução constante de nossos produtos.</p>
+                </div>
+            </div>
+
+            <!-- Ferramentas e Benefícios -->
+            <div class="scroll-anchor mt-80" id="sempre-ferramentas">
+                <h3 class="dobra-title"><i class="ph-light ph-gift"></i> Benefícios da Assinatura</h3>
+                <p class="dobra-desc" style="margin-bottom: 32px;">Além das aulas sempre atualizadas, a AUVP Sempre oferece <strong>acesso contínuo às ferramentas de ponta</strong> para a tomada de decisão.</p>
+
+                <!-- Destaque para as 3 Ferramentas (Baseado no PDF) -->
+                <div class="card-grid" style="grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 40px;">
+                    <div class="info-card" style="border-top: 4px solid var(--primary-gold);">
+                        <div class="info-card-icon" style="background-color: var(--text-dark); color: var(--primary-gold);"><i class="ph-light ph-chart-bar"></i></div>
+                        <h4 class="info-card-title">AUVP Analítica</h4>
+                        <p class="info-card-desc">Nossa ferramenta oferece dados atualizados e o selo de viabilidade, ajudando você a tomar decisões fundamentadas com mais confiança. Tenha acesso a informações cruciais para a escolha dos investimentos.</p>
+                    </div>
+                    <div class="info-card" style="border-top: 4px solid var(--primary-gold);">
+                        <div class="info-card-icon" style="background-color: var(--text-dark); color: var(--primary-gold);"><i class="ph-light ph-intersect"></i></div>
+                        <h4 class="info-card-title">Diagrama do Cerrado</h4>
+                        <p class="info-card-desc">Exclusivo para nossos alunos, o Diagrama do Cerrado é uma ferramenta de rebalanceamento de carteira, permitindo que você mantenha seus investimentos protegidos e otimizados conforme as mudanças do mercado e sua estratégia.</p>
+                    </div>
+                    <div class="info-card" style="border-top: 4px solid var(--primary-gold);">
+                        <div class="info-card-icon" style="background-color: var(--text-dark); color: var(--primary-gold);"><i class="ph-light ph-calculator"></i></div>
+                        <h4 class="info-card-title">Orçamento Doméstico</h4>
+                        <p class="info-card-desc">A ferramenta organiza o orçamento conforme seus rendimentos e metas, facilitando a construção do dinheiro no dia a dia, priorizando objetivos e evitando desequilíbrios.</p>
+                    </div>
+                </div>
+
+                <ul class="feature-list grid-2">
+                    <li><i class="ph-light ph-check-circle"></i><strong>1. Acesso à AUVP Analítica</strong> completa e sempre ativa;</li>
+                    <li><i class="ph-light ph-check-circle"></i><strong>2. Acesso ao Diagrama do Cerrado</strong> para gerir a carteira com segurança;</li>
+                    <li><i class="ph-light ph-check-circle"></i><strong>3. Orçamento Doméstico</strong> e outras ferramentas de apoio (PIAR);</li>
+                    <li><i class="ph-light ph-check-circle"></i><strong>4. Comunidade Ativa:</strong> A maior comunidade de investidores do Brasil seguirá disponível para tirar dúvidas e compartilhar experiências;</li>
+                    <li><i class="ph-light ph-check-circle"></i><strong>5. Aulas Atualizadas:</strong> Acesso ao treinamento AUVP Escola com as aulas constantemente renovadas;</li>
+                    <li><i class="ph-light ph-check-circle"></i><strong>6. Acesso a live semanal:</strong> Live e plantão de dúvidas com Raul Sena toda semana, enquanto você quiser.</li>
+                </ul>
+            </div>
+            
+            <!-- Botão de Exportar Específico desta Secção -->
+            <div class="section-export-container">
+                <button class="btn-export-section" onclick="exportToPDF('auvp-sempre')">
+                    <i class="ph-bold ph-download-simple"></i> Exportar AUVP Sempre (PDF)
+                </button>
+            </div>
+            
+        </div>
+    </section>
+
+    <!-- ==========================================
          RESUMO GERAL
          ========================================== -->
     <section class="fold fold-white" id="resumo-produtos">
@@ -2076,8 +3162,8 @@
                     <thead>
                         <tr>
                             <th>Produto</th>
-                            <th>Ticket (Investimento)</th>
-                            <th>Público-Alvo Principal</th>
+                            <th>Investimento</th>
+                            <th>Para quem é?</th>
                             <th>Duração / Tempo de Acesso</th>
                             <th>Site Oficial</th>
                         </tr>
@@ -2111,9 +3197,38 @@
                             <td>Acesso liberado por 1 ano</td>
                             <td><a href="https://www.auvp.pro" target="_blank">auvp.pro</a></td>
                         </tr>
+                        <tr>
+                            <td class="prod-name">AUVP Analítica</td>
+                            <td>R$ 150,00 a<br>R$ 238,80</td>
+                            <td>Investidores iniciantes a experientes buscando dados confiáveis e ferramentas analíticas de ações e FIIs.</td>
+                            <td>Assinatura contínua<br><em>(30 dias de teste grátis)</em></td>
+                            <td><a href="https://analitica.auvp.com.br/" target="_blank">analitica.auvp.com.br</a></td>
+                        </tr>
+                        <tr>
+                            <td class="prod-name">AUVP Agro</td>
+                            <td>R$ 1.498,50 a<br>R$ 2.997,00</td>
+                            <td>Toda a cadeia produtiva agro: produtores, gestores, sucessores e ecossistema de suporte.</td>
+                            <td>Acesso de 1 ano<br><em>(Plataforma Agro)</em></td>
+                            <td><a href="https://auvpagro.com.br/" target="_blank">auvpagro.com.br</a></td>
+                        </tr>
+                        <tr>
+                            <td class="prod-name">AUVP Capital<br>(Conta e Cartão)</td>
+                            <td>Variável<br><em>(0,025% a 0,075% a.m.)</em></td>
+                            <td>Destinada exclusivamente para alunos do treinamento da AUVP.</td>
+                            <td>Contínua</td>
+                            <td><a href="https://auvpcapital.com.br/planos/" target="_blank">auvpcapital.com.br/<wbr>planos</a></td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
+
+            <!-- Botão de Exportar Específico desta Secção -->
+            <div class="section-export-container">
+                <button class="btn-export-section" onclick="exportToPDF('resumo-produtos')">
+                    <i class="ph-bold ph-download-simple"></i> Exportar Resumo (PDF)
+                </button>
+            </div>
+
         </div>
     </section>
 
@@ -2124,94 +3239,29 @@
 
     <!-- SCRIPT DE INTERAÇÕES E LÓGICA DO MENU MOBILE -->
     <script>
-        // Lógica de Exportação Nativa - Folha Contínua Inteligente com Clone Invisible para medição
+        // Lógica de Exportação Otimizada (Nativa, Limpa e com Texto Selecionável)
         function exportToPDF(sectionId = null) {
             
-            // 1. Dar feedback visual de Loading
-            const globalBtn = document.querySelector('.fab-pdf');
-            const originalGlobalText = globalBtn.innerHTML;
-            globalBtn.innerHTML = '<i class="ph-bold ph-spinner spin-anim"></i> Calculando...';
-            
-            let btnSection = null;
-            let originalSectionText = '';
+            // Identifica se estamos a exportar apenas uma secção ou o guia todo
             if (sectionId) {
-                btnSection = document.querySelector(`#${sectionId} .btn-export-section`);
-                if(btnSection) {
-                    originalSectionText = btnSection.innerHTML;
-                    btnSection.innerHTML = '<i class="ph-bold ph-spinner spin-anim"></i> Preparando...';
-                }
+                document.body.classList.add('print-specific-section');
+                const targetSection = document.getElementById(sectionId);
+                if (targetSection) targetSection.classList.add('print-target-section');
             }
 
-            // 2. Cria um container de medição rigoroso (1200px para replicar o desktop exatamente)
-            const measureDiv = document.createElement('div');
-            measureDiv.style.width = '1200px';
-            measureDiv.style.position = 'absolute';
-            measureDiv.style.top = '-99999px';
-            measureDiv.style.left = '0';
-            measureDiv.style.visibility = 'hidden';
-            measureDiv.style.display = 'block';
-            measureDiv.style.zIndex = '-1';
-            
-            // 3. Clona APENAS as seções de conteúdo desejadas (Isolando lixo visual da interface)
-            if (sectionId) {
-                const sec = document.getElementById(sectionId).cloneNode(true);
-                measureDiv.appendChild(sec);
-            } else {
-                document.querySelectorAll('.fold').forEach(sec => {
-                    measureDiv.appendChild(sec.cloneNode(true));
-                });
-            }
-
-            // Remove no clone elementos que já iriam ser ocultos no PDF (Evita altura extra desnecessária)
-            measureDiv.querySelectorAll('.btn-export-section, .section-export-container, .benefits-dashboard > .info-card').forEach(el => el.remove());
-
-            // 4. Injeta na página invisivelmente e mede
-            document.body.appendChild(measureDiv);
-            
-            // Esperar um ciclo do browser para garantir renderização total do CSS
-            requestAnimationFrame(() => {
+            // Um pequeno delay para o navegador aplicar as classes CSS
+            setTimeout(() => {
+                window.print();
                 
-                const pageHeight = measureDiv.scrollHeight + 150; // Margem extra de respiro
-                document.body.removeChild(measureDiv);
-                
-                // 5. Injeta o CSS dinâmico que define a página única contínua
-                const style = document.createElement('style');
-                style.id = 'dynamic-print-style';
-                
-                let cssRules = `
-                    @page {
-                        size: 1200px ${pageHeight}px;
-                        margin: 0;
-                    }
-                `;
-                
-                // Ocultar da tela real as outras seções apenas para o momento da impressão
-                if (sectionId) {
-                    cssRules += `
-                        @media print {
-                            body > section:not(#${sectionId}) { display: none !important; }
-                            #${sectionId} { border-bottom: none !important; }
-                        }
-                    `;
-                }
-                
-                style.innerHTML = cssRules;
-                document.head.appendChild(style);
-
-                // 6. Restaura UI e invoca a impressão nativa
+                // Limpeza rigorosa após a janela de impressão ser chamada
                 setTimeout(() => {
-                    globalBtn.innerHTML = originalGlobalText;
-                    if (btnSection) btnSection.innerHTML = originalSectionText;
-                    
-                    window.print();
-                    
-                    // 7. Limpeza do CSS após o fim da impressão
-                    setTimeout(() => {
-                        const injectedStyle = document.getElementById('dynamic-print-style');
-                        if (injectedStyle) injectedStyle.remove();
-                    }, 1000);
-                }, 100);
-            });
+                    document.body.classList.remove('print-specific-section');
+                    if (sectionId) {
+                        const targetSection = document.getElementById(sectionId);
+                        if (targetSection) targetSection.classList.remove('print-target-section');
+                    }
+                }, 500);
+            }, 100);
         }
 
         document.addEventListener('DOMContentLoaded', () => {
@@ -2240,10 +3290,11 @@
             }, { rootMargin: '0px 0px -10% 0px' });
             visuais.forEach(v => observer.observe(v));
 
-            // 2. Acordeão de Benefícios
+            // 2. Acordeões de Benefícios e Módulos do Cronograma
             const accordions = document.querySelectorAll('.accordion-header');
             accordions.forEach(acc => {
-                acc.addEventListener('click', function() {
+                acc.addEventListener('click', function(e) {
+                    if(e.target.tagName.toLowerCase() === 'a') return;
                     this.classList.toggle('active');
                     const icon = this.querySelector('.accordion-icon');
                     const content = this.nextElementSibling;
@@ -2254,6 +3305,24 @@
                     } else {
                         content.style.maxHeight = content.scrollHeight + "px";
                         icon.innerHTML = '<i class="ph-light ph-x"></i>';
+                    }
+                });
+            });
+
+            const moduleHeaders = document.querySelectorAll('.modulo-header');
+            moduleHeaders.forEach(header => {
+                header.addEventListener('click', function(e) {
+                    if(e.target.tagName.toLowerCase() === 'a') return;
+                    const item = this.closest('.modulo-item');
+                    const body = this.nextElementSibling;
+                    
+                    if(body && body.classList.contains('modulo-body')) {
+                        item.classList.toggle('active');
+                        if (body.style.maxHeight) {
+                            body.style.maxHeight = null;
+                        } else {
+                            body.style.maxHeight = body.scrollHeight + "px";
+                        }
                     }
                 });
             });
